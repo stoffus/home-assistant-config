@@ -21,7 +21,7 @@ livingroom:
   name: Livingroom
   entities:
     - group.livingroom_lights
-    - media_player.marantz_sr5008
+    - media_player.livingroom_receiver
     - media_player.vardagsrum
     - cover.livingroom_cover_driveway
     - cover.livingroom_cover_porch
