@@ -1,0 +1,224 @@
+title: Home
+resources:
+  - url: /local/mini-graph-card-bundle.js?v=0.8.2
+    type: module
+views:
+  - path: default
+    title: default
+    icon: 'mdi:home'
+    badges: []
+    cards:
+      - title: Centralt
+        type: horizontal-stack
+        cards:
+          - entity: group.indoor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck all belysning
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              service_data:
+                entity_id: group.indoor_lights
+          - entity: group.ground_floor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck bottenvåning
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              service_data:
+                entity_id: group.ground_floor_lights
+          - entity: group.first_floor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck övervåning
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              service_data:
+                entity_id: group.first_floor_lights
+  - path: lights
+    title: lights
+    icon: 'mdi:lightbulb'
+    badges: []
+    cards:
+      - title: Vardagsrum
+        type: entities
+        entities:
+          - entity: light.livingroom_windows
+            name: Fönster
+          - entity: light.livingroom_ceiling
+            name: Tak
+      - title: Kontor
+        type: entities
+        entities:
+          - entity: light.office_window
+            name: Fönster
+          - entity: light.office_ceiling
+            name: Tak
+      - title: Kök
+        type: entities
+        entities:
+          - entity: light.kitchen_sink
+            name: Diskho
+          - entity: light.kitchen_spotlights
+            name: Spotlights
+          - entity: light.kitchen_window
+            name: Fönster
+          - entity: switch.smartplug1_on_off
+            name: Ljusstake
+            icon: 'mdi:lightbulb'
+          - entity: switch.coffee_maker
+            name: Kaffebryggare
+      - title: Hall
+        type: entities
+        entities:
+          - entity: light.hallway_shoe_cabinet
+            name: Skoskåp
+          - entity: light.hallway_spotlights
+            name: Spotlights
+          - entity: light.hallway_window
+            name: Fönster
+      - title: Matsal
+        type: entities
+        entities:
+          - entity: light.dining_area_ceiling
+            name: Matbord
+          - entity: light.dining_area_vitrine_cabinet
+            name: Vitrinskåp
+          - entity: light.dining_area_wall_cabinet
+            name: Väggskåp
+      - title: Sovrum
+        type: entities
+        entities:
+          - entity: light.bedroom_ceiling
+            name: Tak
+          - entity: light.bedroom_window
+            name: Fönster
+          - entity: light.bedroom_nightlights
+            name: Nattduksbord
+      - title: Sovrum
+        type: entities
+        entities:
+          - entity: light.bedroom_ceiling
+            name: Tak
+          - entity: light.bedroom_window
+            name: Fönster
+          - entity: light.bedroom_nightlights
+            name: Nattduksbord
+      - title: Badrum
+        type: entities
+        entities:
+          - entity: light.bathroom_mirror
+            name: Spegel
+      - title: Barnrum
+        type: entities
+        entities:
+          - entity: light.kids_room_ceiling
+            name: Tak
+          - entity: light.kids_room_window
+            name: Fönster
+          - entity: light.kids_room_light_boxes
+            name: Kattvindsfack
+      - title: Utomhus
+        type: entities
+        entities:
+          - entity: light.outdoor_garden
+            name: Trädgård
+          - entity: light.outdoor_cellar_entrance
+            name: Källaringång
+          - entity: light.outdoor_main_entrance
+            name: Huvudingång
+          - entity: light.outdoor_porch_entrance
+            name: Altaningång
+          - entity: light.outdoor_eave
+            name: Takfot
+      - title: Toalett
+        type: entities
+        entities:
+          - entity: light.toilet_ceiling
+            name: Tak
+  - path: media
+    title: media
+    icon: 'mdi:play-circle'
+    badges: []
+    cards:
+      - type: media-control
+        entity: media_player.vardagsrum
+      - type: media-control
+        entity: media_player.hallway
+      - type: media-control
+        entity: media_player.sovrum
+      - type: media-control
+        entity: media_player.livingroom_receiver
+      - type: media-control
+        entity: media_player.livingroom_tv
+  - path: climate
+    title: climate
+    icon: 'mdi:gauge'
+    badges: []
+    cards:
+      - type: custom:mini-graph-card
+        name: TEMPERATUR
+        entities:
+          - entity: sensor.kids_room_temperature
+            name: BARNRUM
+          - entity: sensor.office_temperature
+            name: KONTOR
+          - entity: sensor.bedroom_temperature
+            name: SOVRUM
+          - entity: sensor.bathroom_temperature
+            name: BADRUM
+        hours_to_show: 24
+        decimals: 1
+        points_per_hour: 0.5
+        hour24: true
+      - type: custom:mini-graph-card
+        name: BATTERINIVÅ
+        entities:
+          - entity: sensor.tool_shed_door_battery_level
+            name: VERKTYGSRUM
+          - entity: sensor.toilet_battery_level
+            name: GÄSTTOALETT
+          - entity: sensor.kids_room_battery_level
+            name: BARNRUM
+          - entity: sensor.office_battery_level
+            name: KONTOR
+          - entity: sensor.bedroom_battery_level
+            name: SOVRUM
+          - entity: sensor.bathroom_battery_level
+            name: BADRUM
+        hours_to_show: 72
+        decimals: 0
+        points_per_hour: 0.2
+        hour24: true
+      - type: custom:mini-graph-card
+        name: LUFTFUKTIGHET
+        entities:
+          - entity: sensor.kids_room_humidity
+            name: BARNRUM
+          - entity: sensor.office_humidity
+            name: KONTOR
+          - entity: sensor.bedroom_humidity
+            name: SOVRUM
+          - entity: sensor.bathroom_humidity
+            name: BADRUM
+        hours_to_show: 72
+        decimals: 0
+        points_per_hour: 0.2
+        hour24: true
+      - type: glance
+        title: Vattenläckage
+        entities:
+          - entity: binary_sensor.kitchen_sink_water_leak_ias_zone
+            name: Kök
+  - path: security
+    title: security
+    icon: 'mdi:security'
+    badges: []
+    cards:
+      - type: alarm-panel
+        entity: alarm_control_panel.hemma_alarm
+        panel: true
+        name: Larm

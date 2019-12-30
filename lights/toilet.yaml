@@ -1,0 +1,4 @@
+- platform: knx
+  name: Toilet Ceiling
+  address: '1/1/22'
+  state_address: '1/4/22'

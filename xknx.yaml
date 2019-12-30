@@ -1,0 +1,3 @@
+tunneling:
+  host: knx-router
+  port: 3671

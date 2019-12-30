@@ -1,0 +1,53 @@
+- alias: 'Turn on main outdoor lights at dawn'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outdoor_illuminance
+    below: 30
+    for:
+      minutes: 10
+  action:
+    service: light.turn_on
+    entity_id:
+      - light.outdoor_garden
+      - light.outdoor_cellar_entrance
+      - light.outdoor_main_entrance
+
+- alias: 'Turn off main outdoor lights at dusk'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outdoor_illuminance
+    above: 30
+    for:
+      minutes: 10
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.outdoor_garden
+      - light.outdoor_cellar_entrance
+      - light.outdoor_main_entrance
+
+- alias: 'Turn on eave and porch entrance lights at dawn'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outdoor_illuminance
+    below: 50
+    for:
+      minutes: 10
+  condition:
+    - condition: time
+      after: '14:00:00'
+  action:
+    service: light.turn_on
+    entity_id:
+      - light.outdoor_eave
+      - light.outdoor_porch_entrance
+
+- alias: 'Turn off eave and porch entrance lights at a specific time'
+  trigger:
+    platform: time
+    at: '23:13:00'
+  action:
+    service: light.turn_off
+    entity_id:
+      - light.outdoor_eave
+      - light.outdoor_porch_entrance

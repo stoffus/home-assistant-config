@@ -1,0 +1,14 @@
+- platform: knx
+  name: Kitchen Sink
+  address: '1/1/6'
+  state_address: '1/4/6'
+- platform: knx
+  name: Kitchen Spotlights
+  address: '1/1/8'
+  state_address: '1/4/8'
+  brightness_address: '1/2/6'
+  brightness_state_address: '1/3/5'
+- platform: knx
+  name: Kitchen Window
+  address: '1/1/9'
+  state_address: '1/4/9'

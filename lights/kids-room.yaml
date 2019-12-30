@@ -1,0 +1,12 @@
+- platform: knx
+  name: Kids Room Ceiling
+  address: '1/1/43'
+  state_address: '1/4/43'
+- platform: knx
+  name: Kids Room Window
+  address: '1/1/44'
+  state_address: '1/4/44'
+- platform: knx
+  name: Kids Room Light Boxes
+  address: '1/1/45'
+  state_address: '1/4/45'

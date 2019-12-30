@@ -1,0 +1,4 @@
+- platform: knx
+  name: Evening Lights
+  address: '1/0/2'
+  scene_number: 1

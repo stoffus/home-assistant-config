@@ -1,0 +1,9 @@
+.storage
+.cloud
+.google.token
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+*.log
+*.db
+.HA_VERSION

@@ -1,0 +1,4 @@
+- platform: knx
+  name: Coffee Maker
+  address: '5/1/0'
+  state_address: '5/4/0'

@@ -1,0 +1,20 @@
+- platform: knx
+  name: Outdoor Garden
+  address: '1/1/4'
+  state_address: '1/4/4'
+- platform: knx
+  name: Outdoor Cellar Entrance
+  address: '1/1/25'
+  state_address: '1/4/25'
+- platform: knx
+  name: Outdoor Main Entrance
+  address: '1/1/26'
+  state_address: '1/4/26'
+- platform: knx
+  name: Outdoor Porch Entrance
+  address: '1/1/24'
+  state_address: '1/4/24'
+- platform: knx
+  name: Outdoor Eave
+  address: '1/1/27'
+  state_address: '1/4/27'

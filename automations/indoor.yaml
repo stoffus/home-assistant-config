@@ -1,0 +1,33 @@
+- alias: 'Turn on toilet ceiling lights on motion detected'
+  trigger:
+    - entity_id: binary_sensor.toilet_occupancy
+      platform: state
+      to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.toilet_ceiling
+
+- alias: 'Turn off toilet ceiling lights when occupancy expires'
+  trigger:
+    - entity_id: binary_sensor.toilet_occupancy
+      platform: state
+      to: 'off'
+  action:
+    service: light.turn_off
+    entity_id: light.toilet_ceiling
+
+- alias: 'Turn on evening lights at dusk'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outdoor_illuminance
+    below: 250
+    for:
+      minutes: 10
+  condition:
+    - condition: time
+      after: '14:00:00'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.evening_lights
+    - service: light.turn_on
+      entity_id: switch.smartplug1_on_off

@@ -1,0 +1,23 @@
+- alias: 'Trigger stuff when Person 1 is leaving home'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.person1
+    to: 'not_home'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Person 1 left the house"
+        message: "What is he up to?"
+
+- alias: 'Trigger stuff when Person 1 is arriving at work'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.person1
+    to: 'work'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Person 1 seems to be at work"
+        message: "Hard workin' man"
