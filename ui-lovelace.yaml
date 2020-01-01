@@ -17,7 +17,7 @@ views:
             name: Släck all belysning
             tap_action:
               action: call-service
-              service: light.turn_off
+              service: homeassistant.turn_off
               service_data:
                 entity_id: group.indoor_lights
           - entity: group.ground_floor_lights
@@ -26,7 +26,7 @@ views:
             name: Släck bottenvåning
             tap_action:
               action: call-service
-              service: light.turn_off
+              service: homeassistant.turn_off
               service_data:
                 entity_id: group.ground_floor_lights
           - entity: group.first_floor_lights
@@ -35,7 +35,7 @@ views:
             name: Släck övervåning
             tap_action:
               action: call-service
-              service: light.turn_off
+              service: homeassistant.turn_off
               service_data:
                 entity_id: group.first_floor_lights
   - path: lights
@@ -50,6 +50,8 @@ views:
             name: Fönster
           - entity: light.livingroom_ceiling
             name: Tak
+          - entity: switch.tv_bench
+            name: TV-bänk
       - title: Kontor
         type: entities
         entities:
@@ -57,6 +59,8 @@ views:
             name: Fönster
           - entity: light.office_ceiling
             name: Tak
+          - entity: switch.office_desktop
+            name: Skrivbord
       - title: Kök
         type: entities
         entities:
@@ -80,6 +84,8 @@ views:
             name: Spotlights
           - entity: light.hallway_window
             name: Fönster
+          - entity: switch.hallway_ff
+            name: Murstock
       - title: Matsal
         type: entities
         entities:
@@ -134,6 +140,8 @@ views:
             name: Altaningång
           - entity: light.outdoor_eave
             name: Takfot
+          - entity: switch.conservatory
+            name: Uterum
       - title: Toalett
         type: entities
         entities:

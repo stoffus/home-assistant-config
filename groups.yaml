@@ -4,18 +4,19 @@ kitchen_lights:
     - light.kitchen_sink
     - light.kitchen_spotlights
     - light.kitchen_window
+    - switch.smartplug1_on_off
 
 kitchen:
   name: Kitchen
   entities:
     - group.kitchen_lights
-    - switch.smartplug1_on_off
 
 livingroom_lights:
   name: Livingroom Lights
   entities:
     - light.livingroom_ceiling
     - light.livingroom_windows
+    - switch.tv_bench
 
 livingroom:
   name: Livingroom
@@ -47,6 +48,7 @@ office_lights:
   entities:
     - light.office_ceiling
     - light.office_window
+    - switch.office_desktop
 
 office:
   name: Office
@@ -75,12 +77,18 @@ bedroom:
     - sensor.bedroom_battery_level
     - sensor.bedroom_pressure
 
-hallway:
-  name: Hallway
+hallway_lights:
+  name: Hallway Lights
   entities:
     - light.hallway_shoe_cabinet
     - light.hallway_window
     - light.hallway_spotlights
+    - switch.hallway_ff
+
+hallway:
+  name: Hallway
+  entities:
+    - group.hallway_lights
 
 toilet_lights:
   name: Toilet Lights
@@ -124,23 +132,24 @@ outdoor:
     - light.outdoor_garden
     - light.outdoor_main_entrance
     - light.outdoor_porch_entrance
+    - switch.conservatory
 
 ground_floor_lights:
   name: Ground Floor
   entities:
-    - group.hallway
+    - group.hallway_lights
     - group.toilet_lights
-    - group.office
+    - group.office_lights
     - group.dining_area
     - group.livingroom_lights
-    - group.kitchen
+    - group.kitchen_lights
 
 first_floor_lights:
   name: First Floor
   entities:
-    - group.bedroom
-    - group.bathroom
-    - group.kids_room
+    - group.bedroom_lights
+    - group.bathroom_lights
+    - group.kids_room_lights
 
 indoor_lights:
   name: Indoor Lights

@@ -6,7 +6,7 @@
     for:
       minutes: 10
   action:
-    service: light.turn_on
+    service: homeassistant.turn_on
     entity_id:
       - light.outdoor_garden
       - light.outdoor_cellar_entrance
@@ -20,7 +20,7 @@
     for:
       minutes: 10
   action:
-    service: light.turn_off
+    service: homeassistant.turn_off
     entity_id:
       - light.outdoor_garden
       - light.outdoor_cellar_entrance
@@ -37,17 +37,19 @@
     - condition: time
       after: '14:00:00'
   action:
-    service: light.turn_on
+    service: homeassistant.turn_on
     entity_id:
       - light.outdoor_eave
       - light.outdoor_porch_entrance
+      - switch.conservatory
 
 - alias: 'Turn off eave and porch entrance lights at a specific time'
   trigger:
     platform: time
     at: '23:13:00'
   action:
-    service: light.turn_off
+    service: homeassistant.turn_off
     entity_id:
       - light.outdoor_eave
       - light.outdoor_porch_entrance
+      - switch.conservatory

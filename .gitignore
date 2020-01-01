@@ -7,3 +7,4 @@ known_devices.yaml
 *.log
 *.db
 .HA_VERSION
+webostv.conf
