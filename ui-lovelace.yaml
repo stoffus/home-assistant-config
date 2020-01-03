@@ -104,15 +104,6 @@ views:
             name: Fönster
           - entity: light.bedroom_nightlights
             name: Nattduksbord
-      - title: Sovrum
-        type: entities
-        entities:
-          - entity: light.bedroom_ceiling
-            name: Tak
-          - entity: light.bedroom_window
-            name: Fönster
-          - entity: light.bedroom_nightlights
-            name: Nattduksbord
       - title: Badrum
         type: entities
         entities:
