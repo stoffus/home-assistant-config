@@ -59,7 +59,7 @@ views:
             name: Fönster
           - entity: light.office_ceiling
             name: Tak
-          - entity: switch.office_desktop
+          - entity: switch.office_desk
             name: Skrivbord
       - title: Kök
         type: entities
@@ -84,7 +84,7 @@ views:
             name: Spotlights
           - entity: light.hallway_window
             name: Fönster
-          - entity: switch.hallway_ff
+          - entity: switch.hallway_chimney
             name: Murstock
       - title: Matsal
         type: entities
