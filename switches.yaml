@@ -2,4 +2,16 @@
   name: Coffee Maker
   address: '5/1/0'
   state_address: '5/4/0'
+- platform: knx
+  name: KNX Dummy Kids Room Corner Plug
+  address: '1/1/46'
+- platform: knx
+  name: KNX Dummy Livingroom TV Bench Plug
+  address: '1/1/2'
+- platform: knx
+  name: KNX Dummy Hallway Chimney Plug
+  address: '1/1/32'
+- platform: knx
+  name: KNX Dummy Office Desk Plug
+  address: '1/1/36'
 - platform: tellstick
