@@ -1,0 +1,72 @@
+- alias: 'Toggle TV bench plug when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_livingroom_tv_bench_plug
+      platform: state
+  action:
+    service: homeassistant.toggle
+    entity_id: switch.tv_bench
+
+- alias: 'Toggle hallway chimney plug when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_hallway_chimney_plug
+      platform: state
+  action:
+    service: homeassistant.toggle
+    entity_id: switch.hallway_chimney
+
+- alias: 'Toggle office desk plug when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_office_desk_plug
+      platform: state
+  action:
+    service: homeassistant.toggle
+    entity_id: switch.office_desk
+
+- alias: 'Toggle kids room corner plug when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_kids_room_corner_plug
+      platform: state
+  action:
+    service: homeassistant.toggle
+    entity_id: switch.kids_room_corner
+
+- alias: 'Update KNX status address when office desk switch is toggled'
+  trigger:
+    - entity_id: switch.office_desk
+      platform: state
+  action:
+    service: knx.send
+    data_template:
+      address: '1/4/36'
+      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+
+- alias: 'Update KNX status address when hallway chimney switch is toggled'
+  trigger:
+    - entity_id: switch.hallway_chimney
+      platform: state
+  action:
+    service: knx.send
+    data_template:
+      address: '1/4/32'
+      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+
+- alias: 'Update KNX status address when kids room switch is toggled'
+  trigger:
+    - entity_id: switch.kids_room_corner
+      platform: state
+  action:
+    service: knx.send
+    data_template:
+      address: '1/4/46'
+      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+
+- alias: 'Update KNX status address when tv bench switch is toggled'
+  trigger:
+    - entity_id: switch.tv_bench
+      platform: state
+  action:
+    service: knx.send
+    data_template:
+      address: '1/4/2'
+      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+
