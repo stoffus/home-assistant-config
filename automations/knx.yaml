@@ -38,7 +38,7 @@
     service: knx.send
     data_template:
       address: '1/4/36'
-      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+      payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
 - alias: 'Update KNX status address when hallway chimney switch is toggled'
   trigger:
@@ -48,7 +48,7 @@
     service: knx.send
     data_template:
       address: '1/4/32'
-      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+      payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
 - alias: 'Update KNX status address when kids room switch is toggled'
   trigger:
@@ -58,7 +58,7 @@
     service: knx.send
     data_template:
       address: '1/4/46'
-      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+      payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
 - alias: 'Update KNX status address when tv bench switch is toggled'
   trigger:
@@ -68,5 +68,5 @@
     service: knx.send
     data_template:
       address: '1/4/2'
-      payload: '{% if trigger.to_state.state == "on" %}1{% else %}0{% endif %}'
+      payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 

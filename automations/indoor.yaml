@@ -32,8 +32,8 @@
     - service: homeassistant.turn_on
       entity_id:
         - switch.smartplug1_on_off
-        - switch.office_desktop
-        - switch.hallway_ff
+        - switch.office_desk
+        - switch.hallway_chimney
         - switch.tv_bench
 
 - alias: 'Send notifications on low battery for sensors'

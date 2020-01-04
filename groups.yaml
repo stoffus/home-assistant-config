@@ -48,7 +48,7 @@ office_lights:
   entities:
     - light.office_ceiling
     - light.office_window
-    - switch.office_desktop
+    - switch.office_desk
 
 office:
   name: Office
@@ -83,7 +83,7 @@ hallway_lights:
     - light.hallway_shoe_cabinet
     - light.hallway_window
     - light.hallway_spotlights
-    - switch.hallway_ff
+    - switch.hallway_chimney
 
 hallway:
   name: Hallway
