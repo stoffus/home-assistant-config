@@ -15,8 +15,6 @@ homeassistant:
 lovelace:
   mode: yaml
 
-zeroconf:
-
 config:
 
 sun:
