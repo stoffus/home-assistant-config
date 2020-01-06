@@ -1,20 +1,33 @@
 - alias: 'Turn on toilet ceiling lights on motion detected'
   trigger:
-    - entity_id: binary_sensor.toilet_occupancy
-      platform: state
-      to: 'on'
+    entity_id: binary_sensor.toilet_occupancy
+    platform: state
+    to: 'on'
   action:
     service: homeassistant.turn_on
     entity_id: light.toilet_ceiling
 
 - alias: 'Turn off toilet ceiling lights when occupancy expires'
   trigger:
-    - entity_id: binary_sensor.toilet_occupancy
-      platform: state
-      to: 'off'
+    entity_id: binary_sensor.toilet_occupancy
+    platform: state
+    to: 'off'
   action:
     service: homeassistant.turn_off
     entity_id: light.toilet_ceiling
+
+- alias: 'Turn on non-KNX stuff on evening lights scene activation'
+  trigger:
+    platform: state
+    entity_id: sensor.evening_lights
+    to: '1'
+  action:
+    service: homeassistant.turn_on
+    entity_id:
+      - switch.smartplug1_on_off
+      - switch.office_desk
+      - switch.hallway_chimney
+      - switch.tv_bench
 
 - alias: 'Turn on evening lights at dusk'
   trigger:
@@ -24,17 +37,11 @@
     for:
       minutes: 10
   condition:
-    - condition: time
-      after: '14:00:00'
+    condition: time
+    after: '14:00:00'
   action:
-    - service: scene.turn_on
-      entity_id: scene.evening_lights
-    - service: homeassistant.turn_on
-      entity_id:
-        - switch.smartplug1_on_off
-        - switch.office_desk
-        - switch.hallway_chimney
-        - switch.tv_bench
+    service: scene.turn_on
+    entity_id: scene.evening_lights
 
 - alias: 'Send notifications on low battery for sensors'
   trigger:
