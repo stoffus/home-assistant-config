@@ -38,6 +38,15 @@ views:
               service: homeassistant.turn_off
               service_data:
                 entity_id: group.first_floor_lights
+          - entity: scene.evening_lights
+            type: entity-button
+            name: Kvällsbelysning
+            icon: 'mdi:lightbulb'
+            tap_action:
+              action: call-service
+              service: scene.turn_on
+              service_data:
+                entity_id: scene.evening_lights
   - path: lights
     title: lights
     icon: 'mdi:lightbulb'
@@ -75,6 +84,7 @@ views:
             icon: 'mdi:lightbulb'
           - entity: switch.coffee_maker
             name: Kaffebryggare
+            icon: 'mdi:coffee-maker'
       - title: Hall
         type: entities
         entities:
