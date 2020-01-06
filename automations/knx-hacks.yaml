@@ -30,7 +30,7 @@
     service: homeassistant.toggle
     entity_id: switch.kids_room_corner
 
-- alias: 'Update KNX status address when office desk switch is toggled'
+- alias: 'Update KNX state address when office desk switch is toggled'
   trigger:
     - entity_id: switch.office_desk
       platform: state
@@ -40,7 +40,7 @@
       address: '1/4/36'
       payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
-- alias: 'Update KNX status address when hallway chimney switch is toggled'
+- alias: 'Update KNX state address when hallway chimney switch is toggled'
   trigger:
     - entity_id: switch.hallway_chimney
       platform: state
@@ -50,7 +50,7 @@
       address: '1/4/32'
       payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
-- alias: 'Update KNX status address when kids room switch is toggled'
+- alias: 'Update KNX state address when kids room switch is toggled'
   trigger:
     - entity_id: switch.kids_room_corner
       platform: state
@@ -60,7 +60,7 @@
       address: '1/4/46'
       payload: '{{ 1 if trigger.to_state.state == "on" else 0 }}'
 
-- alias: 'Update KNX status address when tv bench switch is toggled'
+- alias: 'Update KNX state address when TV bench switch is toggled'
   trigger:
     - entity_id: switch.tv_bench
       platform: state
