@@ -16,32 +16,19 @@
     service: homeassistant.turn_off
     entity_id: light.toilet_ceiling
 
-- alias: 'Turn on non-KNX stuff on evening lights scene activation'
-  trigger:
-    platform: state
-    entity_id: sensor.evening_lights
-    to: '1'
-  action:
-    service: homeassistant.turn_on
-    entity_id:
-      - switch.smartplug1_on_off
-      - switch.office_desk
-      - switch.hallway_chimney
-      - switch.tv_bench
-
 - alias: 'Turn on evening lights at dusk'
   trigger:
     platform: numeric_state
     entity_id: sensor.outdoor_illuminance
-    below: 250
+    below: 280
     for:
       minutes: 10
   condition:
     condition: time
     after: '14:00:00'
   action:
-    service: scene.turn_on
-    entity_id: scene.evening_lights
+    service: script.turn_on
+    entity_id: script.activate_evening_lights
 
 - alias: 'Send notifications on low battery for sensors'
   trigger:
@@ -58,6 +45,6 @@
     below: 20
   action:
     service: notify.pushover
-    data:
+    data_template:
       title: 'Batteries are running low'
       message: '{{ trigger.to_state.attributes.friendly_name }} only has {{ trigger.to_state.state }}% of power left.'
