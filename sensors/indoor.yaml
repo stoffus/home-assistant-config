@@ -1,5 +1,0 @@
-- platform: knx
-  name: Evening Lights
-  state_address: '1/0/2'
-  sync_state: False
-  type: scene_number
