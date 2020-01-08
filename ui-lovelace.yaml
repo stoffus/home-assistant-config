@@ -1,54 +1,10 @@
-title: Home
+title: Hemma
 resources:
   - url: /local/mini-graph-card-bundle.js?v=0.8.2
     type: module
 views:
   - path: default
     title: default
-    icon: 'mdi:home'
-    badges: []
-    cards:
-      - title: Centralt
-        type: horizontal-stack
-        cards:
-          - entity: group.indoor_lights
-            type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck all belysning
-            tap_action:
-              action: call-service
-              service: homeassistant.turn_off
-              service_data:
-                entity_id: group.indoor_lights
-          - entity: group.ground_floor_lights
-            type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck bottenvåning
-            tap_action:
-              action: call-service
-              service: homeassistant.turn_off
-              service_data:
-                entity_id: group.ground_floor_lights
-          - entity: group.first_floor_lights
-            type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck övervåning
-            tap_action:
-              action: call-service
-              service: homeassistant.turn_off
-              service_data:
-                entity_id: group.first_floor_lights
-          - entity: scene.evening_lights
-            type: entity-button
-            name: Kvällsbelysning
-            icon: 'mdi:lightbulb'
-            tap_action:
-              action: call-service
-              service: scene.turn_on
-              service_data:
-                entity_id: scene.evening_lights
-  - path: lights
-    title: lights
     icon: 'mdi:lightbulb'
     badges: []
     cards:
@@ -70,6 +26,9 @@ views:
             name: Tak
           - entity: switch.office_desk
             name: Skrivbord
+          - entity: switch.smartplug1_on_off
+            name: Läslampa
+            icon: 'mdi:lightbulb'
       - title: Kök
         type: entities
         entities:
@@ -79,9 +38,6 @@ views:
             name: Spotlights
           - entity: light.kitchen_window
             name: Fönster
-          - entity: switch.smartplug1_on_off
-            name: Ljusstake
-            icon: 'mdi:lightbulb'
           - entity: switch.coffee_maker
             name: Kaffebryggare
             icon: 'mdi:coffee-maker'
@@ -148,6 +104,50 @@ views:
         entities:
           - entity: light.toilet_ceiling
             name: Tak
+  - path: central
+    title: central
+    icon: 'mdi:home'
+    badges: []
+    cards:
+      - title: Centralt
+        type: horizontal-stack
+        cards:
+          - entity: group.indoor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck all belysning
+            tap_action:
+              action: call-service
+              service: homeassistant.turn_off
+              service_data:
+                entity_id: group.indoor_lights
+          - entity: group.ground_floor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck bottenvåning
+            tap_action:
+              action: call-service
+              service: homeassistant.turn_off
+              service_data:
+                entity_id: group.ground_floor_lights
+          - entity: group.first_floor_lights
+            type: entity-button
+            icon: 'mdi:lightbulb'
+            name: Släck övervåning
+            tap_action:
+              action: call-service
+              service: homeassistant.turn_off
+              service_data:
+                entity_id: group.first_floor_lights
+          - entity: scene.evening_lights
+            type: entity-button
+            name: Kvällsbelysning
+            icon: 'mdi:lightbulb'
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.activate_evening_lights
   - path: media
     title: media
     icon: 'mdi:play-circle'
