@@ -1,6 +1,6 @@
 ## Current setup
 
-My current setup consists of a KNX system together with a few ZigBee devices. ~I'm also running openHAB in parallel just to satisfy my Tellstick stuff (just can't get it to work in HA)~.
+My current setup consists of a KNX system together with some NEXA/Telldus "smart" plugs and a few ZigBee devices. ~I'm also running openHAB in parallel just to satisfy my Tellstick stuff (just can't get it to work in HA)~.
 
 ### Tellstick + ConBee
 
@@ -16,7 +16,7 @@ version: '2.2'
 services:
   home-assistant:
     container_name: home-assistant
-    image: docker-registry.stoffus.com/home-assistant-pymysql:1.0.1
+    image: docker-registry.stoffus.com/home-assistant-pymysql:1.0.2
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
@@ -26,6 +26,4 @@ services:
     restart: always
     network_mode: host
     mem_limit: 1g
-    devices:
-      - /dev/ttyACM0 # ConBee
 ```
