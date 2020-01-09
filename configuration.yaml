@@ -106,5 +106,6 @@ verisure:
 map:
 
 tellstick:
+  signal_repetitions: 2
 
 wake_on_lan:
