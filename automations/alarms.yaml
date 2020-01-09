@@ -44,6 +44,7 @@
 - alias: 'Turn ground floor lights on in case the alarm goes off'
   trigger:
     entity_id: switch.smartplug1_on_off
+    platform: state
     from: 'unknown'
   condition:
     - condition: template
