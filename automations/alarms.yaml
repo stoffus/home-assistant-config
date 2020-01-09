@@ -1,8 +1,8 @@
 - alias: 'Send notification on water leak'
   trigger:
-    - entity_id: binary_sensor.kitchen_sink_water_leak_ias_zone
-      platform: state
-      to: 'on'
+    entity_id: binary_sensor.kitchen_sink_water_leak
+    platform: state
+    to: 'on'
   action:
     service: notify.pushover
     data:
@@ -15,9 +15,9 @@
 
 - alias: 'Send notification on cellar window vibration and/or tilt'
   trigger:
-    - entity_id: binary_sensor.basement_porch_window_vibration_ias_zone
-      platform: state
-      to: 'on'
+    entity_id: binary_sensor.basement_porch_window_vibration
+    platform: state
+    to: 'on'
   action:
     service: notify.pushover
     data:
@@ -30,11 +30,11 @@
 
 - alias: 'Send notification on tool shed door opened/closed if alarm is activated'
   trigger:
-    - entity_id: binary_sensor.tool_shed_door_open
-      platform: state
+    entity_id: binary_sensor.tool_shed_door_open
+    platform: state
   condition:
-    - condition: template
-      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+    condition: template
+    value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
   action:
     service: notify.pushover
     data:
