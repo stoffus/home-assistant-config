@@ -49,6 +49,7 @@ office_lights:
     - light.office_ceiling
     - light.office_window
     - switch.office_desk
+    - switch.office_reading_light
 
 office:
   name: Office

@@ -6,5 +6,6 @@ activate_evening_lights:
       entity_id:
         - switch.smartplug1_on_off
         - switch.office_desk
+        - switch.office_reading_light
         - switch.hallway_chimney
         - switch.tv_bench
