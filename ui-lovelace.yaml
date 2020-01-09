@@ -26,21 +26,32 @@ views:
             name: Tak
           - entity: switch.office_desk
             name: Skrivbord
-          - entity: switch.smartplug1_on_off
+          - entity: switch.office_reading_light
             name: Läslampa
-            icon: 'mdi:lightbulb'
-      - title: Kök
-        type: entities
-        entities:
-          - entity: light.kitchen_sink
-            name: Diskho
-          - entity: light.kitchen_spotlights
-            name: Spotlights
-          - entity: light.kitchen_window
-            name: Fönster
-          - entity: switch.coffee_maker
-            name: Kaffebryggare
-            icon: 'mdi:coffee-maker'
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Kök
+            entities:
+              - entity: light.kitchen_sink
+                name: Diskho
+              - entity: light.kitchen_spotlights
+                name: Spotlights
+              - entity: light.kitchen_window
+                name: Fönster
+              - entity: switch.coffee_maker
+                name: Kaffebryggare
+                icon: 'mdi:coffee-maker'
+          - type: conditional
+            conditions:
+              - entity: switch.coffee_maker
+                state: 'on'
+            card:
+              type: entities
+              entities:
+                - entity: sensor.coffee_maker_power_consumption
+                  name: Kaffebryggare strömförbrukning
+                  icon: 'mdi:flash'
       - title: Hall
         type: entities
         entities:
@@ -104,6 +115,8 @@ views:
         entities:
           - entity: light.toilet_ceiling
             name: Tak
+          - entity: binary_sensor.toilet_occupancy
+            name: Upptaget
   - path: central
     title: central
     icon: 'mdi:home'
@@ -114,8 +127,8 @@ views:
         cards:
           - entity: group.indoor_lights
             type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck all belysning
+            icon: 'mdi:lightbulb-off-outline'
+            name: All belysning
             tap_action:
               action: call-service
               service: homeassistant.turn_off
@@ -123,8 +136,8 @@ views:
                 entity_id: group.indoor_lights
           - entity: group.ground_floor_lights
             type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck bottenvåning
+            icon: 'mdi:lightbulb-off-outline'
+            name: Bottenvåning
             tap_action:
               action: call-service
               service: homeassistant.turn_off
@@ -132,8 +145,8 @@ views:
                 entity_id: group.ground_floor_lights
           - entity: group.first_floor_lights
             type: entity-button
-            icon: 'mdi:lightbulb'
-            name: Släck övervåning
+            icon: 'mdi:lightbulb-off-outline'
+            name: Övervåning
             tap_action:
               action: call-service
               service: homeassistant.turn_off
@@ -142,12 +155,18 @@ views:
           - entity: scene.evening_lights
             type: entity-button
             name: Kvällsbelysning
-            icon: 'mdi:lightbulb'
+            icon: 'mdi:lightbulb-outline'
             tap_action:
               action: call-service
               service: script.turn_on
               service_data:
                 entity_id: script.activate_evening_lights
+      - title: Utomhus
+        type: vertical-stack
+        cards:
+          - type: sensor
+            name: Utetemperatur
+            entity: sensor.outdoor_temperature
   - path: media
     title: media
     icon: 'mdi:play-circle'
@@ -179,6 +198,8 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_temperature
             name: BADRUM
+          - entity: sensor.outdoor_temperature
+            name: UTOMHUS
         hours_to_show: 24
         decimals: 1
         points_per_hour: 0.5
@@ -220,7 +241,7 @@ views:
       - type: glance
         title: Vattenläckage
         entities:
-          - entity: binary_sensor.kitchen_sink_water_leak_ias_zone
+          - entity: binary_sensor.kitchen_sink_water_leak
             name: Kök
   - path: security
     title: security
