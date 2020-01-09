@@ -84,10 +84,6 @@ person: !secret persons
 
 knx:
 
-zha:
-  usb_path: /dev/ttyACM0
-  database_path: /config/zigbee.db
-
 notify:
   - name: Pushover
     platform: pushover
