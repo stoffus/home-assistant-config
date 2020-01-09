@@ -45,7 +45,7 @@
   trigger:
     entity_id: switch.smartplug1_on_off
     platform: state
-    from: 'unknown'
+    from: 'unavailable'
   condition:
     - condition: template
       value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
@@ -57,5 +57,5 @@
       data:
         title: 'Alarm went off'
         message: 'Turning the ground floor lights on in an attempt to scare the burglars away.'
-    #- service: homeassistant.turn_on
-    #  entity_id: group.ground_floor_lights
+    - service: homeassistant.turn_on
+      entity_id: group.ground_floor_lights
