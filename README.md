@@ -16,7 +16,7 @@ version: '2.2'
 services:
   home-assistant:
     container_name: home-assistant
-    image: docker-registry.stoffus.com/home-assistant-pymysql:1.0.2
+    image: homeassistant/home-assistant:0.103.6
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
