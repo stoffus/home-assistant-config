@@ -8,7 +8,7 @@ Because the server running HA is located in the basement, I needed to figure out
 
 ### Docker
 
-My Home Assistant instance is running inside a Docker container. I had some trouble getting my Tellstick Duo to work inside the container, so in case it helps someone, here's my `docker-compose.yml`. Besides the `TelldusClient/TelldusEvents` mounts, you need to install telldusd (follow this guide: http://developer.telldus.com/wiki/TellStickInstallationSource).
+My Home Assistant instance is running inside a Docker container. ~I had some trouble getting my Tellstick Duo to work inside the container, so in case it helps someone, here's my `docker-compose.yml`. Besides the `TelldusClient/TelldusEvents` mounts, you need to install telldusd (follow this guide: http://developer.telldus.com/wiki/TellStickInstallationSource)~. I am now running telldus from within a container, will post the Docker image shortly.
 
 ```yaml
 version: '2.2'
@@ -20,9 +20,6 @@ services:
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
-      - /etc/tellstick.conf:/etc/tellstick.conf:ro
-      - /tmp/TelldusClient:/tmp/TelldusClient
-      - /tmp/TelldusEvents:/tmp/TelldusEvents
     restart: always
     network_mode: host
     mem_limit: 200m

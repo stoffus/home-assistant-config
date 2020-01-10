@@ -106,6 +106,8 @@ verisure:
 map:
 
 tellstick:
+  host: localhost
+  port: [50800, 50801]
   signal_repetitions: 2
 
 wake_on_lan:
