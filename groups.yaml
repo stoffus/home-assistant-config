@@ -177,3 +177,17 @@ kids_asleep_evening_lights:
     - switch.office_reading_light
     - light.dining_area_vitrine_cabinet
     - light.dining_area_wall_cabinet
+
+main_outdoor_lights:
+  name: Main Outdoor Lights
+  entities:
+    - light.outdoor_garden
+    - light.outdoor_cellar_entrance
+    - light.outdoor_main_entrance
+
+complementary_outdoor_lights:
+  name: Complementary Outdoor Lights
+  entities:
+    - switch.conservatory
+    - light.outdoor_eave
+    - light.outdoor_porch_entrance
