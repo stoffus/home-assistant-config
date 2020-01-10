@@ -20,10 +20,10 @@ services:
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
-      - ./tellstick.conf:/etc/tellstick.conf
+      - /etc/tellstick.conf:/etc/tellstick.conf:ro
       - /tmp/TelldusClient:/tmp/TelldusClient
       - /tmp/TelldusEvents:/tmp/TelldusEvents
     restart: always
     network_mode: host
-    mem_limit: 1g
+    mem_limit: 200m
 ```
