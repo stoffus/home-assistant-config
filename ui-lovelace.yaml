@@ -219,6 +219,8 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_battery_level
             name: BADRUM
+          - entity: sensor.basement_porch_window_vibration_battery_level
+            name: KÄLLARFÖNSTER 1
         hours_to_show: 72
         decimals: 0
         points_per_hour: 0.2
@@ -236,7 +238,7 @@ views:
             name: BADRUM
         hours_to_show: 72
         decimals: 0
-        points_per_hour: 0.2
+        points_per_hour: 0.5
         hour24: true
       - type: glance
         title: Vattenläckage
