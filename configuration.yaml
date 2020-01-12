@@ -111,3 +111,28 @@ tellstick:
   signal_repetitions: 2
 
 wake_on_lan:
+
+asuswrt:
+  host: router.asus.com
+  username: admin
+  ssh_key: /config/id_rsa
+  sensors:
+    - upload
+    - download
+    - upload_speed
+    - download_speed
+
+device_tracker:
+  - platform: asuswrt
+    host: router.asus.com
+    username: admin
+    ssh_key: /config/id_rsa
+    protocol: ssh
+    interval_seconds: 12
+    consider_home: 300
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: false
+
+speedtestdotnet:
+  server_id: 26852 # Stockholm SUNET
