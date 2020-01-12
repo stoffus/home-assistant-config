@@ -5,7 +5,7 @@
     to: 'on'
   action:
     service: homeassistant.turn_on
-    entity_id: light.toilet_ceiling
+    entity_id: script.turn_toilet_lights_on_with_conditional_delay
 
 - alias: 'Turn off toilet ceiling lights when occupancy expires'
   trigger:
@@ -20,30 +20,12 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.outdoor_illuminance
-    below: 280
+    below: 320
     for:
       minutes: 10
-  condition:
-    condition: time
-    after: '13:00:00'
-    before: '19:00:00'
-  action:
-    service: script.turn_on
-    entity_id: script.activate_evening_lights
-
-- alias: "Turn on evening lights that won't wake the kids up"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.outdoor_illuminance
-    below: 280
-    for:
-      minutes: 10
-  condition:
-    condition: time
-    after: '19:00:00'
   action:
     service: homeassistant.turn_on
-    entity_id: group.kids_asleep_evening_lights
+    entity_id: script.activate_evening_lights
 
 - alias: 'Send notifications on low battery for sensors'
   trigger:

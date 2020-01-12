@@ -166,6 +166,20 @@ indoor_lights:
     - group.ground_floor_lights
     - group.first_floor_lights
 
+smart_plugs_lights:
+  name: Smart Plugs Lights
+  entities:
+    - switch.office_desk
+    - switch.office_reading_light
+    - switch.hallway_chimney
+    - switch.tv_bench
+
+evening_lights:
+  name: Evening Lights
+  entities:
+    - scene.evening_lights
+    - group.smart_plugs_lights
+
 kids_asleep_evening_lights:
   name: Kids Asleep Evening Lights
   entities:
