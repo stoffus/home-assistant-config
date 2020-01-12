@@ -8,3 +8,4 @@ known_devices.yaml
 *.db
 .HA_VERSION
 webostv.conf
+id_rsa
