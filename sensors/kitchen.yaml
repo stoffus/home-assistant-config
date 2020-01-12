@@ -2,3 +2,11 @@
   name: Coffee Maker Power Consumption
   state_address: '5/5/6'
   type: current
+- platform: template
+  sensors:
+    kitchen_sink_temperature:
+      friendly_name: 'Kitchen Sink Temperature'
+      unit_of_measurement: '°C'
+      icon_template: 'mdi:thermometer'
+      device_class: temperature
+      value_template: "{{ state_attr('binary_sensor.kitchen_sink_water_leak', 'temperature') }}"
