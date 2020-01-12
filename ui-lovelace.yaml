@@ -95,6 +95,8 @@ views:
             name: Fönster
           - entity: light.kids_room_light_boxes
             name: Kattvindsfack
+          - entity: switch.kids_room_corner
+            name: Ljusslinga
       - title: Utomhus
         type: entities
         entities:
@@ -122,51 +124,69 @@ views:
     icon: 'mdi:home'
     badges: []
     cards:
-      - title: Centralt
+      - title: ''
         type: horizontal-stack
         cards:
           - entity: group.indoor_lights
             type: entity-button
             icon: 'mdi:lightbulb-off-outline'
-            name: All belysning
+            name: Släck allt
             tap_action:
               action: call-service
               service: homeassistant.turn_off
               service_data:
                 entity_id: group.indoor_lights
-          - entity: group.ground_floor_lights
-            type: entity-button
-            icon: 'mdi:lightbulb-off-outline'
-            name: Bottenvåning
-            tap_action:
-              action: call-service
-              service: homeassistant.turn_off
-              service_data:
-                entity_id: group.ground_floor_lights
-          - entity: group.first_floor_lights
-            type: entity-button
-            icon: 'mdi:lightbulb-off-outline'
-            name: Övervåning
-            tap_action:
-              action: call-service
-              service: homeassistant.turn_off
-              service_data:
-                entity_id: group.first_floor_lights
           - entity: scene.evening_lights
             type: entity-button
             name: Kvällsbelysning
-            icon: 'mdi:lightbulb-outline'
+            icon: 'mdi:lightbulb-on-outline'
             tap_action:
               action: call-service
               service: script.turn_on
               service_data:
                 entity_id: script.activate_evening_lights
-      - title: Utomhus
-        type: vertical-stack
-        cards:
-          - type: sensor
-            name: Utetemperatur
-            entity: sensor.outdoor_temperature
+      - title: Temperatur
+        type: glance
+        entities:
+          - entity: sensor.outdoor_temperature
+            name: Utomhus
+          - entity: sensor.bathroom_temperature
+            name: Badrum
+          - entity: sensor.bedroom_temperature
+            name: Sovrum
+          - entity: sensor.kids_room_temperature
+            name: Barnrum
+          - entity: sensor.office_temperature
+            name: Kontor
+          - entity: sensor.toilet_temperature
+            name: Toalett
+          - entity: sensor.tool_shed_temperature
+            name: Verktygsrum
+      - title: Luftfuktighet
+        type: glance
+        entities:
+          - entity: sensor.bathroom_humidity
+            name: Badrum
+          - entity: sensor.bedroom_humidity
+            name: Sovrum
+          - entity: sensor.kids_room_humidity
+            name: Barnrum
+          - entity: sensor.office_humidity
+            name: Kontor
+      - title: 'Rörelse'
+        type: glance
+        entities:
+          - entity: binary_sensor.basement_porch_window_vibration
+            name: Källarfönster 1
+          - entity: binary_sensor.toilet_occupancy
+            name: Toalett
+      - title: 'Ljusstyrka'
+        type: glance
+        entities:
+          - entity: sensor.outdoor_illuminance
+            name: Utomhus
+          - entity: sensor.toilet_illuminance
+            name: Toalett
   - path: media
     title: media
     icon: 'mdi:play-circle'
@@ -254,3 +274,27 @@ views:
         entity: alarm_control_panel.hemma_alarm
         panel: true
         name: Larm
+  - path: network
+    title: network
+    icon: 'mdi:network-router'
+    cards:
+      - type: entities
+        title: Router
+        show_header_toggle: false
+        entities:
+          - entity: sensor.asuswrt_download_speed
+            name: Nedladdning
+            icon: 'mdi:download'
+          - entity: sensor.asuswrt_upload_speed
+            name: Uppladdning
+            icon: 'mdi:upload'
+      - type: entities
+        title: Speedtest
+        show_header_toggle: false
+        entities:
+          - entity: sensor.speedtest_download
+            name: Nedladdning
+            icon: 'mdi:download'
+          - entity: sensor.speedtest_upload
+            name: Uppladdning
+            icon: 'mdi:upload'
