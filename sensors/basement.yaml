@@ -1,0 +1,8 @@
+- platform: template
+  sensors:
+    tool_shed_temperature:
+      friendly_name: 'Tool Shed Temperature'
+      unit_of_measurement: '°C'
+      icon_template: 'mdi:thermometer'
+      device_class: temperature
+      value_template: "{{ state_attr('binary_sensor.tool_shed_door_open', 'temperature') }}"
