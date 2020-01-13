@@ -33,6 +33,7 @@ kids_room_lights:
     - light.kids_room_ceiling
     - light.kids_room_window
     - light.kids_room_light_boxes
+    - switch.kids_room_corner
 
 kids_room:
   name: Kids Room
