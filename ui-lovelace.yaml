@@ -1,4 +1,3 @@
-title: Hemma
 resources:
   - url: /local/mini-graph-card-bundle.js?v=0.8.2
     type: module
@@ -6,7 +5,6 @@ views:
   - path: default
     title: default
     icon: 'mdi:lightbulb'
-    badges: []
     cards:
       - title: Vardagsrum
         type: entities
@@ -122,10 +120,8 @@ views:
   - path: central
     title: central
     icon: 'mdi:home'
-    badges: []
     cards:
-      - title: ''
-        type: horizontal-stack
+      - type: horizontal-stack
         cards:
           - entity: group.indoor_lights
             type: entity-button
@@ -190,7 +186,6 @@ views:
   - path: media
     title: media
     icon: 'mdi:play-circle'
-    badges: []
     cards:
       - type: media-control
         entity: media_player.vardagsrum
@@ -205,7 +200,6 @@ views:
   - path: climate
     title: climate
     icon: 'mdi:gauge'
-    badges: []
     cards:
       - type: custom:mini-graph-card
         name: TEMPERATUR
@@ -267,8 +261,7 @@ views:
             name: Kök
   - path: security
     title: security
-    icon: 'mdi:security'
-    badges: []
+    icon: 'mdi:shield'
     cards:
       - type: alarm-panel
         entity: alarm_control_panel.hemma_alarm
