@@ -145,7 +145,7 @@ basement:
     - sensor.basement_porch_window_vibration_battery_level
 
 ground_floor_lights:
-  name: Ground Floor
+  name: Ground Floor Lights
   entities:
     - group.hallway_lights
     - group.toilet_lights
@@ -155,7 +155,7 @@ ground_floor_lights:
     - group.kitchen_lights
 
 first_floor_lights:
-  name: First Floor
+  name: First Floor Lights
   entities:
     - group.bedroom_lights
     - group.bathroom_lights
