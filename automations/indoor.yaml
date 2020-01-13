@@ -23,6 +23,10 @@
     below: 320
     for:
       minutes: 10
+  condition:
+    - condition: time
+      after: '14:00:00'
+      before: '22:00:00'
   action:
     service: homeassistant.turn_on
     entity_id: script.activate_evening_lights
