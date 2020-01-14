@@ -6,6 +6,6 @@ activate_evening_lights:
 
 turn_toilet_lights_on_with_conditional_delay:
   sequence:
-    - delay: "{{ '00:00:02' if (now().hour > 19 or now().hour < 7) and is_state('group.kids_room_lights', 'off') else '00:00:00' }}"
+    - delay: "{{ '00:00:01' if (now().hour > 19 or now().hour < 7) and is_state('group.kids_room_lights', 'off') else '00:00:00' }}"
     - service: homeassistant.turn_on
       entity_id: light.toilet_ceiling
