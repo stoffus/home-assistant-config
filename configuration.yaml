@@ -11,6 +11,8 @@ homeassistant:
    - type: trusted_networks
      trusted_networks:
        - 10.0.0.0/24
+  auth_mfa_modules:
+   - type: totp
 
 lovelace:
   mode: yaml
