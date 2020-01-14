@@ -197,6 +197,8 @@ views:
         entity: media_player.livingroom_receiver
       - type: media-control
         entity: media_player.livingroom_tv
+      - type: media-control
+        entity: media_player.spotify
   - path: climate
     title: climate
     icon: 'mdi:gauge'
