@@ -87,8 +87,7 @@ cover: !include covers.yaml
 sensor: !include_dir_merge_list sensors
 zone: !secret zones
 person: !secret persons
-
-knx:
+knx: !include knx.yaml
 
 notify:
   - name: Pushover

@@ -93,7 +93,9 @@ views:
             name: Fönster
           - entity: light.kids_room_light_boxes
             name: Kattvindsfack
-          - entity: switch.kids_room_corner
+          - entity: switch.kids_room_plug1
+            name: Kanin
+          - entity: switch.kids_room_plug2
             name: Ljusslinga
       - title: Utomhus
         type: entities
