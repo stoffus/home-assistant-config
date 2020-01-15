@@ -43,6 +43,7 @@ ssdp:
 discovery:
   ignore:
     - samsung_tv
+    - igd
 
 recorder:
   db_url: !secret recorder_db_url
