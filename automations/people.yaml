@@ -2,7 +2,8 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: device_tracker.person1
+    entity_id: device_tracker.person1_s9plus
+    from: 'home'
     to: 'not_home'
   action:
     - service: notify.pushover
@@ -14,7 +15,7 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: device_tracker.person1
+    entity_id: device_tracker.person1_s9plus
     to: 'work'
   action:
     - service: notify.pushover
