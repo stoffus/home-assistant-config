@@ -11,3 +11,4 @@ webostv.conf
 id_rsa
 .spotify-token-cache
 tts
+__pycache__
