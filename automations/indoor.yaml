@@ -49,3 +49,12 @@
     data_template:
       title: 'Batteries are running low'
       message: '{{ trigger.to_state.attributes.friendly_name }} only has {{ trigger.to_state.state }}% of power left.'
+
+- alias: 'Turn off indoor lights when alarm is armed'
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.hemma_alarm
+    to: 'armed_home'
+  action:
+    service: homeassistant.turn_off
+    entity_id: group.indoor_lights
