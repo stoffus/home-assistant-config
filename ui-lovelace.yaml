@@ -117,7 +117,7 @@ views:
         entities:
           - entity: light.toilet_ceiling
             name: Tak
-          - entity: binary_sensor.toilet_occupancy
+          - entity: binary_sensor.toilet_presence
             name: Upptaget
   - path: central
     title: central
@@ -162,6 +162,8 @@ views:
             name: Verktygsrum
           - entity: sensor.laundry_room_temperature
             name: Tvättstuga
+          - entity: sensor.attic_temperature
+            name: Vind
       - title: Luftfuktighet
         type: glance
         entities:
@@ -175,13 +177,17 @@ views:
             name: Kontor
           - entity: sensor.laundry_room_humidity
             name: Tvättstuga
+          - entity: sensor.attic_humidity
+            name: Vind
       - title: 'Rörelse'
         type: glance
         entities:
           - entity: binary_sensor.basement_porch_window_vibration
             name: Källarfönster 1
-          - entity: binary_sensor.toilet_occupancy
+          - entity: binary_sensor.toilet_presence
             name: Toalett
+          - entity: binary_sensor.basement_hallway_presence
+            name: Källarhall
       - title: 'Ljusstyrka'
         type: glance
         entities:
@@ -189,6 +195,13 @@ views:
             name: Utomhus
           - entity: sensor.toilet_illuminance
             name: Toalett
+      - title: Speltid
+        type: glance
+        entities:
+          - entity: sensor.livingroom_tv_time
+            name: TV-tid
+          - entity: sensor.spotify_time
+            name: Spotify
   - path: media
     title: media
     icon: 'mdi:play-circle'
