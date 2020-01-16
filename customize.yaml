@@ -1,0 +1,2 @@
+binary_sensor.basement_porch_window_vibration:
+  device_class: vibration
