@@ -160,6 +160,8 @@ views:
             name: Toalett
           - entity: sensor.tool_shed_temperature
             name: Verktygsrum
+          - entity: sensor.laundry_room_temperature
+            name: Tvättstuga
       - title: Luftfuktighet
         type: glance
         entities:
@@ -171,6 +173,8 @@ views:
             name: Barnrum
           - entity: sensor.office_humidity
             name: Kontor
+          - entity: sensor.laundry_room_humidity
+            name: Tvättstuga
       - title: 'Rörelse'
         type: glance
         entities:
