@@ -102,7 +102,7 @@ toilet:
   name: Toilet
   entities:
     - group.toilet_lights
-    - binary_sensor.toilet_occupancy
+    - binary_sensor.toilet_presence
     - sensor.toilet_illuminance
     - sensor.toilet_battery_level
 
@@ -141,9 +141,28 @@ basement:
   name: Basement
   entities:
     - binary_sensor.tool_shed_door_open
+    - binary_sensor.basement_porch_window_vibration
+    - binary_sensor.basement_hallway_presence
     - sensor.tool_shed_door_battery_level
-    - binary_sensor.basement_porch_window_vibration_ias_zone
     - sensor.basement_porch_window_vibration_battery_level
+    - sensor.basement_hallway_illuminance
+    - sensor.basement_hallway_battery_level
+
+laundry_room:
+  name: Laundry Room
+  entities:
+    - sensor.laundry_room_temperature
+    - sensor.laundry_room_humidity
+    - sensor.laundry_room_battery_level
+    - sensor.laundry_room_pressure
+
+attic:
+  name: Attic
+  entities:
+    - sensor.attic_temperature
+    - sensor.attic_humidity
+    - sensor.attic_battery_level
+    - sensor.attic_pressure
 
 ground_floor_lights:
   name: Ground Floor Lights
