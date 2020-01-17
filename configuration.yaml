@@ -55,13 +55,6 @@ media_player:
   - platform: denonavr
     host: livingroom-receiver
     name: Livingroom Receiver
-  - platform: webostv
-    host: livingroom-tv
-    name: Livingroom TV
-    turn_on_action:
-      service: wake_on_lan.send_magic_packet
-      data:
-        mac: !secret livingroom_tv_mac_address
   - platform: spotify
     name: Spotify
     client_id: !secret spotify_client_id
@@ -104,6 +97,14 @@ tellstick:
   host: localhost
   port: [50800, 50801]
   signal_repetitions: 2
+
+webostv:
+  host: livingroom-tv
+  name: Livingroom TV
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret livingroom_tv_mac_address
 
 wake_on_lan:
 
