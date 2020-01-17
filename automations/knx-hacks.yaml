@@ -22,10 +22,18 @@
     service: homeassistant.toggle
     entity_id: switch.office_desk
 
-- alias: 'Toggle kids room corner plug when KNX panel button is pressed'
+- alias: 'Toggle kids room plug 1 when KNX panel button is pressed'
   trigger:
-    - entity_id: switch.knx_dummy_kids_room_corner_plug
+    - entity_id: switch.knx_dummy_kids_room_plug_1
       platform: state
   action:
     service: homeassistant.toggle
-    entity_id: switch.kids_room_corner
+    entity_id: switch.kids_room_plug1
+
+- alias: 'Toggle kids room plug 2 when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_kids_room_plug_2
+      platform: state
+  action:
+    service: homeassistant.toggle
+    entity_id: switch.kids_room_plug2

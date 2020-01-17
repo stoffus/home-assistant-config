@@ -3,8 +3,11 @@
   address: '5/1/0'
   state_address: '5/4/0'
 - platform: knx
-  name: KNX Dummy Kids Room Corner Plug
+  name: KNX Dummy Kids Room Plug 1
   address: '1/1/46'
+- platform: knx
+  name: KNX Dummy Kids Room Plug 2
+  address: '1/1/47'
 - platform: knx
   name: KNX Dummy Livingroom TV Bench Plug
   address: '1/1/2'
