@@ -1,0 +1,37 @@
+- alias: 'Turn on the laundry dryer when the humidity reaches the upper threshold'
+  trigger:
+    entity_id: sensor.laundry_room_humidity
+    platform: numeric_state
+    above: 45
+    for:
+      minutes: 5
+  condition:
+    condition: state
+    entity_id: switch.laundry_dryer
+    state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.laundry_dryer
+    - service: notify.pushover
+      data:
+        title: 'Laundry dryer started'
+        message: "It seems you've just hung up some laundry? I've started the dryer for you."
+
+- alias: 'Turn off the laundry dryer when the humidity reaches the lower threshold'
+  trigger:
+    entity_id: sensor.laundry_room_humidity
+    platform: numeric_state
+    below: 40
+    for:
+      minutes: 10
+  condition:
+    condition: state
+    entity_id: switch.laundry_dryer
+    state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.laundry_dryer
+    - service: notify.pushover
+      data:
+        title: 'Laundry seems dry'
+        message: 'The laundry seems to be dry, come pick it up.'
