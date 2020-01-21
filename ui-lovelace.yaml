@@ -1,6 +1,8 @@
 resources:
   - url: /local/mini-graph-card-bundle.js?v=0.8.2
     type: module
+  - url: /local/spotify-card.umd.js?v=1.11
+    type: module
 views:
   - path: default
     title: default
@@ -15,6 +17,10 @@ views:
             name: Tak
           - entity: switch.tv_bench
             name: TV-bänk
+          - entity: cover.livingroom_driveway_cover
+            name: Markis mot uppfart
+          - entity: cover.livingroom_porch_cover
+            name: Markis mot altan
       - title: Kontor
         type: entities
         entities:
@@ -26,6 +32,8 @@ views:
             name: Skrivbord
           - entity: switch.office_reading_light
             name: Läslampa
+          - entity: cover.office_cover
+            name: Markis
       - type: vertical-stack
         cards:
           - type: entities
@@ -79,6 +87,8 @@ views:
             name: Fönster
           - entity: light.bedroom_nightlights
             name: Nattduksbord
+          - entity: cover.bedroom_cover
+            name: Markis
       - title: Badrum
         type: entities
         entities:
@@ -119,9 +129,21 @@ views:
             name: Tak
           - entity: binary_sensor.toilet_presence
             name: Upptaget
+      - title: Tvättstuga
+        type: entities
+        entities:
+          - entity: switch.laundry_dryer
+            name: Värmefläkt
   - path: central
     title: central
     icon: 'mdi:home'
+    badges:
+      - entity: device_tracker.person1_s9plus
+        name: CS
+        image: /local/people/cs.jpg
+      - entity: device_tracker.ss_iphone
+        name: SS
+        image: /local/people/ss.png
     cards:
       - type: horizontal-stack
         cards:
@@ -218,6 +240,21 @@ views:
         entity: media_player.livingroom_tv
       - type: media-control
         entity: media_player.spotify
+      - type: custom:spotify-card
+        client_id: 5ffe3916954a41abbb5ef051618d90ae
+      - type: entities
+        title: Spotify source
+        show_header_toggle: false
+        entities:
+          - entity: script.play_specific_spotify_song
+            type: entity-button
+            icon: 'mdi:music'
+            name: 'Spela TTMOE'
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.play_specific_spotify_song
   - path: climate
     title: climate
     icon: 'mdi:gauge'
