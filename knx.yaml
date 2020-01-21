@@ -6,9 +6,6 @@ expose:
     entity_id: switch.kids_room_plug1
     address: '1/4/46'
   - type: binary
-    entity_id: switch.kids_room_plug2
-    address: '1/4/47'
-  - type: binary
     entity_id: switch.office_desk
     address: '1/4/36'
   - type: binary
