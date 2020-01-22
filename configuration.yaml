@@ -68,6 +68,7 @@ light: !include_dir_merge_list lights
 switch: !include switches.yaml
 cover: !include covers.yaml
 sensor: !include_dir_merge_list sensors
+binary_sensor: !include binary_sensors.yaml
 zone: !secret zones
 person: !secret persons
 knx: !include knx.yaml
