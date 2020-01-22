@@ -226,3 +226,10 @@ complementary_outdoor_lights:
     - switch.conservatory
     - light.outdoor_eave
     - light.outdoor_porch_entrance
+
+person1_tracker:
+  name: Person 1 Tracker
+  all: true
+  entities:
+    - device_tracker.cs_s9plus
+    - device_tracker.person1_s9plus
