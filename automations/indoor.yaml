@@ -61,3 +61,21 @@
   action:
     service: homeassistant.turn_off
     entity_id: group.indoor_lights
+
+- alias: 'Activate morning scene for workday mornings'
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.hemma_alarm
+    to: 'disarmed'
+  condition:
+    - condition: template
+      value_template: "{{ state_attr('alarm_control_panel.hemma_alarm', 'changed_by') == state_attr('person.person1', 'friendly_name') }}"
+    - condition: state
+      entity_id: binary_sensor.workday
+      state: 'on'
+    - condition: time
+      after: '05:20:00'
+      before: '06:10:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: scene.workday_morning

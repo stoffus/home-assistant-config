@@ -2,3 +2,9 @@
   name: Evening Lights
   address: '1/0/2'
   scene_number: 1
+- name: Workday Morning
+  entities:
+    light.dining_area_ceiling:
+      state: 'on'
+      brightness: 20
+    light.kitchen_window: 'on'
