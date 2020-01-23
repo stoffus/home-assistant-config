@@ -13,9 +13,9 @@ Because the server running HA is located in the basement, I needed to figure out
 ### Actuators
 
 - 1 x MDT AMS-0816.01
-- 1 x MDT-AKS-1216.02
+- 1 x MDT AKS-1216.02
 - 1 x MDT AKD-0401.01
-- 1 x MDT-JAL-0410.01
+- 1 x MDT JAL-0410.01
 
 ### Wall panels
 
@@ -42,6 +42,7 @@ Because the server running HA is located in the basement, I needed to figure out
 - 1 x Aqara AS010UEW01
 
 ### Switches
+
 - 1 x Innr SP 120
 - 2 x IKEA TRÅDFRI
 
