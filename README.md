@@ -21,6 +21,7 @@ Because the server running HA is located in the basement, I needed to figure out
 
 - 4 x Schneider Exxact WDE002933
 - 2 x Schneider Exxact WDE002935
+- 2 x Schneider Exxact WDE002943
 - 1 x Schneider Exxact WDE002949
 - 2 x MDT BE-TA55P4.01
 - 1 x MDT BE-TA55P6.01
