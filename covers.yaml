@@ -12,21 +12,21 @@
   move_short_address: '3/1/4'
   position_address: '3/1/5'
   position_state_address: '3/2/7'
-  travelling_time_up: 30
-  travelling_time_down: 30
+  travelling_time_up: 32
+  travelling_time_down: 32
 - platform: knx
   name: Livingroom Driveway Cover
   move_long_address: '3/1/6'
   move_short_address: '3/1/7'
   position_address: '3/1/8'
   position_state_address: '3/2/11'
-  travelling_time_up: 30
-  travelling_time_down: 30
+  travelling_time_up: 32
+  travelling_time_down: 32
 - platform: knx
-  name: Office Cover
+  name: Playroom Cover
   move_long_address: '3/1/9'
   move_short_address: '3/1/10'
   position_address: '3/1/11'
   position_state_address: '3/2/15'
-  travelling_time_up: 30
-  travelling_time_down: 30
+  travelling_time_up: 32
+  travelling_time_down: 32

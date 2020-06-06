@@ -4,42 +4,42 @@
     platform: state
     to: 'on'
   action:
-    service: notify.pushover
+    service: notify.mobile_app_sm_g965f
     data:
       title: 'Water leak detected'
       message: 'A water leak was detected in the kitchen.'
-      data:
-        priority: 2
-        expire: 3600
-        retry: 30
 
 - alias: 'Send notification on cellar window vibration and/or tilt'
   trigger:
-    entity_id: binary_sensor.basement_porch_window_vibration
+    entity_id: binary_sensor.basement_porch_window_presence
     platform: state
     to: 'on'
   action:
-    service: notify.pushover
+    service: notify.mobile_app_sm_g965f
     data:
       title: 'Possible break-in detected'
       message: 'The vibration sensor in the basement has been picking up vibrations.'
-      data:
-        priority: 2
-        expire: 3600
-        retry: 30
 
-- alias: 'Send notification on tool shed door opened/closed if alarm is activated'
+- alias: 'Simple basement burglar detection'
   trigger:
-    entity_id: binary_sensor.tool_shed_door_open
+    entity_id: binary_sensor.basement_hallway_presence
     platform: state
+    to: 'on'
   condition:
     condition: template
-    value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+    value_template: "{{ states.alarm_control_panel.hemma_alarm.state != 'disarmed' }}"
   action:
-    service: notify.pushover
-    data:
-      title: 'Possible break-in detected'
-      message: 'The tool shed door was opened or closed while house was armed.'
+    - service: input_text.set_value
+      entity_id: input_text.tool_shed_door_last_state
+      data_template:
+        value: "{{ states('binary_sensor.tool_shed_door_open') }}"
+    - wait_template: "{{ not is_state('binary_sensor.tool_shed_door_open', states('input_text.tool_shed_door_last_state')) }}"
+      timeout: '00:05:00'
+      continue_on_timeout: 'false'
+    - service: notify.mobile_app_sm_g965f
+      data:
+        title: 'Possible break-in detected'
+        message: 'The basement sensors reported activity while house was armed.'
 
 - alias: 'Turn ground floor lights on in case the alarm goes off'
   trigger:
@@ -48,12 +48,12 @@
     from: 'unavailable'
   condition:
     - condition: template
-      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+      value_template: "{{ states.alarm_control_panel.hemma_alarm.state != 'disarmed' }}"
     - condition: numeric_state
       entity_id: sensor.outdoor_illuminance
-      below: 200
+      below: 300
   action:
-    - service: notify.pushover
+    - service: notify.mobile_app_sm_g965f
       data:
         title: 'Alarm went off'
         message: 'Turning the ground floor lights on in an attempt to scare the burglars away.'

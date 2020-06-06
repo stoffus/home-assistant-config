@@ -1,0 +1,25 @@
+- platform: generic
+  name: Porch Camera
+  still_image_url: http://porch-camera1/ISAPI/Streaming/channels/101/picture
+  stream_source: !secret porch_camera_stream_source
+  username: !secret hikvision_username
+  password: !secret hikvision_password
+  verify_ssl: false
+  framerate: 4
+- platform: generic
+  name: Driveway Camera
+  still_image_url: http://driveway-camera1/ISAPI/Streaming/channels/101/picture
+  stream_source: !secret driveway_camera_stream_source
+  username: !secret hikvision_username
+  password: !secret hikvision_password
+  verify_ssl: false
+  framerate: 4
+- platform: mqtt
+  name: Driveway Camera Last Person
+  topic: frigate/driveway/person/snapshot
+- platform: mqtt
+  name: Driveway Camera Last Car
+  topic: frigate/driveway/car/snapshot
+- platform: mqtt
+  name: Porch Camera Last Person
+  topic: frigate/porch/person/snapshot

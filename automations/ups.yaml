@@ -1,0 +1,32 @@
+- alias: 'Send notification when UPS goes offline'
+  trigger:
+    entity_id: binary_sensor.ups_online_status
+    platform: state
+    to: 'off'
+  action:
+    service: notify.mobile_app_sm_g965f
+    data:
+      title: 'UPS offline'
+      message: 'The UPS has gone offline. Power failure?'
+
+- alias: 'Send notification when UPS is running on batteries'
+  trigger:
+    entity_id: sensor.ups_time_on_battery
+    platform: numeric_state
+    above: 0
+  action:
+    service: notify.mobile_app_sm_g965f
+    data:
+      title: 'UPS on batteries'
+      message: 'The UPS is currently running on batteries. Power failure?'
+
+- alias: 'Send notification when UPS has returned to main power'
+  trigger:
+    entity_id: sensor.ups_time_on_battery
+    platform: numeric_state
+    below: 1
+  action:
+    service: notify.mobile_app_sm_g965f
+    data:
+      title: 'UPS on main power'
+      message: 'The UPS has returned to main power.'

@@ -232,4 +232,12 @@ person1_tracker:
   all: true
   entities:
     - device_tracker.cs_s9plus
-    - device_tracker.person1_s9plus
+    - device_tracker.sm_g965f
+
+all_covers:
+  name: All Covers
+  entities:
+    - cover.bedroom_cover
+    - cover.office_cover
+    - cover.livingroom_cover_driveway
+    - cover.livingroom_cover_porch

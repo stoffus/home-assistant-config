@@ -14,9 +14,25 @@ homeassistant:
   auth_mfa_modules:
    - type: totp
   customize: !include customize.yaml
+  whitelist_external_dirs:
+    - '/camera-files'
+  external_url: !secret external_url
 
 lovelace:
   mode: yaml
+  resources:
+    - url: /local/mini-graph-card-bundle.js
+      type: module
+    - url: /local/spotify-card.umd.js
+      type: module
+  dashboards:
+    lovelace-tech:
+      mode: yaml
+      filename: dashboard-tech.yaml
+      title: Teknik
+      icon: mdi:tools
+      show_in_sidebar: true
+      require_admin: false
 
 config:
 
@@ -27,12 +43,11 @@ frontend:
 mobile_app:
 
 http:
-  base_url: !secret base_url
   ip_ban_enabled: True
   login_attempts_threshold: 2
   use_x_forwarded_for: True
   trusted_proxies:
-    - 10.0.0.0/24
+    - 10.0.0.8
     - 127.0.0.1
 
 tts:
@@ -42,9 +57,6 @@ tts:
 ssdp:
 
 discovery:
-  ignore:
-    - samsung_tv
-    - igd
 
 recorder:
   db_url: !secret recorder_db_url
@@ -55,10 +67,10 @@ media_player:
   - platform: denonavr
     host: livingroom-receiver
     name: Livingroom Receiver
-  - platform: spotify
-    name: Spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
 
 group: !include groups.yaml
 automation: !include_dir_merge_list automations
@@ -72,15 +84,13 @@ binary_sensor: !include binary_sensors.yaml
 zone: !secret zones
 person: !secret persons
 knx: !include knx.yaml
+input_text: !include input_text.yaml
 
 notify:
   - name: Pushover
     platform: pushover
     api_key: !secret pushover_api_key
     user_key: !secret pushover_user_key
-  - name: Livingroom TV
-    platform: webostv
-    host: livingroom-tv
 
 verisure:
   username: !secret verisure_username
@@ -129,11 +139,23 @@ device_tracker:
     consider_home: 300
     new_device_defaults:
       track_new_devices: true
-      hide_if_away: false
 
 speedtestdotnet:
   server_id: 26852 # Stockholm SUNET
 
 spotcast:
-  username: !secret spotify_username
-  password: !secret spotify_password
+  sp_dc: !secret spotify_dc
+  sp_key: !secret spotify_key
+
+stream:
+
+camera: !include cameras.yaml
+
+mqtt:
+  broker: nuc1
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+apcupsd:
+
+python_script:

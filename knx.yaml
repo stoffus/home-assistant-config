@@ -1,6 +1,6 @@
 expose:
   - type: binary
-    entity_id: switch.tv_bench 
+    entity_id: switch.tv_bench
     address: '1/4/2'
   - type: binary
     entity_id: switch.kids_room_plug1

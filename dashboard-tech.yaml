@@ -1,0 +1,178 @@
+title: Teknik
+views:
+  - path: default
+    title: default
+    icon: 'mdi:network-router'
+    cards:
+      - type: entities
+        title: Router
+        show_header_toggle: false
+        entities:
+          - entity: sensor.asuswrt_download_speed
+            name: Nedladdning
+            icon: 'mdi:download'
+          - entity: sensor.asuswrt_upload_speed
+            name: Uppladdning
+            icon: 'mdi:upload'
+      - type: entities
+        title: Speedtest
+        show_header_toggle: false
+        entities:
+          - entity: sensor.speedtest_download
+            name: Nedladdning
+            icon: 'mdi:download'
+          - entity: sensor.speedtest_upload
+            name: Uppladdning
+            icon: 'mdi:upload'
+  - path: playtime
+    title: playtime
+    icon: 'mdi:play-circle'
+    cards:
+      - title: Speltid
+        type: entities
+        entities:
+          - entity: sensor.livingroom_tv_time
+            name: TV-tid
+          - entity: sensor.spotify_time
+            name: Spotify
+  - path: ups
+    title: ups
+    icon: 'mdi:power-plug'
+    #panel: true
+    cards:
+      - title: UPS
+        type: entities
+        entities:
+          - entity: binary_sensor.ups_online_status
+            name: Online
+          - entity: sensor.ups_model
+            name: Modell
+          - entity: sensor.ups_battery
+            name: Återstående batteri
+          - entity: sensor.ups_time_left
+            name: Återstående drifttid
+          - entity: sensor.ups_time_on_battery
+            name: Nuvarande tid på batteri
+          - entity: sensor.ups_total_time_on_battery
+            name: Total tid på batteri
+          - entity: sensor.ups_transfer_to_battery
+            name: Senaste övergång till batteri
+          - entity: sensor.ups_transfer_from_battery
+            name: Senaste övergång från batteri
+  - path: climate
+    title: climate
+    icon: 'mdi:gauge'
+    cards:
+      - type: custom:mini-graph-card
+        name: TEMPERATUR
+        entities:
+          - entity: sensor.kids_room_temperature
+            name: BARNRUM
+          - entity: sensor.playroom_temperature
+            name: LEKRUM
+          - entity: sensor.office_temperature
+            name: KONTOR
+          - entity: sensor.bedroom_temperature
+            name: SOVRUM
+          - entity: sensor.bathroom_temperature
+            name: BADRUM
+          - entity: sensor.outdoor_temperature
+            name: UTOMHUS
+        hours_to_show: 24
+        decimals: 1
+        points_per_hour: 0.5
+        hour24: true
+      - type: custom:mini-graph-card
+        name: BATTERINIVÅ
+        entities:
+          - entity: sensor.tool_shed_door_battery_level
+            name: VERKTYGSRUM
+          - entity: sensor.toilet_battery_level
+            name: GÄSTTOALETT
+          - entity: sensor.kids_room_battery_level
+            name: BARNRUM
+          - entity: sensor.playroom_battery_level
+            name: LEKRUM
+          - entity: sensor.office_battery_level
+            name: KONTOR
+          - entity: sensor.bedroom_battery_level
+            name: SOVRUM
+          - entity: sensor.bathroom_battery_level
+            name: BADRUM
+          - entity: sensor.basement_porch_window_battery_level
+            name: KÄLLARFÖNSTER 1
+        hours_to_show: 72
+        decimals: 0
+        points_per_hour: 0.2
+        hour24: true
+      - type: custom:mini-graph-card
+        name: LUFTFUKTIGHET
+        entities:
+          - entity: sensor.kids_room_humidity
+            name: BARNRUM
+          - entity: sensor.playroom_humidity
+            name: LEKRUM
+          - entity: sensor.office_humidity
+            name: KONTOR
+          - entity: sensor.bedroom_humidity
+            name: SOVRUM
+          - entity: sensor.bathroom_humidity
+            name: BADRUM
+        hours_to_show: 72
+        decimals: 0
+        points_per_hour: 0.5
+        hour24: true
+      - type: glance
+        title: Vattenläckage
+        entities:
+          - entity: binary_sensor.kitchen_sink_water_leak
+            name: Kök
+  - path: cameras
+    title: cameras
+    icon: 'mdi:camera'
+    cards:
+      - type: picture-entity
+        title: Senaste personen uppfart
+        entity: camera.driveway_camera_last_person
+      - type: picture-entity
+        title: Senaste personen altan
+        entity: camera.porch_camera_last_person
+      - type: picture-entity
+        title: Senaste bilen uppfart
+        entity: camera.driveway_camera_last_car
+      - type: picture-glance
+        entities:
+          - camera.porch_camera
+        camera_image: camera.porch_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.porch_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.porch_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5
+      - type: picture-glance
+        entities:
+          - camera.driveway_camera
+        camera_image: camera.driveway_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5

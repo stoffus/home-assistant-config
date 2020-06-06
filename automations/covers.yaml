@@ -1,0 +1,20 @@
+- alias: 'Block bedroom cover in the morning'
+  trigger:
+    platform: time
+    at: '04:00:00'
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.bedroom_cover_block
+
+- alias: "Unblock bedroom cover and move it to the same position as another cover on the same side"
+  trigger:
+    platform: time
+    at: '08:00:00'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.bedroom_cover_block
+    - delay: '00:00:05'
+    - service: cover.set_cover_position
+      data_template:
+        entity_id: cover.bedroom_cover
+        position: "{{ state_attr('cover.playroom_cover', 'current_position') | int }}"

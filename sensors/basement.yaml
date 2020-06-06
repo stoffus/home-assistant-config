@@ -6,3 +6,20 @@
       icon_template: 'mdi:thermometer'
       device_class: temperature
       value_template: "{{ state_attr('binary_sensor.tool_shed_door_open', 'temperature') }}"
+    basement_window_porch_vibration_strength:
+      friendly_name: 'Basement Window Porch Vibration Strength'
+      icon_template: 'mdi:vibrate'
+      value_template: "{{ state_attr('binary_sensor.basement_porch_window_vibration', 'vibrationstrength') }}"
+
+- platform: apcupsd
+  resources:
+    - bcharge
+    - linev
+    - timeleft
+    - model
+    - starttime
+    - tonbatt
+    - cumonbatt
+    - xonbatt
+    - itemp
+    - xoffbatt

@@ -1,8 +1,8 @@
 - platform: knx
-  name: Office Ceiling
+  name: Playroom Ceiling
   address: '1/1/34'
   state_address: '1/4/34'
 - platform: knx
-  name: Office Window
+  name: Playroom Window
   address: '1/1/35'
   state_address: '1/4/35'

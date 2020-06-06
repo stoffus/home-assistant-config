@@ -9,8 +9,8 @@
       entity_id: binary_sensor.workday
       state: 'on'
     - condition: time
-      after: '05:20:00'
-      before: '07:10:00'
+      after: '05:25:00'
+      before: '06:25:00'
   action:
     service: homeassistant.turn_off
     entity_id: group.ground_floor_lights

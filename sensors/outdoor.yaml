@@ -5,7 +5,7 @@
 - platform: knx
   name: Outdoor Wind Velocity
   state_address: '4/1/0'
-  type: speed_ms
+  type: wind_speed_ms
 - platform: knx
   name: Outdoor Illuminance East
   state_address: '4/3/0'

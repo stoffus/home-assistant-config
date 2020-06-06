@@ -1,3 +1,19 @@
 - platform: workday
   name: Workday
   country: SE
+- platform: mqtt
+  name: Driveway Camera Person
+  state_topic: frigate/driveway/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Porch Camera Person
+  state_topic: frigate/porch/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Driveway Camera Car
+  state_topic: frigate/driveway/car
+  device_class: motion
+  availability_topic: frigate/available
+- platform: apcupsd

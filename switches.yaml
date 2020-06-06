@@ -1,3 +1,4 @@
+- platform: tellstick
 - platform: knx
   name: Coffee Maker
   address: '5/1/0'
@@ -12,6 +13,17 @@
   name: KNX Dummy Hallway Chimney Plug
   address: '1/1/32'
 - platform: knx
-  name: KNX Dummy Office Desk Plug
+  name: KNX Dummy Playroom Desk Plug
   address: '1/1/36'
-- platform: tellstick
+- platform: knx
+  name: Bedroom Cover Block
+  address: '3/4/0'
+- platform: knx
+  name: Playroom Cover Block
+  address: '3/4/1'
+- platform: knx
+  name: Livingroom Driveway Cover Block
+  address: '3/4/2'
+- platform: knx
+  name: Livingroom Porch Cover Block
+  address: '3/4/3'

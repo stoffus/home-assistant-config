@@ -1,66 +1,73 @@
-resources:
-  - url: /local/mini-graph-card-bundle.js?v=0.8.2
-    type: module
-  - url: /local/spotify-card.umd.js?v=1.11
-    type: module
 views:
   - path: default
     title: default
-    icon: 'mdi:lightbulb'
+    icon: 'mdi:home'
     cards:
       - title: Vardagsrum
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.livingroom_windows
             name: Fönster
           - entity: light.livingroom_ceiling
             name: Tak
           - entity: switch.tv_bench
             name: TV-bänk
+          - type: section
+            label: Markiser
           - entity: cover.livingroom_driveway_cover
             name: Markis mot uppfart
           - entity: cover.livingroom_porch_cover
             name: Markis mot altan
-      - title: Kontor
+      - title: Lekrum
         type: entities
+        show_header_toggle: false
         entities:
-          - entity: light.office_window
+          - type: section
+            label: Belysning
+          - entity: light.playroom_window
             name: Fönster
-          - entity: light.office_ceiling
+          - entity: light.playroom_ceiling
             name: Tak
-          - entity: switch.office_desk
-            name: Skrivbord
           - entity: switch.office_reading_light
             name: Läslampa
-          - entity: cover.office_cover
+          - type: section
+            label: Markiser
+          - entity: cover.playroom_cover
             name: Markis
-      - type: vertical-stack
-        cards:
-          - type: entities
-            title: Kök
-            entities:
-              - entity: light.kitchen_sink
-                name: Diskho
-              - entity: light.kitchen_spotlights
-                name: Spotlights
-              - entity: light.kitchen_window
-                name: Fönster
-              - entity: switch.coffee_maker
-                name: Kaffebryggare
-                icon: 'mdi:coffee-maker'
+      - type: entities
+        title: Kök
+        show_header_toggle: false
+        entities:
+          - type: section
+            label: Belysning
+          - entity: light.kitchen_sink
+            name: Diskho
+          - entity: light.kitchen_spotlights
+            name: Spotlights
+          - entity: light.kitchen_window
+            name: Fönster
+          - type: section
+            label: Apparater
+          - entity: switch.coffee_maker
+            name: Kaffebryggare
+            icon: 'mdi:coffee-maker'
           - type: conditional
             conditions:
               - entity: switch.coffee_maker
                 state: 'on'
-            card:
-              type: entities
-              entities:
-                - entity: sensor.coffee_maker_power_consumption
-                  name: Kaffebryggare strömförbrukning
-                  icon: 'mdi:flash'
+            row:
+              entity: sensor.coffee_maker_power_consumption
+              name: Strömförbrukning
+              icon: 'mdi:gauge'
       - title: Hall
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.hallway_shoe_cabinet
             name: Skoskåp
           - entity: light.hallway_spotlights
@@ -71,7 +78,10 @@ views:
             name: Murstock
       - title: Matsal
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.dining_area_ceiling
             name: Matbord
           - entity: light.dining_area_vitrine_cabinet
@@ -80,23 +90,34 @@ views:
             name: Väggskåp
       - title: Sovrum
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.bedroom_ceiling
             name: Tak
           - entity: light.bedroom_window
             name: Fönster
           - entity: light.bedroom_nightlights
             name: Nattduksbord
+          - type: section
+            label: Markiser
           - entity: cover.bedroom_cover
             name: Markis
       - title: Badrum
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.bathroom_mirror
             name: Spegel
       - title: Barnrum
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.kids_room_ceiling
             name: Tak
           - entity: light.kids_room_window
@@ -109,7 +130,10 @@ views:
             name: Ljusslinga
       - title: Utomhus
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.outdoor_garden
             name: Trädgård
           - entity: light.outdoor_cellar_entrance
@@ -124,24 +148,60 @@ views:
             name: Uterum
       - title: Toalett
         type: entities
+        show_header_toggle: false
         entities:
+          - type: section
+            label: Belysning
           - entity: light.toilet_ceiling
             name: Tak
+          - type: section
+            label: Sensorer
           - entity: binary_sensor.toilet_presence
-            name: Upptaget
+            name: Rörelse
+          - type: section
+            label: Automationer
+          - entity: automation.turn_on_toilet_ceiling_lights_on_motion_detected
+            name: Tänd automatiskt
+          - entity: automation.turn_off_toilet_ceiling_lights_when_presence_expires
+            name: Släck automatiskt
       - title: Tvättstuga
         type: entities
+        show_header_toggle: false
         entities:
-          - entity: switch.laundry_dryer
+          - type: section
+            label: Sensorer
+          - entity: binary_sensor.laundry_room_window_1
+            name: Fönster
+      - type: entities
+        title: Kontor
+        show_header_toggle: false
+        entities:
+          - type: section
+            label: Sensorer
+          - entity: binary_sensor.office_presence
+            name: Rörelse
+          - entity: binary_sensor.office_window
+            name: Fönster
+          - type: section
+            label: Apparater
+          - entity: switch.office_heater
             name: Värmefläkt
+          - type: conditional
+            conditions:
+              - entity: switch.office_heater
+                state: 'on'
+            row:
+              entity: sensor.office_heater_power
+              name: Strömförbrukning
+              icon: 'mdi:gauge'
   - path: central
     title: central
-    icon: 'mdi:home'
+    icon: 'mdi:home-analytics'
     badges:
-      - entity: device_tracker.person1_s9plus
+      - entity: device_tracker.sm_g965f
         name: CS
         image: /local/people/cs.jpg
-      - entity: device_tracker.ss_iphone
+      - entity: device_tracker.sofhias_iphone
         name: SS
         image: /local/people/ss.png
     cards:
@@ -166,28 +226,36 @@ views:
               service_data:
                 entity_id: script.activate_evening_lights
       - title: Temperatur
-        type: glance
+        type: entities
         entities:
-          - entity: sensor.outdoor_temperature
-            name: Utomhus
+          - type: section
+            label: Bottenvåning
+          - entity: sensor.playroom_temperature
+            name: Lekrum
+          - type: section
+            label: Övervåning
           - entity: sensor.bathroom_temperature
             name: Badrum
           - entity: sensor.bedroom_temperature
             name: Sovrum
           - entity: sensor.kids_room_temperature
             name: Barnrum
+          - type: section
+            label: Källare
           - entity: sensor.office_temperature
             name: Kontor
-          - entity: sensor.toilet_temperature
-            name: Toalett
           - entity: sensor.tool_shed_temperature
             name: Verktygsrum
           - entity: sensor.laundry_room_temperature
             name: Tvättstuga
+          - type: section
+            label: 
+          - entity: sensor.outdoor_temperature
+            name: Utomhus
           - entity: sensor.attic_temperature
             name: Vind
       - title: Luftfuktighet
-        type: glance
+        type: entities
         entities:
           - entity: sensor.bathroom_humidity
             name: Badrum
@@ -197,19 +265,37 @@ views:
             name: Barnrum
           - entity: sensor.office_humidity
             name: Kontor
+          - entity: sensor.playroom_humidity
+            name: Lekrum
           - entity: sensor.laundry_room_humidity
             name: Tvättstuga
           - entity: sensor.attic_humidity
             name: Vind
       - title: 'Rörelse'
-        type: glance
+        type: entities
         entities:
-          - entity: binary_sensor.basement_porch_window_vibration
-            name: Källarfönster 1
+          - type: section
+            label: Bottenvåning
           - entity: binary_sensor.toilet_presence
             name: Toalett
+          - type: section
+            label: Källare
+          - entity: binary_sensor.tool_shed_door_open
+            name: Verktygsrum
+            icon: 'mdi:door'
+          - entity: binary_sensor.office_window
+            name: Kontorsfönster
+            icon: 'mdi:door'
+          - entity: binary_sensor.laundry_room_window_1
+            name: Tvättstugefönster
+            icon: 'mdi:door'
+          - entity: binary_sensor.basement_porch_window_presence
+            name: Förrådsfönster
+            icon: 'mdi:door'
           - entity: binary_sensor.basement_hallway_presence
-            name: Källarhall
+            name: Hall
+          - entity: binary_sensor.office_presence
+            name: Kontor
       - title: 'Ljusstyrka'
         type: glance
         entities:
@@ -217,17 +303,123 @@ views:
             name: Utomhus
           - entity: sensor.toilet_illuminance
             name: Toalett
-      - title: Speltid
-        type: glance
+  - path: covers
+    title: covers
+    icon: 'mdi:window-open'
+    cards:
+      - title: Vardagsrum
+        type: entities
+        show_header_toggle: false
         entities:
-          - entity: sensor.livingroom_tv_time
-            name: TV-tid
-          - entity: sensor.spotify_time
-            name: Spotify
+          - type: section
+            label: Mot uppfart
+          - entity: cover.livingroom_driveway_cover
+            name: Upp/Ner/Stopp
+          - entity: switch.livingroom_driveway_cover_block
+            name: Blockera
+            icon: 'mdi:block-helper'
+          - type: call-service
+            name: 'Position 30%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.livingroom_driveway_cover
+              position: 55
+          - type: call-service
+            name: 'Position 50%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.livingroom_driveway_cover
+              position: 37
+          - type: section
+            label: Mot altan
+          - entity: cover.livingroom_porch_cover
+            name: Upp/Ner/Stopp
+          - entity: switch.livingroom_porch_cover_block
+            name: Blockera
+            icon: 'mdi:block-helper'
+          - type: call-service
+            name: 'Position 30%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.livingroom_porch_cover
+              position: 55
+          - type: call-service
+            name: 'Position 50%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.livingroom_porch_cover
+              position: 36
+      - title: Lekrum
+        type: entities
+        show_header_toggle: false
+        entities:
+          - entity: cover.playroom_cover
+            name: Upp/Ner/Stopp
+          - entity: switch.playroom_cover_block
+            name: Blockera
+            icon: 'mdi:block-helper'
+          - type: call-service
+            name: 'Position 30%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.playroom_cover
+              position: 55
+          - type: call-service
+            name: 'Position 50%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.playroom_cover
+              position: 36
+      - title: Sovrum
+        type: entities
+        show_header_toggle: false
+        entities:
+          - entity: cover.bedroom_cover
+            name: Upp/Ner/Stopp
+          - entity: switch.bedroom_cover_block
+            name: Blockera
+            icon: 'mdi:block-helper'
+          - type: call-service
+            name: 'Position 30%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.bedroom_cover
+              position: 55
+          - type: call-service
+            name: 'Position 50%'
+            icon: 'mdi:window-open'
+            action_name: Aktivera
+            service: cover.set_cover_position
+            service_data:
+              entity_id: cover.bedroom_cover
+              position: 37
   - path: media
     title: media
     icon: 'mdi:play-circle'
     cards:
+      - entity: script.resume_latest_kids_stream_on_viaplay
+        type: entity-button
+        icon: 'mdi:television-box'
+        name: Återuppta Viaplay Barn
+        tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: script.resume_latest_kids_stream_on_viaplay
       - type: media-control
         entity: media_player.vardagsrum
       - type: media-control
@@ -239,84 +431,22 @@ views:
       - type: media-control
         entity: media_player.livingroom_tv
       - type: media-control
-        entity: media_player.spotify
-      - type: custom:spotify-card
-        client_id: 5ffe3916954a41abbb5ef051618d90ae
-      - type: entities
-        title: Spotify source
-        show_header_toggle: false
-        entities:
-          - entity: script.play_specific_spotify_song
-            type: entity-button
-            icon: 'mdi:music'
-            name: 'Spela TTMOE'
-            tap_action:
-              action: call-service
-              service: script.turn_on
-              service_data:
-                entity_id: script.play_specific_spotify_song
-  - path: climate
-    title: climate
-    icon: 'mdi:gauge'
-    cards:
-      - type: custom:mini-graph-card
-        name: TEMPERATUR
-        entities:
-          - entity: sensor.kids_room_temperature
-            name: BARNRUM
-          - entity: sensor.office_temperature
-            name: KONTOR
-          - entity: sensor.bedroom_temperature
-            name: SOVRUM
-          - entity: sensor.bathroom_temperature
-            name: BADRUM
-          - entity: sensor.outdoor_temperature
-            name: UTOMHUS
-        hours_to_show: 24
-        decimals: 1
-        points_per_hour: 0.5
-        hour24: true
-      - type: custom:mini-graph-card
-        name: BATTERINIVÅ
-        entities:
-          - entity: sensor.tool_shed_door_battery_level
-            name: VERKTYGSRUM
-          - entity: sensor.toilet_battery_level
-            name: GÄSTTOALETT
-          - entity: sensor.kids_room_battery_level
-            name: BARNRUM
-          - entity: sensor.office_battery_level
-            name: KONTOR
-          - entity: sensor.bedroom_battery_level
-            name: SOVRUM
-          - entity: sensor.bathroom_battery_level
-            name: BADRUM
-          - entity: sensor.basement_porch_window_vibration_battery_level
-            name: KÄLLARFÖNSTER 1
-        hours_to_show: 72
-        decimals: 0
-        points_per_hour: 0.2
-        hour24: true
-      - type: custom:mini-graph-card
-        name: LUFTFUKTIGHET
-        entities:
-          - entity: sensor.kids_room_humidity
-            name: BARNRUM
-          - entity: sensor.office_humidity
-            name: KONTOR
-          - entity: sensor.bedroom_humidity
-            name: SOVRUM
-          - entity: sensor.bathroom_humidity
-            name: BADRUM
-        hours_to_show: 72
-        decimals: 0
-        points_per_hour: 0.5
-        hour24: true
-      - type: glance
-        title: Vattenläckage
-        entities:
-          - entity: binary_sensor.kitchen_sink_water_leak
-            name: Kök
+        entity: media_player.spotify_person1
+      #- type: custom:spotify-card
+      #  client_id: 5ffe3916954a41abbb5ef051618d90ae
+      #- type: entities
+      #  title: Spotify test
+      #  show_header_toggle: false
+      #  entities:
+      #    - entity: script.play_specific_spotify_song
+      #      type: custom:hui-entity-button-card
+      #      icon: 'mdi:music'
+      #      name: 'Spela TTMOE på person1'
+      #      tap_action:
+      #        action: call-service
+      #        service: script.turn_on
+      #        service_data:
+      #          entity_id: script.play_specific_spotify_song
   - path: security
     title: security
     icon: 'mdi:shield'
@@ -325,27 +455,4 @@ views:
         entity: alarm_control_panel.hemma_alarm
         panel: true
         name: Larm
-  - path: network
-    title: network
-    icon: 'mdi:network-router'
-    cards:
-      - type: entities
-        title: Router
-        show_header_toggle: false
-        entities:
-          - entity: sensor.asuswrt_download_speed
-            name: Nedladdning
-            icon: 'mdi:download'
-          - entity: sensor.asuswrt_upload_speed
-            name: Uppladdning
-            icon: 'mdi:upload'
-      - type: entities
-        title: Speedtest
-        show_header_toggle: false
-        entities:
-          - entity: sensor.speedtest_download
-            name: Nedladdning
-            icon: 'mdi:download'
-          - entity: sensor.speedtest_upload
-            name: Uppladdning
-            icon: 'mdi:upload'
+

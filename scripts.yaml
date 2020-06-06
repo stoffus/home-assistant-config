@@ -9,3 +9,106 @@ turn_toilet_lights_on_with_conditional_delay:
     - delay: "{{ '00:00:01' if (now().hour > 19 or now().hour < 7) and is_state('group.kids_room_lights', 'off') else '00:00:00' }}"
     - service: homeassistant.turn_on
       entity_id: light.toilet_ceiling
+
+play_specific_spotify_song:
+  sequence:
+   #   - service: media_player.select_source
+   #     data:
+   #       entity_id: media_player.spotify
+   #       source: cs-mbp
+   #   - service: media_player.volume_set
+   #     data:
+   #       entity_id: media_player.spotify
+   #       volume_level: 0.5
+   - service: media_player.play_media
+     data:
+       entity_id: media_player.spotify_person1
+       media_content_id: spotify:track:3jVWEiworTdwB0ezwtVZcT
+       media_content_type: music
+
+resume_latest_kids_stream_on_viaplay:
+  sequence:
+    - service: media_player.turn_on
+      entity_id: media_player.livingroom_tv
+    - delay: '00:00:02'
+    - service: media_player.select_source
+      entity_id: media_player.livingroom_tv
+      data:
+        source: Viaplay
+    - delay: '00:00:12'
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: ENTER
+    - delay: '00:00:07'
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: BACK
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: UP
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: UP
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: UP
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: ENTER
+    - delay: '00:00:05'
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: DOWN
+    - delay: '00:00:03'
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: ENTER
+    - delay: '00:00:05'
+    - service: webostv.button
+      entity_id: media_player.livingroom_tv
+      data:
+        button: ENTER

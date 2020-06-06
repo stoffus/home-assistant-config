@@ -2,9 +2,9 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.outdoor_illuminance
-    below: 30
+    below: 200
     for:
-      minutes: 10
+      minutes: 5
   condition:
     condition: time
     after: '12:00:00'
@@ -18,9 +18,9 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.outdoor_illuminance
-    above: 30
+    above: 200
     for:
-      minutes: 10
+      minutes: 5
   action:
     service: homeassistant.turn_off
     entity_id: group.main_outdoor_lights

@@ -1,0 +1,72 @@
+- alias: Alert me if a person is detected in the driveway while armed away
+  trigger: 
+    platform: state
+    entity_id: binary_sensor.driveway_camera_person
+    from: 'off'
+    to: 'on'
+  condition:
+    - condition: template
+      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+  action:
+    - service: notify.mobile_app_sm_g965f
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected in the driveway'
+        #data:
+        #  attachment: http://nuc1:5001/driveway/person/best.jpg
+
+- alias: Alert me if a person is detected on the porch while armed away
+  trigger: 
+    platform: state
+    entity_id: binary_sensor.porch_camera_person
+    from: 'off'
+    to: 'on'
+  condition:
+    - condition: template
+      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+  action:
+    - service: notify.mobile_app_sm_g965f
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected on the porch'
+        #data:
+        #  attachment: http://nuc1:5001/porch/person/best.jpg
+
+- alias: 'Record video on motion detected on porch camera'
+  trigger:
+    entity_id: binary_sensor.porch_camera_person
+    platform: state
+    to: 'on'
+  #condition:
+  #  - condition: template
+  #    value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+  action:
+    - service: camera.record
+      data_template:
+        entity_id: camera.porch_camera
+        filename: '/camera-files/{{ trigger.entity_id }}_latest_person.mp4'
+        duration: 10
+        lookback: 30
+    - delay: 00:00:35
+    - service: notify.mobile_app_sm_g965f
+      data_template:
+        title: 'Intruder alert'
+        message: |
+          A person was detected by {{ trigger.from_state.name }}
+          Video: https://cameras.stoffus.com/archive/{{ trigger.entity_id }}_latest_person.mp4
+
+#- alias: 'Record video on motion detected on driveway camera'
+#  trigger:
+#    entity_id: binary_sensor.driveway_motion
+#    platform: state
+#    to: 'on'
+#  condition:
+#    - condition: template
+#      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+#  action:
+#    service: camera.record
+#    entity_id: camera.driveway_camera
+#    data_template:
+#      entity_id: camera.driveway_camera
+#      filename: '/data/camera.driveway_camera_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+#      lookback: 5
