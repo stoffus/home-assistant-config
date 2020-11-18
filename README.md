@@ -1,6 +1,6 @@
 # Current setup
 
-My current setup consists of a KNX system together with some NEXA/Telldus "smart" plugs and a few ZigBee devices (mostly Aqara sensors).
+My current setup consists of a KNX system together with ~~some NEXA/Telldus "smart" plugs and~~ a few ZigBee devices (mostly Aqara sensors).
 
 ## Tellstick + ConBee
 
