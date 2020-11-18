@@ -16,11 +16,11 @@
 
 - alias: 'Toggle office desk plug when KNX panel button is pressed'
   trigger:
-    - entity_id: switch.knx_dummy_office_desk_plug
+    - entity_id: switch.knx_dummy_playroom_reading_light_plug
       platform: state
   action:
     service: homeassistant.toggle
-    entity_id: switch.office_desk
+    entity_id: switch.office_reading_light
 
 - alias: 'Toggle kids room plugs when KNX panel button is pressed'
   trigger:

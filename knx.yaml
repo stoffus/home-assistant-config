@@ -1,13 +1,10 @@
-expose:
-  - type: binary
-    entity_id: switch.tv_bench
-    address: '1/4/2'
-  - type: binary
-    entity_id: switch.kids_room_plug1
-    address: '1/4/46'
-  - type: binary
-    entity_id: switch.office_desk
-    address: '1/4/36'
-  - type: binary
-    entity_id: switch.hallway_chimney
-    address: '1/4/32'
+tunneling:
+  host: '10.0.0.20'
+  port: 3671
+
+expose: !include knx/expose.yaml
+light: !include_dir_merge_list knx/lights
+switch: !include knx/switches.yaml
+sensor: !include knx/sensors.yaml
+cover: !include knx/covers.yaml
+scene: !include knx/scenes.yaml

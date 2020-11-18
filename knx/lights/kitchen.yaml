@@ -1,14 +1,14 @@
-- platform: knx
-  name: Kitchen Sink
+- name: Kitchen Sink
+  #platform: knx
   address: '1/1/6'
   state_address: '1/4/6'
-- platform: knx
-  name: Kitchen Spotlights
+- name: Kitchen Spotlights
+  #platform: knx
   address: '1/1/8'
   state_address: '1/4/8'
   brightness_address: '1/2/6'
   brightness_state_address: '1/3/5'
-- platform: knx
-  name: Kitchen Window
+- name: Kitchen Window
+  #platform: knx
   address: '1/1/9'
   state_address: '1/4/9'

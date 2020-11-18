@@ -7,23 +7,20 @@ homeassistant:
   elevation: !secret elevation_home
   temperature_unit: C
   auth_providers:
-   - type: homeassistant
-   - type: trusted_networks
-     trusted_networks:
-       - 10.0.0.0/24
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 10.0.0.0/24
   auth_mfa_modules:
-   - type: totp
+    - type: totp
   customize: !include customize.yaml
-  whitelist_external_dirs:
-    - '/camera-files'
   external_url: !secret external_url
+  internal_url: !secret internal_url
 
 lovelace:
   mode: yaml
   resources:
     - url: /local/mini-graph-card-bundle.js
-      type: module
-    - url: /local/spotify-card.umd.js
       type: module
   dashboards:
     lovelace-tech:
@@ -43,8 +40,6 @@ frontend:
 mobile_app:
 
 http:
-  ip_ban_enabled: True
-  login_attempts_threshold: 2
   use_x_forwarded_for: True
   trusted_proxies:
     - 10.0.0.8
@@ -60,13 +55,9 @@ discovery:
 
 recorder:
   db_url: !secret recorder_db_url
+  purge_keep_days: 90
 
 history:
-
-media_player:
-  - platform: denonavr
-    host: livingroom-receiver
-    name: Livingroom Receiver
 
 spotify:
   client_id: !secret spotify_client_id
@@ -76,21 +67,26 @@ group: !include groups.yaml
 automation: !include_dir_merge_list automations
 script: !include scripts.yaml
 scene: !include scenes.yaml
-light: !include_dir_merge_list lights
 switch: !include switches.yaml
-cover: !include covers.yaml
 sensor: !include_dir_merge_list sensors
 binary_sensor: !include binary_sensors.yaml
 zone: !secret zones
 person: !secret persons
 knx: !include knx.yaml
 input_text: !include input_text.yaml
+timer: !include timers.yaml
+counter: !include counters.yaml
 
 notify:
   - name: Pushover
     platform: pushover
     api_key: !secret pushover_api_key
     user_key: !secret pushover_user_key
+  - name: All Apps
+    platform: group
+    services:
+      - service: mobile_app_sm_g970f
+      - service: mobile_app_sofhias_iphone
 
 verisure:
   username: !secret verisure_username
@@ -135,13 +131,15 @@ device_tracker:
     username: admin
     ssh_key: /config/id_rsa
     protocol: ssh
-    interval_seconds: 12
-    consider_home: 300
+    interval_seconds: 10
+    consider_home: 30
     new_device_defaults:
       track_new_devices: true
-
-speedtestdotnet:
-  server_id: 26852 # Stockholm SUNET
+  - platform: mqtt
+    devices:
+      person1_smart_band_basement: 'monitor/basement/DD:69:66:E7:0F:DD/device_tracker'
+      person1_smart_band_ground_floor: 'monitor/ground_floor/DD:69:66:E7:0F:DD/device_tracker'
+    source_type: bluetooth_le
 
 spotcast:
   sp_dc: !secret spotify_dc
@@ -159,3 +157,7 @@ mqtt:
 apcupsd:
 
 python_script:
+
+updater:
+
+cloud:

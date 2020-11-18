@@ -3,6 +3,22 @@ views:
     title: default
     icon: 'mdi:home'
     cards:
+      - title: Larm
+        type: conditional
+        conditions:
+          - entity: alarm_control_panel.hemma_alarm
+            state: armed_home
+        card:
+          type: button
+          name: Larma av
+          icon: 'mdi:home-lock-open'
+          icon_height: '50px'
+          tap_action:
+            action: call-service
+            service: alarm_control_panel.alarm_disarm
+            service_data:
+              entity_id: alarm_control_panel.hemma_alarm
+              code: !secret verisure_alarm_code_person1
       - title: Vardagsrum
         type: entities
         show_header_toggle: false
@@ -154,6 +170,14 @@ views:
             label: Belysning
           - entity: light.toilet_ceiling
             name: Tak
+          - type: conditional
+            conditions:
+              - entity: timer.toilet_presence
+                state_not: 'idle'
+            row:
+              icon: 'mdi:gauge'
+              entity: timer.toilet_presence
+              name: Släcks automatiskt om
           - type: section
             label: Sensorer
           - entity: binary_sensor.toilet_presence
@@ -185,7 +209,7 @@ views:
           - type: section
             label: Apparater
           - entity: switch.office_heater
-            name: Värmefläkt
+            name: Element
           - type: conditional
             conditions:
               - entity: switch.office_heater
@@ -198,13 +222,59 @@ views:
     title: central
     icon: 'mdi:home-analytics'
     badges:
-      - entity: device_tracker.sm_g965f
-        name: CS
-        image: /local/people/cs.jpg
-      - entity: device_tracker.sofhias_iphone
-        name: SS
-        image: /local/people/ss.png
+      - entity: person.person1
+        name: !secret person1_name
+      - entity: person.person2
+        name: !secret person2_name
+      #- entity: device_tracker.person1_smart_band_basement
+      #  name: Person1 Smart Band Basement
+      #- entity: device_tracker.person1_smart_band_ground_floor
+      #  name: Person1 Smart Band Ground Floor
+      #- entity: binary_sensor.porch_deck_person
+      #  name: Porch Deck Person
+      #- entity: binary_sensor.porch_room_person
+      #  name: Porch Room Person
+      #- entity: binary_sensor.front_door_steps_person
+      #  name: Front Door Steps Person
+      #- entity: binary_sensor.front_walkway_person
+      #  name: Front Walkway Person
+      #- entity: binary_sensor.driveway_parking_area_car
+      #  name: Driveway Parking Area Car
+      #- entity: binary_sensor.basement_entrance_person
+      #  name: Basement Entrance Person
     cards:
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.front_door_steps_person
+            state: 'on'
+        card:
+          type: picture-entity
+          title: Person vid entré
+          entity: camera.front_door_camera_last_person
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.porch_camera_person
+            state: 'on'
+        card:
+          type: picture-entity
+          title: Person på altanen
+          entity: camera.porch_camera_last_person
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.driveway_camera_person
+            state: 'on'
+        card:
+          type: picture-entity
+          title: Person på uppfart
+          entity: camera.driveway_camera_last_person
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.driveway_camera_car
+            state: 'on'
+        card:
+          type: picture-entity
+          title: Bil på uppfart
+          entity: camera.driveway_camera_last_car
       - type: horizontal-stack
         cards:
           - entity: group.indoor_lights
@@ -275,23 +345,35 @@ views:
         type: entities
         entities:
           - type: section
+            label: Utomhus
+          - entity: binary_sensor.porch_camera_person
+            name: Altan (Person)
+          - entity: binary_sensor.driveway_camera_person
+            name: Uppfart (Person)
+          - entity: binary_sensor.driveway_camera_car
+            name: Uppfart (Bil)
+          - type: section
             label: Bottenvåning
           - entity: binary_sensor.toilet_presence
             name: Toalett
           - type: section
+            label: Övervåning
+          - entity: binary_sensor.kids_room_motion
+            name: Barnrum
+          - type: section
             label: Källare
           - entity: binary_sensor.tool_shed_door_open
             name: Verktygsrum
-            icon: 'mdi:door'
           - entity: binary_sensor.office_window
             name: Kontorsfönster
-            icon: 'mdi:door'
           - entity: binary_sensor.laundry_room_window_1
-            name: Tvättstugefönster
-            icon: 'mdi:door'
-          - entity: binary_sensor.basement_porch_window_presence
+            name: Tvättstugefönster 1
+          - entity: binary_sensor.laundry_room_window_2
+            name: Tvättstugefönster 2
+          - entity: binary_sensor.laundry_room_window_2_vibration
+            name: Tvättstugefönster 2 Vibration
+          - entity: binary_sensor.basement_storage_window_vibration
             name: Förrådsfönster
-            icon: 'mdi:door'
           - entity: binary_sensor.basement_hallway_presence
             name: Hall
           - entity: binary_sensor.office_presence
@@ -411,15 +493,15 @@ views:
     title: media
     icon: 'mdi:play-circle'
     cards:
-      - entity: script.resume_latest_kids_stream_on_viaplay
-        type: entity-button
-        icon: 'mdi:television-box'
-        name: Återuppta Viaplay Barn
-        tap_action:
-          action: call-service
-          service: homeassistant.turn_on
-          service_data:
-            entity_id: script.resume_latest_kids_stream_on_viaplay
+      #- entity: script.resume_latest_kids_stream_on_viaplay
+      #- type: entity-button
+      #- icon: 'mdi:television-box'
+      #- name: Återuppta Viaplay Barn
+      #- tap_action:
+      #-   action: call-service
+      #-   service: homeassistant.turn_on
+      #-   service_data:
+      #-     entity_id: script.resume_latest_kids_stream_on_viaplay
       - type: media-control
         entity: media_player.vardagsrum
       - type: media-control
@@ -431,7 +513,7 @@ views:
       - type: media-control
         entity: media_player.livingroom_tv
       - type: media-control
-        entity: media_player.spotify_person1
+        entity: media_player.spotify_stoffus1
       #- type: custom:spotify-card
       #  client_id: 5ffe3916954a41abbb5ef051618d90ae
       #- type: entities
@@ -447,6 +529,85 @@ views:
       #        service: script.turn_on
       #        service_data:
       #          entity_id: script.play_specific_spotify_song
+  - path: cameras
+    title: cameras
+    icon: 'mdi:cctv'
+    cards:
+      - type: picture-entity
+        title: Senaste personen uppfart
+        entity: camera.driveway_camera_last_person
+      - type: picture-entity
+        title: Senaste personen altan
+        entity: camera.porch_camera_last_person
+      - type: picture-entity
+        title: Senaste bilen uppfart
+        entity: camera.driveway_camera_last_car
+      - type: picture-entity
+        title: Senaste personen entré
+        entity: camera.front_door_camera_last_person
+      - type: picture-entity
+        title: Senaste katten altan
+        entity: camera.porch_camera_last_cat
+      - type: picture-entity
+        title: Senaste katten entré
+        entity: camera.front_door_camera_last_cat
+      - type: picture-entity
+        title: Senaste katten uppfart
+        entity: camera.driveway_camera_last_cat
+      - type: picture-glance
+        entities:
+          - camera.porch_camera
+        camera_image: camera.porch_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.porch_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.porch_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5
+      - type: picture-glance
+        entities:
+          - camera.driveway_camera
+        camera_image: camera.driveway_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5
+      - type: picture-glance
+        entities:
+          - camera.front_door_camera
+        camera_image: camera.front_door_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.front_door_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5
   - path: security
     title: security
     icon: 'mdi:shield'
@@ -455,4 +616,3 @@ views:
         entity: alarm_control_panel.hemma_alarm
         panel: true
         name: Larm
-

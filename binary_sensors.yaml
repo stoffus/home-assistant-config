@@ -12,8 +12,51 @@
   device_class: motion
   availability_topic: frigate/available
 - platform: mqtt
+  name: Front Door Camera Person
+  state_topic: frigate/front_door/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
   name: Driveway Camera Car
   state_topic: frigate/driveway/car
   device_class: motion
   availability_topic: frigate/available
+- platform: mqtt
+  name: Driveway Parking Area Car
+  state_topic: frigate/driveway_parking_area/car
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Basement Entrance Person
+  state_topic: frigate/basement_entrance/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Front Door Steps Person
+  state_topic: frigate/front_steps/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Front Walkway Person
+  state_topic: frigate/front_walkway/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Porch Deck Person
+  state_topic: frigate/porch_deck/person
+  device_class: motion
+  availability_topic: frigate/available
+- platform: mqtt
+  name: Porch Room Person
+  state_topic: frigate/porch_room/person
+  device_class: motion
+  availability_topic: frigate/available
 - platform: apcupsd
+- platform: template
+  sensors:
+    people_home:
+     friendly_name: 'People Home'
+     device_class: presence
+     value_template: >
+       {{ is_state('person.person1', 'home') or
+          is_state('person.person2', 'home') }}

@@ -1,0 +1,6 @@
+showers_this_week:
+  name: Number of showers this week
+  icon: 'mdi:shower-head'
+baths_this_week:
+  name: Number of baths this week
+  icon: 'mdi:shower'

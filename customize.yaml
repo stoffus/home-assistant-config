@@ -1,2 +1,4 @@
-binary_sensor.basement_porch_window_vibration:
-  device_class: opening
+person.person1:
+  entity_picture: '/local/people/cs.jpg'
+person.person2:
+  entity_picture: '/local/people/ss.png'

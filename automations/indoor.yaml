@@ -4,17 +4,29 @@
     platform: state
     to: 'on'
   action:
-    service: homeassistant.turn_on
-    entity_id: script.turn_toilet_lights_on_with_conditional_delay
+    - service: homeassistant.turn_on
+      entity_id: light.toilet_ceiling
+    - service: timer.cancel
+      entity_id: timer.toilet_presence
 
 - alias: 'Turn off toilet ceiling lights when presence expires'
+  trigger:
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.toilet_presence
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.toilet_ceiling
+
+- alias: 'Start toilet timer when presence expires'
   trigger:
     entity_id: binary_sensor.toilet_presence
     platform: state
     to: 'off'
   action:
-    service: homeassistant.turn_off
-    entity_id: light.toilet_ceiling
+    service: timer.start
+    entity_id: timer.toilet_presence
 
 - alias: 'Reset toilet lights automation 20 min after it has been turned off'
   trigger:
@@ -39,6 +51,15 @@
     service: homeassistant.turn_off
     entity_id: light.toilet_ceiling
 
+- alias: 'Reset the toilet timer if the lights are turned of manually'
+  trigger:
+    entity_id: light.toilet_ceiling
+    platform: state
+    to: 'off'
+  action:
+    service: timer.cancel
+    entity_id: timer.toilet_presence
+
 - alias: 'Turn on evening lights at dusk'
   trigger:
     platform: numeric_state
@@ -56,47 +77,18 @@
 
 - alias: 'Send notifications on low battery for sensors'
   trigger:
-    platform: numeric_state
-    entity_id:
-      - sensor.basement_porch_window_vibration_battery_level
-      - sensor.basement_hallway_battery_level
-      - sensor.bathroom_battery_level
-      - sensor.bedroom_battery_level
-      - sensor.kids_room_battery_level
-      - sensor.kitchen_sink_water_leak_battery_level
-      - sensor.office_battery_level
-      - sensor.tool_shed_door_battery_level
-      - sensor.toilet_battery_level
-      - sensor.attic_battery_level
-      - sensor.laundry_room_battery_level
-    below: 20
+    platform: event
+    event_type: state_changed
+    event_data:
+      domain: sensor
+  condition:
+    condition: template
+    value_template: "{{ trigger.event.data.entity_id.endswith('battery_level') and trigger.event.data.old_state }}"
   action:
-    service: notify.mobile_app_sm_g965f
+    service: notify.mobile_app_sm_g970f
     data_template:
       title: 'Batteries are running low'
-      message: '{{ trigger.to_state.attributes.friendly_name }} only has {{ trigger.to_state.state }}% of juice left.'
-
-- alias: 'Turn off indoor lights when alarm is armed home'
-  trigger:
-    platform: state
-    entity_id: alarm_control_panel.hemma_alarm
-    to: 'armed_home'
-  action:
-    service: homeassistant.turn_off
-    entity_id: group.indoor_lights
-
-- alias: "Turn off indoor lights when alarm is armed away unless it's dark outside"
-  trigger:
-    platform: state
-    entity_id: alarm_control_panel.hemma_alarm
-    to: 'armed_away'
-  condition:
-    condition: numeric_state
-    entity_id: sensor.outdoor_illuminance
-    above: 500
-  action:
-    service: homeassistant.turn_off
-    entity_id: group.indoor_lights
+      message: 'Sensor {{ trigger.event.data.old_state.name }} only has {{ trigger.event.data.new_state.state }}% of juice left.'
 
 - alias: 'Activate morning scene for workday mornings'
   trigger:
@@ -116,13 +108,43 @@
     - service: homeassistant.turn_on
       entity_id: scene.workday_morning
 
-- alias: 'Turn on dimmed bedroom lights'
+- alias: 'Increment shower counter'
   trigger:
-    platform: event
-    event_type: deconz_event
-    event_data:
-      id: bedroom_switch
-      event: 1002
+    platform: numeric_state
+    entity_id: sensor.bathroom_humidity
+    above: 70
+    for:
+      minutes: 10
   action:
-    service: homeassistant.toggle
-    entity_id: light.bedroom_window
+    service: counter.increment
+    data:
+      entity_id: counter.showers_this_week
+
+- alias: 'Increment bath counter'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.bathroom_humidity
+    above: 60
+    below: 70
+    for:
+      minutes: 5
+  action:
+    service: counter.increment
+    data:
+      entity_id: counter.baths_this_week
+
+- alias: 'Reset showers/baths counters weekly'
+  trigger:
+    platform: time
+    at: '00:00:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    - service: counter.reset
+      data:
+        entity_id: counter.showers_this_week
+    - service: counter.reset
+      data:
+        entity_id: counter.baths_this_week

@@ -4,7 +4,7 @@
     platform: state
     to: 'off'
   action:
-    service: notify.mobile_app_sm_g965f
+    service: notify.mobile_app_sm_g970f
     data:
       title: 'UPS offline'
       message: 'The UPS has gone offline. Power failure?'
@@ -15,7 +15,7 @@
     platform: numeric_state
     above: 0
   action:
-    service: notify.mobile_app_sm_g965f
+    service: notify.mobile_app_sm_g970f
     data:
       title: 'UPS on batteries'
       message: 'The UPS is currently running on batteries. Power failure?'
@@ -26,7 +26,7 @@
     platform: numeric_state
     below: 1
   action:
-    service: notify.mobile_app_sm_g965f
+    service: notify.mobile_app_sm_g970f
     data:
       title: 'UPS on main power'
       message: 'The UPS has returned to main power.'

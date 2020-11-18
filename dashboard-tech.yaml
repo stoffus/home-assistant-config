@@ -2,7 +2,7 @@ title: Teknik
 views:
   - path: default
     title: default
-    icon: 'mdi:network-router'
+    icon: 'mdi:router-network'
     cards:
       - type: entities
         title: Router
@@ -24,6 +24,22 @@ views:
           - entity: sensor.speedtest_upload
             name: Uppladdning
             icon: 'mdi:upload'
+          - entity: sensor.speedtest_ping
+            name: Latens
+      - type: gauge
+        entity: sensor.speedtest_download
+        max: 12
+        severity:
+          green: 10
+          yellow: 8
+          red: 4
+      - type: gauge
+        entity: sensor.speedtest_upload
+        max: 2
+        severity:
+          green: 1.8
+          yellow: 1.2
+          red: 0
   - path: playtime
     title: playtime
     icon: 'mdi:play-circle'
@@ -35,10 +51,16 @@ views:
             name: TV-tid
           - entity: sensor.spotify_time
             name: Spotify
+      - title: Statistik
+        type: entities
+        entities:
+          - entity: counter.showers_this_week
+            name: Antal duschar denna vecka
+          - entity: counter.baths_this_week
+            name: Antal bad denna vecka
   - path: ups
     title: ups
     icon: 'mdi:power-plug'
-    #panel: true
     cards:
       - title: UPS
         type: entities
@@ -76,12 +98,11 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_temperature
             name: BADRUM
-          - entity: sensor.outdoor_temperature
-            name: UTOMHUS
         hours_to_show: 24
         decimals: 1
         points_per_hour: 0.5
         hour24: true
+        line_width: 2
       - type: custom:mini-graph-card
         name: BATTERINIVÅ
         entities:
@@ -105,6 +126,7 @@ views:
         decimals: 0
         points_per_hour: 0.2
         hour24: true
+        line_width: 2
       - type: custom:mini-graph-card
         name: LUFTFUKTIGHET
         entities:
@@ -122,6 +144,19 @@ views:
         decimals: 0
         points_per_hour: 0.5
         hour24: true
+        line_width: 2
+      - type: custom:mini-graph-card
+        name: UTOMHUS
+        entities:
+          - entity: sensor.outdoor_wind_velocity
+            name: VINDHASTIGHET
+          - entity: sensor.outdoor_temperature
+            name: TEMPERATUR
+        hours_to_show: 24
+        decimals: 1
+        points_per_hour: 1
+        hour24: true
+        line_width: 2
       - type: glance
         title: Vattenläckage
         entities:
@@ -129,7 +164,7 @@ views:
             name: Kök
   - path: cameras
     title: cameras
-    icon: 'mdi:camera'
+    icon: 'mdi:cctv'
     cards:
       - type: picture-entity
         title: Senaste personen uppfart
@@ -140,6 +175,18 @@ views:
       - type: picture-entity
         title: Senaste bilen uppfart
         entity: camera.driveway_camera_last_car
+      - type: picture-entity
+        title: Senaste personen entré
+        entity: camera.front_door_camera_last_person
+      - type: picture-entity
+        title: Senaste katten altan
+        entity: camera.porch_camera_last_cat
+      - type: picture-entity
+        title: Senaste katten entré
+        entity: camera.front_door_camera_last_cat
+      - type: picture-entity
+        title: Senaste katten uppfart
+        entity: camera.driveway_camera_last_cat
       - type: picture-glance
         entities:
           - camera.porch_camera
@@ -174,5 +221,23 @@ views:
           service: camera.record
           service_data:
             entity_id: camera.driveway_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
+            lookback: 5
+      - type: picture-glance
+        entities:
+          - camera.front_door_camera
+        camera_image: camera.front_door_camera
+        camera_view: live
+        double_tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.front_door_camera
+            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
+        hold_action:
+          action: call-service
+          service: camera.record
+          service_data:
+            entity_id: camera.front_door_camera
             filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
             lookback: 5

@@ -12,7 +12,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: switch.laundry_dryer
-    - service: notify.mobile_app_sm_g965f
+    - service: notify.mobile_app_sm_g970f
       data:
         title: 'Laundry dryer started'
         message: "It seems you've just hung up some laundry? I've started the dryer for you."
@@ -31,7 +31,7 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.laundry_dryer
-    - service: notify.mobile_app_sm_g965f
+    - service: notify.mobile_app_sm_g970f
       data:
         title: 'Laundry seems dry'
         message: 'The laundry seems to be dry, come pick it up.'

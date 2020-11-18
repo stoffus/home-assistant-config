@@ -1,72 +1,185 @@
-- alias: Alert me if a person is detected in the driveway while armed away
-  trigger: 
+- alias: Send a camera snapshot if a person is detected in the driveway while armed away
+  mode: single # to stop this automation from spamming
+  trigger:
     platform: state
-    entity_id: binary_sensor.driveway_camera_person
+    entity_id: binary_sensor.driveway_parking_area_person
     from: 'off'
     to: 'on'
   condition:
-    - condition: template
-      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+    condition: not
+    conditions:
+      - condition: state
+        entity_id: alarm_control_panel.hemma_alarm
+        state: 'disarmed'
   action:
-    - service: notify.mobile_app_sm_g965f
+    - service: notify.mobile_app_sm_g970f
       data:
         title: 'Intruder alert'
         message: 'A person was detected in the driveway'
-        #data:
-        #  attachment: http://nuc1:5001/driveway/person/best.jpg
+        data:
+          image: !secret driveway_camera_snapshot_person_url
+    - service: notify.mobile_app_sofhias_iphone
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected in the driveway'
+        data:
+          attachment:
+            url: !secret driveway_camera_snapshot_person_url
+            content-type: jpeg
+    - delay:
+        seconds: 30
 
-- alias: Alert me if a person is detected on the porch while armed away
-  trigger: 
+- alias: Send a camera snapshot if a person is detected on the porch while armed away
+  mode: single # to stop this automation from spamming
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.porch_room_person
+      - binary_sensor.porch_deck_person
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: not
+    conditions:
+      - condition: state
+        entity_id: alarm_control_panel.hemma_alarm
+        state: 'disarmed'
+  action:
+    - service: notify.mobile_app_sm_g970f
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected on the porch'
+        data:
+          image: !secret porch_camera_snapshot_person_url
+    - service: notify.mobile_app_sofhias_iphone
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected on the porch'
+        data:
+          attachment:
+            url: !secret porch_camera_snapshot_person_url
+            content-type: jpeg
+    - delay:
+        seconds: 30
+
+- alias: Send a camera snapshot if a person is detected on the front door while armed away
+  mode: single # to stop this automation from spamming
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.front_door_steps_person
+      - binary_sensor.front_walkway_person
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: not
+    conditions:
+      - condition: state
+        entity_id: alarm_control_panel.hemma_alarm
+        state: 'disarmed'
+  action:
+    - service: notify.mobile_app_sm_g970f
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected on the front door'
+        data:
+          image: !secret front_door_camera_snapshot_person_url
+    - service: notify.mobile_app_sofhias_iphone
+      data:
+        title: 'Intruder alert'
+        message: 'A person was detected on the front door'
+        data:
+          attachment:
+            url: !secret front_door_camera_snapshot_person_url
+            content-type: jpeg
+    - delay:
+        seconds: 30
+
+- alias: Notify if a car is detected in the driveway while home
+  trigger:
+    platform: state
+    entity_id: binary_sensor.driveway_parking_area_car
+    from: 'off'
+    to: 'on'
+  condition:
+    - condition: state
+      entity_id: alarm_control_panel.hemma_alarm
+      state: 'disarmed'
+    - condition: time
+      after: '08:00:00'
+      before: '19:00:00'
+    - condition: state
+      entity_id: binary_sensor.people_home
+      state: 'on'
+  action:
+    - service: notify.alexa_media_kitchen
+      data:
+        message: 'A car was detected in the driveway'
+        data:
+          type: tts
+    - service: notify.livingroom_tv
+      data:
+        message: 'A car was detected in the driveway'
+
+- alias: Notify if a person is detected on the porch while home
+  trigger:
     platform: state
     entity_id: binary_sensor.porch_camera_person
     from: 'off'
     to: 'on'
   condition:
-    - condition: template
-      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+    condition: state
+    entity_id: alarm_control_panel.hemma_alarm
+    state: 'disarmed'
   action:
-    - service: notify.mobile_app_sm_g965f
+    #  data:
+    #    message: 'You have a visitor on the porch'
+    #    data:
+    #      type: tts
+    - service: notify.livingroom_tv
       data:
-        title: 'Intruder alert'
-        message: 'A person was detected on the porch'
-        #data:
-        #  attachment: http://nuc1:5001/porch/person/best.jpg
+        message: 'You have a visitor on the porch'
 
-- alias: 'Record video on motion detected on porch camera'
+- alias: Check for low FPS on cameras
   trigger:
-    entity_id: binary_sensor.porch_camera_person
-    platform: state
-    to: 'on'
-  #condition:
-  #  - condition: template
-  #    value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
+    platform: numeric_state
+    entity_id:
+      - sensor.porch_fps
+      - sensor.driveway_fps
+      - sensor.front_door_fps
+    below: 5
+    for:
+      minutes: 5
   action:
-    - service: camera.record
-      data_template:
-        entity_id: camera.porch_camera
-        filename: '/camera-files/{{ trigger.entity_id }}_latest_person.mp4'
-        duration: 10
-        lookback: 30
-    - delay: 00:00:35
-    - service: notify.mobile_app_sm_g965f
-      data_template:
-        title: 'Intruder alert'
-        message: |
-          A person was detected by {{ trigger.from_state.name }}
-          Video: https://cameras.stoffus.com/archive/{{ trigger.entity_id }}_latest_person.mp4
+    service: notify.mobile_app_sm_g970f
+    data_template:
+      title: 'FPS is low on {{ trigger.to_state.object_id }} camera'
+      message: 'If the problem persists, restart the frigate container. Current FPS is {{ trigger.to_state.state }}.'
 
-#- alias: 'Record video on motion detected on driveway camera'
-#  trigger:
-#    entity_id: binary_sensor.driveway_motion
-#    platform: state
-#    to: 'on'
-#  condition:
-#    - condition: template
-#      value_template: '{{ states.alarm_control_panel.hemma_alarm.state != "disarmed" }}'
-#  action:
-#    service: camera.record
-#    entity_id: camera.driveway_camera
-#    data_template:
-#      entity_id: camera.driveway_camera
-#      filename: '/data/camera.driveway_camera_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-#      lookback: 5
+- alias: Check for high inference on Coral
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.frigate_coral_inference
+    above: 10
+    for:
+      minutes: 10
+  action:
+    service: notify.mobile_app_sm_g970f
+    data_template:
+      title: 'Inference is high on Coral'
+      message: 'If the problem persists, restart the frigate container. Current inference is {{ trigger.to_state.state }}.'
+
+- alias: 'Check for tamper detection'
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.driveway_camera_mytamperdetectorrule_tamper_detection
+      - binary_sensor.front_door_camera_mytamperdetectorrule_tamper_detection
+      - binary_sensor.porch_camera_mytamperdetectorrule_tamper_detection
+    from: 'off'
+    to: 'on'
+  action:
+    service: notify.mobile_app_sm_g970f
+    data_template:
+      title: 'Tamper detection triggered'
+      message: "{{ state_attr(trigger.event.data.entity_id, 'friendly_name') }} triggered an alarm."

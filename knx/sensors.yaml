@@ -1,0 +1,21 @@
+- name: Coffee Maker Power Consumption
+  state_address: '5/5/6'
+  type: current
+- name: Outdoor Temperature
+  state_address: '4/0/0'
+  type: temperature
+- name: Outdoor Wind Velocity
+  state_address: '4/1/0'
+  type: wind_speed_ms
+- name: Outdoor Illuminance East
+  state_address: '4/3/0'
+  type: illuminance
+- name: Outdoor Illuminance South
+  state_address: '4/3/1'
+  type: illuminance
+- name: Outdoor Illuminance West
+  state_address: '4/3/2'
+  type: illuminance
+- name: Outdoor Illuminance
+  state_address: '4/3/3'
+  type: illuminance

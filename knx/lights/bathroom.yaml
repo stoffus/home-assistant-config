@@ -1,4 +1,4 @@
-- platform: knx
-  name: Bathroom Mirror
+- name: Bathroom Mirror
+  #platform: knx
   address: '1/1/50'
   state_address: '1/4/50'

@@ -5,7 +5,7 @@
   username: !secret hikvision_username
   password: !secret hikvision_password
   verify_ssl: false
-  framerate: 4
+  framerate: 20
 - platform: generic
   name: Driveway Camera
   still_image_url: http://driveway-camera1/ISAPI/Streaming/channels/101/picture
@@ -13,7 +13,15 @@
   username: !secret hikvision_username
   password: !secret hikvision_password
   verify_ssl: false
-  framerate: 4
+  framerate: 20
+- platform: generic
+  name: Front Door Camera
+  still_image_url: http://front-door-camera1/ISAPI/Streaming/channels/101/picture
+  stream_source: !secret front_door_camera_stream_source
+  username: !secret hikvision_username
+  password: !secret hikvision_password
+  verify_ssl: false
+  framerate: 20
 - platform: mqtt
   name: Driveway Camera Last Person
   topic: frigate/driveway/person/snapshot
@@ -21,5 +29,17 @@
   name: Driveway Camera Last Car
   topic: frigate/driveway/car/snapshot
 - platform: mqtt
+  name: Driveway Camera Last Cat
+  topic: frigate/driveway/cat/snapshot
+- platform: mqtt
   name: Porch Camera Last Person
   topic: frigate/porch/person/snapshot
+- platform: mqtt
+  name: Porch Camera Last Cat
+  topic: frigate/porch/cat/snapshot
+- platform: mqtt
+  name: Front Door Camera Last Person
+  topic: frigate/front_door/person/snapshot
+- platform: mqtt
+  name: Front Door Camera Last Cat
+  topic: frigate/front_door/cat/snapshot

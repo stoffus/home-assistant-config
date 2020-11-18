@@ -1,9 +1,8 @@
 - alias: 'Turn off all ground floor lights when Person 1 is leaving home in the morning'
   trigger:
     platform: state
-    entity_id: group.person1_tracker
+    entity_id: person.person1
     from: 'home'
-    to: 'not_home'
   condition:
     - condition: state
       entity_id: binary_sensor.workday
@@ -14,3 +13,38 @@
   action:
     service: homeassistant.turn_off
     entity_id: group.ground_floor_lights
+
+- alias: 'Arm away when everyone is away from home for more than 5 minutes'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.people_home
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 5
+  condition:
+    - condition: state
+      entity_id: alarm_control_panel.hemma_alarm
+      state: 'disarmed'
+    - condition: time
+      after: '08:00:00'
+      before: '23:00:00'
+  action:
+    - service: notify.all_apps
+      data:
+        title: 'Arming home'
+        message: "It seems you forgot to arm the alarm system when you left home. I'll do it for you in 2 minutes."
+    - service: timer.start
+      entity_id: timer.alarm_automatic_arm
+
+- alias: 'Arm away when timer finishes'
+  trigger:
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.alarm_automatic_arm
+  action:
+    service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.hemma_alarm
+    data:
+      code: !secret verisure_alarm_code_person1

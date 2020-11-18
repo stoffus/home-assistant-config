@@ -1,12 +1,12 @@
-- platform: knx
-  name: Bedroom Ceiling
+- name: Bedroom Ceiling
+  #platform: knx
   address: '1/1/40'
   state_address: '1/4/40'
-- platform: knx
-  name: Bedroom Window
+- name: Bedroom Window
+  #platform: knx
   address: '1/1/41'
   state_address: '1/4/41'
-- platform: knx
-  name: Bedroom Nightlights
+- name: Bedroom Nightlights
+  #platform: knx
   address: '1/1/42'
   state_address: '1/4/42'

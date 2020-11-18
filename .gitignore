@@ -14,3 +14,4 @@ tts
 __pycache__
 repos
 www/people
+automations/alarms.yml

@@ -1,8 +1,8 @@
-- platform: knx
-  name: Livingroom Ceiling
+- name: Livingroom Ceiling
+  #platform: knx
   address: '1/1/0'
   state_address: '1/4/0'
-- platform: knx
-  name: Livingroom Windows
+- name: Livingroom Windows
+  #platform: knx
   address: '1/1/1'
   state_address: '1/4/1'
