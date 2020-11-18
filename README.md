@@ -36,9 +36,9 @@ Because the server running HA is located in the basement, I needed to figure out
 
 ### Sensors
 
-- 5 x Aqara WSDCGQ11LM
+- 7 x Aqara WSDCGQ11LM
 - 3 x Aqara AS006UEW01
-- 2 x Aqara AS007UEW01
+- 3 x Aqara AS007UEW01
 - 1 x Aqara AS009UEW01
 - 1 x Aqara AS010UEW01
 
