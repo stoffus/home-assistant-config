@@ -8,7 +8,7 @@ Because the server running HA is located in the basement, I needed to figure out
 
 ## Frigate
 
-I'm using Frigate (https://github.com/blakeblackshear/frigate) to detect object from my IP cameras (with a Google Coral USB Accelerator for high-speed ML inferencing).
+I'm using Frigate (https://github.com/blakeblackshear/frigate) to detect objects from my IP cameras (with a Google Coral USB Accelerator for high-speed ML inferencing).
 
 # Tech specs
 
