@@ -8,7 +8,7 @@ Because the server running HA is located in the basement, I needed to figure out
 
 ## Frigate
 
-I'm using frigate (https://github.com/blakeblackshear/frigate) to detect object from my IP cameras.
+I'm using Frigate (https://github.com/blakeblackshear/frigate) to detect object from my IP cameras.
 
 # Tech specs
 
