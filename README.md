@@ -52,7 +52,7 @@ I'm using [Frigate](https://github.com/blakeblackshear/frigate) to detect object
 - 1 x Innr SP 120
 - 2 x IKEA TRÅDFRI
 
-### IP Cameras
+## IP Cameras
 
 - 3 x HiLook IPC-D140H
 
