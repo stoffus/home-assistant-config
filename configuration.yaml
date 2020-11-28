@@ -106,7 +106,7 @@ tellstick:
   signal_repetitions: 2
 
 webostv:
-  host: livingroom-tv
+  host: livingroom-tv.home
   name: Livingroom TV
   turn_on_action:
     service: wake_on_lan.send_magic_packet
@@ -116,7 +116,7 @@ webostv:
 wake_on_lan:
 
 asuswrt:
-  host: router.asus.com
+  host: wireless-ap.home
   username: admin
   ssh_key: /config/id_rsa
   sensors:
@@ -127,7 +127,7 @@ asuswrt:
 
 device_tracker:
   - platform: asuswrt
-    host: router.asus.com
+    host: wireless-ap.home
     username: admin
     ssh_key: /config/id_rsa
     protocol: ssh
@@ -150,7 +150,7 @@ stream:
 camera: !include cameras.yaml
 
 mqtt:
-  broker: nuc1
+  broker: nuc1.home
   username: !secret mqtt_username
   password: !secret mqtt_password
 
