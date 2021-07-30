@@ -1,0 +1,8 @@
+kids_bedtime_started:
+  name: If the kids bedtime has started
+bathroom_mirrors_manually_turned_on:
+  name: If the bathroom mirrors were manually turned on
+bathroom_mirrors_manually_turned_off:
+  name: If the bathroom mirrors were manually turned off
+alarm_debug:
+  name: Useful when testing out new alarm features

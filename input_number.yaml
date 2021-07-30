@@ -1,0 +1,12 @@
+bathroom_mirror_1_brightness:
+  name: Bathroom Mirror 1 Brightness
+  min: 0
+  max: 255
+bathroom_mirror_2_brightness:
+  name: Bathroom Mirror 2 Brightness
+  min: 0
+  max: 255
+bathroom_mirror_kelvin:
+  name: Bathroom Mirror Kelvin
+  min: 2700
+  max: 3200
