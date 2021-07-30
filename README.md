@@ -50,11 +50,21 @@ I'm using [Frigate](https://github.com/blakeblackshear/frigate) to detect object
 ### Switches
 
 - 1 x Innr SP 120
-- 2 x IKEA TRÅDFRI
+- 3 x IKEA TRÅDFRI
+
+### Lights
+
+- 1 x Gledopto RGB+CCT LED Strip
+- 2 x LEDVANCE Smart+ LED E14 (Tunable White)
+
+### Dimmer
+
+- 1 x Sunricher SR-ZG9101SAC-HP (In-Wall Phase-Cut Dimmer)
 
 ## IP Cameras
 
 - 3 x HiLook IPC-D140H
+- 1 x Foscam C2M 00c2m
 
 ## ~~433 Mhz~~
 
