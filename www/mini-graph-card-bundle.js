@@ -1,1 +1,1 @@
-mini-graph-card-bundle-0.9.4.js
+mini-graph-card-bundle-0.10.0.js
