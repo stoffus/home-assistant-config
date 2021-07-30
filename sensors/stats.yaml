@@ -7,7 +7,7 @@
   end: '{{ now() }}'
 - platform: history_stats
   name: Spotify Time
-  entity_id: media_player.spotify_person1
+  entity_id: media_player.spotify_stoffus1
   state: 'playing'
   type: time
   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
