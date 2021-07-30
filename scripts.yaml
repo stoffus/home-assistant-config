@@ -25,21 +25,47 @@ turn_toilet_lights_on_with_conditional_delay:
     - service: homeassistant.turn_on
       entity_id: light.toilet_ceiling
 
-play_specific_spotify_song:
+bedtime_for_the_kids:
+  variables:
+    albums:
+      - 'spotify:album:5XmgSOKZ5kOkxOm7AIHOVv' # Bockarna Bruse
+      - 'spotify:album:4DlfOr1TOBrp7fJ9Ue2X4k' # Robin Hood
+      - 'spotify:album:7LWSANgigGM3nTjF1owaFB' # De tre små grisarna
+      - 'spotify:album:0K5WwG4kFRFtlnjU7ndrom' # Sköldpaddan och haren
+      - 'spotify:album:06LDAQNPlAVqwoFxFkBZL6' # Djojj och trollsländan
+      - 'spotify:album:1yHXvHJf59vJhD4nz8HJxo' # Djojj firar jul
+      - 'spotify:album:4DlfOr1TOBrp7fJ9Ue2X4k' # Djojj och nyckelpigan
+      - 'spotify:album:1nnLHtfWhNBXFrKMC2Yyw4' # Djojj och koltrastens ägg
+      - 'spotify:album:2XBnJaezL6D8Vw2PJC3u6e' # Djojj och den övergivna bikupan
+      - 'spotify:album:3UD3B868bt1R81Hp22bRTW' # Djojj och den envisa baskelusken
+      - 'spotify:album:1NCYUVnJJHCs6kfFcYwaHO' # Djojj hoppar högst
+      - 'spotify:album:54jzgutm3PD2FyuLLXN7Xt' # Djojj och sagokarusellen
+      - 'spotify:album:1e6Rm7hwO39JaoUg4ED4Zh' # Djojj och bokstavstjuven
+      - 'spotify:album:2nADAWvX23w1CVlircWHWy' # Djojj och sömnmolnet
+      - 'spotify:album:1TlNVaeV0y3kvkYGjSTBLK' # Djojj lär sig simma
+      - 'spotify:album:01TAXvvlS6ZGuEeJbAnhml' # Djojj vet bäst
+      - 'spotify:album:2CaYIDiu1ffrIpLhyyj8bo' # Djojj och önskestjärnan
+      - 'spotify:album:5vYunlslXQKPH5Ig0AZxPY' # Djojj och Doktor Åkersork
+      - 'spotify:album:5yBtD3HlGPIaNrnvh4kX6Z' # Djojj börjar skolan
+      - 'spotify:album:1G5nto9GgGz29MlgLsKFqN' # När Djojj inte kunde somna
   sequence:
-   #   - service: media_player.select_source
-   #     data:
-   #       entity_id: media_player.spotify
-   #       source: cs-mbp
-   #   - service: media_player.volume_set
-   #     data:
-   #       entity_id: media_player.spotify
-   #       volume_level: 0.5
-   - service: media_player.play_media
-     data:
-       entity_id: media_player.spotify_person1
-       media_content_id: spotify:track:3jVWEiworTdwB0ezwtVZcT
-       media_content_type: music
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.kids_bedtime_started
+    - service: homeassistant.turn_off
+      entity_id: group.kids_room_lights
+    - service: light.turn_on
+      target:
+        entity_id: light.light_strip_1
+      data:
+        brightness_pct: 20
+        rgb_color: [255, 40, 40]
+    - service: spotcast.start
+      data:
+        entity_id: media_player.hallway
+        uri: '{{ albums | random }}'
+        start_volume: 30
+        shuffle: false
+        repeat: false
 
 resume_latest_kids_stream_on_viaplay:
   sequence:
