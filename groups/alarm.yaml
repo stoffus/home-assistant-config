@@ -1,0 +1,41 @@
+all_alarm_sensors:
+  name: All Alarm Sensors
+  entities:
+    - group.perimeter_alarm_sensors
+    - binary_sensor.toilet_presence
+    - binary_sensor.kids_room_motion
+    - binary_sensor.hallway_first_floor_motion
+
+perimeter_alarm_sensors:
+  name: Perimeter Alarm Sensors
+  entities:
+    - binary_sensor.basement_hallway_presence
+    - binary_sensor.basement_storage_window_vibration
+    - binary_sensor.basement_entrance
+    - binary_sensor.main_entrance
+    - binary_sensor.laundry_room_window_1
+    - binary_sensor.laundry_room_window_2
+    - binary_sensor.laundry_room_window_2_vibration
+    - binary_sensor.office_presence
+    - binary_sensor.office_window
+    - binary_sensor.basement_door
+    - binary_sensor.porch_entrance_vibration
+
+alarm_sirens:
+  name: All Alarm Sirens
+  entities:
+    - switch.smoke_sensor_alarm
+
+all_window_sensors:
+  name: All Window Sensors
+  entities:
+    - binary_sensor.laundry_room_window_1
+    - binary_sensor.laundry_room_window_2
+    - binary_sensor.office_window
+
+all_door_sensors:
+  name: All Door Sensors
+  entities:
+    - binary_sensor.basement_entrance
+    - binary_sensor.main_entrance
+    - binary_sensor.basement_door

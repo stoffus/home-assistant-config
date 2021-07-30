@@ -1,0 +1,19 @@
+office:
+  name: Office
+  entities:
+    - binary_sensor.office_window
+    - binary_sensor.office_presence
+    - switch.office_heater
+    - sensor.office_heater_power
+    - sensor.office_temperature
+    - sensor.office_humidity
+    - sensor.office_battery_level
+    - sensor.office_pressure
+
+laundry_room:
+  name: Laundry Room
+  entities:
+    - sensor.laundry_room_temperature
+    - sensor.laundry_room_humidity
+    - sensor.laundry_room_battery_level
+    - sensor.laundry_room_pressure

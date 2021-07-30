@@ -1,0 +1,122 @@
+outdoor:
+  name: Outdoor
+  entities:
+    - light.outdoor_cellar_entrance
+    - light.outdoor_eave
+    - light.outdoor_garden
+    - light.outdoor_main_entrance
+    - light.outdoor_porch_entrance
+    - switch.smart_plug_3
+
+attic:
+  name: Attic
+  entities:
+    - sensor.attic_temperature
+    - sensor.attic_humidity
+    - sensor.attic_battery_level
+    - sensor.attic_pressure
+
+ground_floor_lights:
+  name: Ground Floor Lights
+  entities:
+    - group.hallway_lights
+    - group.toilet_lights
+    - group.playroom_lights
+    - group.dining_area
+    - group.livingroom_lights
+    - group.kitchen_lights
+
+first_floor_lights:
+  name: First Floor Lights
+  entities:
+    - group.bedroom_lights
+    - group.bathroom_lights
+    - group.kids_room_lights
+
+indoor_lights:
+  name: Indoor Lights
+  entities:
+    - group.ground_floor_lights
+    - group.first_floor_lights
+
+daytime_indoor_lights:
+  name: Daytime Indoor Lights
+  entities:
+    - group.ground_floor_lights
+    - group.bedroom_lights
+    - group.bathroom_lights
+    - light.kids_room_ceiling
+    - light.kids_room_window
+    - light.kids_room_light_boxes
+    - switch.smart_plug_1
+    - switch.smart_plug_2
+
+smart_plugs_lights:
+  name: Smart Plugs Lights
+  entities:
+    - switch.smart_plug_1
+    - switch.smart_plug_2
+
+evening_lights:
+  name: Evening Lights
+  entities:
+    - scene.evening_lights
+    - group.smart_plugs_lights
+
+kids_asleep_evening_lights:
+  name: Kids Asleep Evening Lights
+  entities:
+    - light.kitchen_window
+    - light.livingroom_windows
+    - light.playroom_window
+    - light.dining_area_vitrine_cabinet
+    - light.dining_area_wall_cabinet
+
+main_outdoor_lights:
+  name: Main Outdoor Lights
+  entities:
+    - light.outdoor_garden
+    - light.outdoor_cellar_entrance
+    - light.outdoor_main_entrance
+
+complementary_outdoor_lights:
+  name: Complementary Outdoor Lights
+  entities:
+    - switch.smart_plug_3
+    - light.outdoor_eave
+    - light.outdoor_porch_entrance
+
+all_covers:
+  name: All Covers
+  entities:
+    - cover.bedroom_cover
+    - cover.playroom_cover
+    - cover.livingroom_cover_driveway
+    - cover.livingroom_cover_porch
+
+all_battery_levels:
+  name: All Battery Levels
+  entities:
+    - sensor.attic_battery_level
+    - sensor.basement_hallway_battery_level
+    - sensor.basement_storage_window_vibration_battery_level
+    - sensor.bathroom_battery_level
+    - sensor.bedroom_battery_level
+    - sensor.bedroom_switch_battery_level
+    - sensor.office_switch_battery_level
+    - sensor.kids_room_battery_level
+    - sensor.kitchen_sink_water_leak_battery_level
+    - sensor.laundry_room_battery_level
+    - sensor.laundry_room_window_1_battery_level
+    - sensor.laundry_room_window_2_battery_level
+    - sensor.office_battery_level
+    - sensor.office_motion_battery_level
+    - sensor.office_window_battery_level
+    - sensor.playroom_battery_level
+    - sensor.toilet_battery_level
+    - sensor.basement_door_battery_level
+    - sensor.livingroom_battery_level
+    - sensor.main_entrance_battery_level
+    - sensor.porch_entrance_vibration_battery_level
+    - sensor.basement_entrance_battery_level
+    - sensor.hallway_first_floor_motion_battery_level

@@ -1,0 +1,94 @@
+kitchen_lights:
+  name: Kitchen Lights
+  entities:
+    - light.kitchen_sink
+    - light.kitchen_spotlights
+    - light.kitchen_window
+
+kitchen:
+  name: Kitchen
+  entities:
+    - group.kitchen_lights
+
+livingroom_lights:
+  name: Livingroom Lights
+  entities:
+    - light.livingroom_ceiling
+    - light.livingroom_windows
+
+livingroom:
+  name: Livingroom
+  entities:
+    - group.livingroom_lights
+    - media_player.vardagsrum
+    - cover.livingroom_cover_driveway
+    - cover.livingroom_cover_porch
+    - sensor.livingroom_temperature
+    - sensor.livingroom_humidity
+    - sensor.livingroom_battery_level
+    - sensor.livingroom_pressure
+
+playroom_lights:
+  name: Playroom Lights
+  entities:
+    - light.playroom_ceiling
+    - light.playroom_window
+
+playroom:
+  name: Playroom
+  entities:
+    - group.playroom_lights
+    - cover.playroom_cover
+    - sensor.playroom_temperature
+    - sensor.playroom_humidity
+    - sensor.playroom_battery_level
+    - sensor.playroom_pressure
+
+hallway_lights:
+  name: Hallway Lights
+  entities:
+    - light.hallway_shoe_cabinet
+    - light.hallway_window
+    - light.hallway_spotlights
+
+hallway:
+  name: Hallway
+  entities:
+    - group.hallway_lights
+    - binary_sensor.main_entrance
+
+toilet_lights:
+  name: Toilet Lights
+  entities:
+    - light.toilet_ceiling_dimmer
+
+toilet:
+  name: Toilet
+  entities:
+    - group.toilet_lights
+    - binary_sensor.toilet_presence
+    - sensor.toilet_illuminance
+    - sensor.toilet_battery_level
+
+dining_area_lights:
+  name: Dining Area Lights
+  entities:
+    - light.dining_area_ceiling
+    - light.dining_area_vitrine_cabinet
+    - light.dining_area_wall_cabinet
+
+dining_area:
+  name: Dining Area
+  entities:
+    - group.dining_area_lights
+    - sensor.porch_entrance_vibration
+
+ground_floor_lights:
+  name: Ground Floor Lights
+  entities:
+    - group.hallway_lights
+    - group.toilet_lights
+    - group.playroom_lights
+    - group.dining_area_lights
+    - group.livingroom_lights
+    - group.kitchen_lights

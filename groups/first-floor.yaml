@@ -1,0 +1,49 @@
+kids_room_lights:
+  name: Kids Room Lights
+  entities:
+    - light.kids_room_ceiling
+    - light.kids_room_window
+    - light.kids_room_light_boxes
+    - switch.smart_plug_1
+    - switch.smart_plug_2
+    - light.light_strip_1
+
+kids_room:
+  name: Kids Room
+  entities:
+    - group.kids_room_lights
+    - sensor.kids_room_temperature
+    - sensor.kids_room_humidity
+    - sensor.kids_room_battery_level
+    - sensor.kids_room_pressure
+
+bedroom_lights:
+  name: Bedroom Lights
+  entities:
+    - light.bedroom_ceiling
+    - light.bedroom_nightlights
+    - light.bedroom_window
+
+bedroom:
+  name: Bedroom
+  entities:
+    - group.bedroom_lights
+    - cover.bedroom_cover
+    - sensor.bedroom_temperature
+    - sensor.bedroom_humidity
+    - sensor.bedroom_battery_level
+    - sensor.bedroom_pressure
+
+bathroom_lights:
+  name: Bathroom Lights
+  entities:
+    - light.bathroom_mirror
+
+bathroom:
+  name: Bathroom
+  entities:
+    - group.bathroom_lights
+    - sensor.bathroom_temperature
+    - sensor.bathroom_humidity
+    - sensor.bathroom_battery_level
+    - sensor.bathroom_pressure
