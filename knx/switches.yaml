@@ -3,12 +3,8 @@
   state_address: '5/4/0'
 - name: KNX Dummy Kids Room Plugs
   address: '1/1/46'
-- name: KNX Dummy Livingroom TV Bench Plug
-  address: '1/1/2'
-- name: KNX Dummy Hallway Chimney Plug
-  address: '1/1/32'
-- name: KNX Dummy Playroom Reading Light Plug
-  address: '1/1/36'
+- name: KNX Dummy Bathroom Mirror Bulbs
+  address: '1/1/51'
 - name: Bedroom Cover Block
   address: '3/4/0'
 - name: Playroom Cover Block
@@ -17,3 +13,5 @@
   address: '3/4/2'
 - name: Livingroom Porch Cover Block
   address: '3/4/3'
+- name: Outdoor Garden Block
+  address: '1/5/4'
