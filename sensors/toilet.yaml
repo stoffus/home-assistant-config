@@ -1,8 +1,0 @@
-- platform: template
-  sensors:
-    toilet_temperature:
-      friendly_name: 'Toilet Temperature'
-      unit_of_measurement: '°C'
-      icon_template: 'mdi:thermometer'
-      device_class: temperature
-      value_template: "{{ state_attr('binary_sensor.toilet_occupancy', 'temperature') }}"
