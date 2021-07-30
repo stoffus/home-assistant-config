@@ -57,7 +57,7 @@ I'm using [Frigate](https://github.com/blakeblackshear/frigate) to detect object
 - 1 x Gledopto RGB+CCT LED Strip
 - 2 x LEDVANCE Smart+ LED E14 (Tunable White)
 
-### Dimmer
+### Dimmers
 
 - 1 x Sunricher SR-ZG9101SAC-HP (In-Wall Phase-Cut Dimmer)
 
