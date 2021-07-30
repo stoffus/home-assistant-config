@@ -1,2 +1,8 @@
 tool_shed_door_last_state:
   name: Tool Shed Door Last State
+home_alarm_disarm_source:
+  name: Home Alarm Disarm Source
+  initial: ''
+home_alarm_arm_source:
+  name: Home Alarm Arm Source
+  initial: ''
