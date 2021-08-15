@@ -1,4 +1,6 @@
 person.person1:
   entity_picture: '/local/people/cs.jpg'
+  alarm_tag_id: !secret person1_alarm_tag_id
 person.person2:
   entity_picture: '/local/people/ss.png'
+  alarm_tag_id: !secret person2_alarm_tag_id
