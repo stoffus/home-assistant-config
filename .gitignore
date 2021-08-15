@@ -14,4 +14,9 @@ tts
 __pycache__
 repos
 www/people
-automations/alarms.yml
+automations/alarm.yaml
+groups/alarm.yaml
+scripts/alarm.yaml
+dashboard-alarm.yaml
+.vscode
+blueprints
