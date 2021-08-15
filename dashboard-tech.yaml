@@ -5,16 +5,6 @@ views:
     icon: 'mdi:router-network'
     cards:
       - type: entities
-        title: Router
-        show_header_toggle: false
-        entities:
-          - entity: sensor.asuswrt_download_speed
-            name: Nedladdning
-            icon: 'mdi:download'
-          - entity: sensor.asuswrt_upload_speed
-            name: Uppladdning
-            icon: 'mdi:upload'
-      - type: entities
         title: Speedtest
         show_header_toggle: false
         entities:
@@ -28,18 +18,18 @@ views:
             name: Latens
       - type: gauge
         entity: sensor.speedtest_download
-        max: 12
+        max: 400
         severity:
-          green: 10
-          yellow: 8
-          red: 4
+          green: 300
+          yellow: 250
+          red: 200
       - type: gauge
         entity: sensor.speedtest_upload
-        max: 2
+        max: 200
         severity:
-          green: 1.8
-          yellow: 1.2
-          red: 0
+          green: 100
+          yellow: 80
+          red: 60
   - path: playtime
     title: playtime
     icon: 'mdi:play-circle'
@@ -51,13 +41,6 @@ views:
             name: TV-tid
           - entity: sensor.spotify_time
             name: Spotify
-      - title: Statistik
-        type: entities
-        entities:
-          - entity: counter.showers_this_week
-            name: Antal duschar denna vecka
-          - entity: counter.baths_this_week
-            name: Antal bad denna vecka
   - path: ups
     title: ups
     icon: 'mdi:power-plug'
@@ -98,6 +81,10 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_temperature
             name: BADRUM
+          - entity: sensor.livingroom_temperature
+            name: VARDAGSRUM
+          - entity: sensor.laundry_room_temperature
+            name: TVÄTTSTUGA
         hours_to_show: 24
         decimals: 1
         points_per_hour: 0.5
@@ -106,8 +93,8 @@ views:
       - type: custom:mini-graph-card
         name: BATTERINIVÅ
         entities:
-          - entity: sensor.tool_shed_door_battery_level
-            name: VERKTYGSRUM
+          - entity: sensor.basement_door_battery_level
+            name: KÄLLARDÖRR
           - entity: sensor.toilet_battery_level
             name: GÄSTTOALETT
           - entity: sensor.kids_room_battery_level
@@ -120,8 +107,20 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_battery_level
             name: BADRUM
-          - entity: sensor.basement_porch_window_battery_level
-            name: KÄLLARFÖNSTER 1
+          - entity: sensor.basement_storage_window_vibration_battery_level
+            name: FÖRRÅDSFÖNSTER
+          - entity: sensor.laundry_room_window_1_battery_level
+            name: TVÄTTSTUGEFÖNSTER 1
+          - entity: sensor.laundry_room_window_2_battery_level
+            name: TVÄTTSTUGEFÖNSTER 2
+          - entity: sensor.livingroom_battery_level
+            name: VARDAGSRUM
+          - entity: sensor.main_entrance_battery_level
+            name: ENTRÉDÖRR
+          - entity: sensor.basement_entrance_battery_level
+            name: KÄLLARENTRÉ
+          - entity: sensor.porch_entrance_battery_level
+            name: ALTANENTRÉ
         hours_to_show: 72
         decimals: 0
         points_per_hour: 0.2
@@ -140,6 +139,10 @@ views:
             name: SOVRUM
           - entity: sensor.bathroom_humidity
             name: BADRUM
+          - entity: sensor.livingroom_humidity
+            name: VARDAGSRUM
+          - entity: sensor.laundry_room_humidity
+            name: TVÄTTSTUGA
         hours_to_show: 72
         decimals: 0
         points_per_hour: 0.5
@@ -162,82 +165,13 @@ views:
         entities:
           - entity: binary_sensor.kitchen_sink_water_leak
             name: Kök
-  - path: cameras
-    title: cameras
-    icon: 'mdi:cctv'
+  - path: misc
+    title: Misc
+    icon: 'mdi:cancel'
     cards:
-      - type: picture-entity
-        title: Senaste personen uppfart
-        entity: camera.driveway_camera_last_person
-      - type: picture-entity
-        title: Senaste personen altan
-        entity: camera.porch_camera_last_person
-      - type: picture-entity
-        title: Senaste bilen uppfart
-        entity: camera.driveway_camera_last_car
-      - type: picture-entity
-        title: Senaste personen entré
-        entity: camera.front_door_camera_last_person
-      - type: picture-entity
-        title: Senaste katten altan
-        entity: camera.porch_camera_last_cat
-      - type: picture-entity
-        title: Senaste katten entré
-        entity: camera.front_door_camera_last_cat
-      - type: picture-entity
-        title: Senaste katten uppfart
-        entity: camera.driveway_camera_last_cat
-      - type: picture-glance
+      - title: Blockering
+        show_header_toggle: false
+        type: entities
         entities:
-          - camera.porch_camera
-        camera_image: camera.porch_camera
-        camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.porch_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.porch_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
-      - type: picture-glance
-        entities:
-          - camera.driveway_camera
-        camera_image: camera.driveway_camera
-        camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.driveway_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.driveway_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
-      - type: picture-glance
-        entities:
-          - camera.front_door_camera
-        camera_image: camera.front_door_camera
-        camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.front_door_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.front_door_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
+          - entity: switch.outdoor_garden_block
+            name: Blockering Trädgård
