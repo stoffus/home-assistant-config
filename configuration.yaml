@@ -94,18 +94,8 @@ notify:
   - name: All Apps
     platform: group
     services:
-      - service: mobile_app_sm_g970f
-      - service: mobile_app_sofhias_iphone
-
-verisure:
-  username: !secret verisure_username
-  password: !secret verisure_password
-  hygrometers: false
-  smartplugs: false
-  thermometers: false
-  mouse: false
-  door_window: false
-  locks: false
+      - service: mobile_app_person_1_s10e
+      - service: mobile_app_person_2_iphone
 
 map:
 
