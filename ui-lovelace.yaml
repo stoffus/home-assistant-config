@@ -3,10 +3,32 @@ views:
     title: default
     icon: 'mdi:home'
     cards:
-      - title: Larm
-        type: conditional
+      - type: conditional
         conditions:
-          - entity: alarm_control_panel.hemma_alarm
+          - entity: binary_sensor.kids_bedtime
+            state: 'on'
+          - entity: input_boolean.kids_bedtime_started
+            state: 'off'
+        card:
+          type: button
+          name: Läggdags
+          icon: 'mdi:baby-face'
+          icon_height: '50px'
+          tap_action:
+            action: call-service
+            service: script.bedtime_for_the_kids
+      - type: conditional
+        conditions:
+          - entity: timer.alarm_automatic_arm
+            state_not: 'idle'
+        card:
+          type: entities
+          entities:
+            - entity: timer.alarm_automatic_arm
+              name: Larmar automatiskt om
+      - type: conditional
+        conditions:
+          - entity: alarm_control_panel.home_alarm
             state: armed_home
         card:
           type: button
@@ -17,8 +39,25 @@ views:
             action: call-service
             service: alarm_control_panel.alarm_disarm
             service_data:
-              entity_id: alarm_control_panel.hemma_alarm
-              code: !secret verisure_alarm_code_person1
+              entity_id: alarm_control_panel.home_alarm
+              code: !secret home_alarm_code
+      - type: conditional
+        conditions:
+          - entity: alarm_control_panel.home_alarm
+            state: disarmed
+          - entity: binary_sensor.parents_bedtime
+            state: 'on'
+        card:
+          type: button
+          name: Aktivera skalskydd
+          icon: 'mdi:home-lock'
+          icon_height: '50px'
+          tap_action:
+            action: call-service
+            service: alarm_control_panel.alarm_arm_home
+            service_data:
+              entity_id: alarm_control_panel.home_alarm
+              code: !secret home_alarm_code
       - title: Vardagsrum
         type: entities
         show_header_toggle: false
@@ -29,8 +68,6 @@ views:
             name: Fönster
           - entity: light.livingroom_ceiling
             name: Tak
-          - entity: switch.tv_bench
-            name: TV-bänk
           - type: section
             label: Markiser
           - entity: cover.livingroom_driveway_cover
@@ -47,8 +84,6 @@ views:
             name: Fönster
           - entity: light.playroom_ceiling
             name: Tak
-          - entity: switch.office_reading_light
-            name: Läslampa
           - type: section
             label: Markiser
           - entity: cover.playroom_cover
@@ -90,8 +125,10 @@ views:
             name: Spotlights
           - entity: light.hallway_window
             name: Fönster
-          - entity: switch.hallway_chimney
-            name: Murstock
+          - type: section
+            label: Sensorer
+          - entity: binary_sensor.hallway_first_floor_motion
+            name: Övervåning
       - title: Matsal
         type: entities
         show_header_toggle: false
@@ -128,6 +165,18 @@ views:
             label: Belysning
           - entity: light.bathroom_mirror
             name: Spegel
+          - entity: light.bathroom_mirror_1
+            name: Spegel 1
+          - entity: light.bathroom_mirror_2
+            name: Spegel 2
+          - type: conditional
+            conditions:
+              - entity: timer.bathroom_nightlights
+                state_not: 'idle'
+            row:
+              icon: 'mdi:gauge'
+              entity: timer.bathroom_nightlights
+              name: Släcks automatiskt om
       - title: Barnrum
         type: entities
         show_header_toggle: false
@@ -140,10 +189,16 @@ views:
             name: Fönster
           - entity: light.kids_room_light_boxes
             name: Kattvindsfack
-          - entity: switch.kids_room_plug1
+          - entity: switch.smart_plug_1
             name: Kanin
-          - entity: switch.kids_room_plug2
+          - entity: switch.smart_plug_2
             name: Ljusslinga
+          - entity: light.light_strip_1
+            name: Nattbelysning
+          - type: section
+            label: Sensorer
+          - entity: binary_sensor.kids_room_motion
+            name: Rörelse
       - title: Utomhus
         type: entities
         show_header_toggle: false
@@ -160,7 +215,7 @@ views:
             name: Altaningång
           - entity: light.outdoor_eave
             name: Takfot
-          - entity: switch.conservatory
+          - entity: switch.smart_plug_3
             name: Uterum
       - title: Toalett
         type: entities
@@ -168,7 +223,7 @@ views:
         entities:
           - type: section
             label: Belysning
-          - entity: light.toilet_ceiling
+          - entity: light.toilet_ceiling_dimmer
             name: Tak
           - type: conditional
             conditions:
@@ -195,7 +250,11 @@ views:
           - type: section
             label: Sensorer
           - entity: binary_sensor.laundry_room_window_1
-            name: Fönster
+            name: Fönster 1
+          - entity: binary_sensor.laundry_room_window_2
+            name: Fönster 2
+          - entity: binary_sensor.laundry_room_window_2_vibration
+            name: Fönster 2 Vibration
       - type: entities
         title: Kontor
         show_header_toggle: false
@@ -226,6 +285,8 @@ views:
         name: !secret person1_name
       - entity: person.person2
         name: !secret person2_name
+      - entity: binary_sensor.internet_connection
+        name: Internet
       #- entity: device_tracker.person1_smart_band_basement
       #  name: Person1 Smart Band Basement
       #- entity: device_tracker.person1_smart_band_ground_floor
@@ -245,7 +306,7 @@ views:
     cards:
       - type: conditional
         conditions:
-          - entity: binary_sensor.front_door_steps_person
+          - entity: binary_sensor.front_door_person_motion
             state: 'on'
         card:
           type: picture-entity
@@ -253,7 +314,7 @@ views:
           entity: camera.front_door_camera_last_person
       - type: conditional
         conditions:
-          - entity: binary_sensor.porch_camera_person
+          - entity: binary_sensor.porch_room_person_motion
             state: 'on'
         card:
           type: picture-entity
@@ -261,7 +322,7 @@ views:
           entity: camera.porch_camera_last_person
       - type: conditional
         conditions:
-          - entity: binary_sensor.driveway_camera_person
+          - entity: binary_sensor.driveway_person_motion
             state: 'on'
         card:
           type: picture-entity
@@ -269,7 +330,7 @@ views:
           entity: camera.driveway_camera_last_person
       - type: conditional
         conditions:
-          - entity: binary_sensor.driveway_camera_car
+          - entity: binary_sensor.driveway_car_motion
             state: 'on'
         card:
           type: picture-entity
@@ -285,7 +346,7 @@ views:
               action: call-service
               service: homeassistant.turn_off
               service_data:
-                entity_id: group.indoor_lights
+                entity_id: group.daytime_indoor_lights
           - entity: scene.evening_lights
             type: entity-button
             name: Kvällsbelysning
@@ -302,6 +363,8 @@ views:
             label: Bottenvåning
           - entity: sensor.playroom_temperature
             name: Lekrum
+          - entity: sensor.livingroom_temperature
+            name: Vardagsrum
           - type: section
             label: Övervåning
           - entity: sensor.bathroom_temperature
@@ -314,12 +377,10 @@ views:
             label: Källare
           - entity: sensor.office_temperature
             name: Kontor
-          - entity: sensor.tool_shed_temperature
-            name: Verktygsrum
           - entity: sensor.laundry_room_temperature
             name: Tvättstuga
           - type: section
-            label: 
+            label:
           - entity: sensor.outdoor_temperature
             name: Utomhus
           - entity: sensor.attic_temperature
@@ -341,29 +402,39 @@ views:
             name: Tvättstuga
           - entity: sensor.attic_humidity
             name: Vind
-      - title: 'Rörelse'
+          - entity: sensor.livingroom_humidity
+            name: Vardagsrum
+      - title: Sensorer
         type: entities
         entities:
           - type: section
             label: Utomhus
-          - entity: binary_sensor.porch_camera_person
+          - entity: binary_sensor.porch_person_motion
             name: Altan (Person)
-          - entity: binary_sensor.driveway_camera_person
+          - entity: binary_sensor.driveway_person_motion
             name: Uppfart (Person)
-          - entity: binary_sensor.driveway_camera_car
+          - entity: binary_sensor.driveway_car_motion
             name: Uppfart (Bil)
           - type: section
             label: Bottenvåning
           - entity: binary_sensor.toilet_presence
             name: Toalett
+          - entity: binary_sensor.main_entrance
+            name: Entrédörr
+          - entity: binary_sensor.porch_entrance
+            name: Altandörrar
+          - entity: binary_sensor.porch_entrance_vibration
+            name: Altandörrar Vibration
           - type: section
             label: Övervåning
           - entity: binary_sensor.kids_room_motion
             name: Barnrum
+          - entity: binary_sensor.hallway_first_floor_motion
+            name: Hall
           - type: section
             label: Källare
-          - entity: binary_sensor.tool_shed_door_open
-            name: Verktygsrum
+          - entity: binary_sensor.basement_door
+            name: Källarinnerdörr
           - entity: binary_sensor.office_window
             name: Kontorsfönster
           - entity: binary_sensor.laundry_room_window_1
@@ -378,6 +449,8 @@ views:
             name: Hall
           - entity: binary_sensor.office_presence
             name: Kontor
+          - entity: binary_sensor.basement_entrance
+            name: Källardörr
       - title: 'Ljusstyrka'
         type: glance
         entities:
@@ -385,6 +458,12 @@ views:
             name: Utomhus
           - entity: sensor.toilet_illuminance
             name: Toalett
+          - entity: sensor.hallway_first_floor_illuminance
+            name: Hall uppe
+          - entity: sensor.office_illuminance
+            name: Kontor
+          - entity: sensor.kids_room_illuminance
+            name: Barnrum
   - path: covers
     title: covers
     icon: 'mdi:window-open'
@@ -505,11 +584,9 @@ views:
       - type: media-control
         entity: media_player.vardagsrum
       - type: media-control
-        entity: media_player.hallway
+        entity: media_player.kids_room
       - type: media-control
         entity: media_player.sovrum
-      - type: media-control
-        entity: media_player.livingroom_receiver
       - type: media-control
         entity: media_player.livingroom_tv
       - type: media-control
@@ -559,60 +636,59 @@ views:
           - camera.porch_camera
         camera_image: camera.porch_camera
         camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.porch_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.porch_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
       - type: picture-glance
         entities:
           - camera.driveway_camera
         camera_image: camera.driveway_camera
         camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.driveway_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.driveway_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
       - type: picture-glance
         entities:
           - camera.front_door_camera
         camera_image: camera.front_door_camera
         camera_view: live
-        double_tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.front_door_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.jpg'
-        hold_action:
-          action: call-service
-          service: camera.record
-          service_data:
-            entity_id: camera.driveway_camera
-            filename: '/camera-files/{{ entity_id.entity_id }}_{{ now().strftime("%Y%m%d-%H%M%S") }}.mp4'
-            lookback: 5
+      - type: conditional
+        conditions:
+          - entity: alarm_control_panel.home_alarm
+            state_not: disarmed
+        card:
+          type: picture-glance
+          entities:
+            - camera.livingroom
+          camera_image: camera.livingroom
+          camera_view: live
+      - title: Frigate
+        type: entities
+        show_header_toggle: false
+        entities:
+          - type: section
+            label: Uppfart
+          - entity: switch.driveway_detect
+            name: Detektor
+          - entity: switch.driveway_clips
+            name: Klipp
+          - type: section
+            label: Framsida
+          - entity: switch.front_door_detect
+            name: Detektor
+          - entity: switch.front_door_clips
+            name: Klipp
+          - type: section
+            label: Altan
+          - entity: switch.porch_detect
+            name: Detektor
+          - entity: switch.porch_clips
+            name: Klipp
+          - type: section
+            label: Vardagsrum
+          - entity: switch.livingroom_detect
+            name: Detektor
+          - entity: switch.livingroom_clips
+            name: Klipp
   - path: security
     title: security
     icon: 'mdi:shield'
     cards:
       - type: alarm-panel
-        entity: alarm_control_panel.hemma_alarm
+        entity: alarm_control_panel.home_alarm
         panel: true
         name: Larm
