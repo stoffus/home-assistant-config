@@ -1,103 +1,43 @@
-- alias: 'Turn on toilet ceiling lights on motion detected'
-  trigger:
-    entity_id: binary_sensor.toilet_presence
-    platform: state
-    to: 'on'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.toilet_ceiling
-    - service: timer.cancel
-      entity_id: timer.toilet_presence
-
-- alias: 'Turn off toilet ceiling lights when presence expires'
-  trigger:
-    platform: event
-    event_type: timer.finished
-    event_data:
-      entity_id: timer.toilet_presence
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.toilet_ceiling
-
-- alias: 'Start toilet timer when presence expires'
-  trigger:
-    entity_id: binary_sensor.toilet_presence
-    platform: state
-    to: 'off'
-  action:
-    service: timer.start
-    entity_id: timer.toilet_presence
-
-- alias: 'Reset toilet lights automation 20 min after it has been turned off'
-  trigger:
-    entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
-    platform: state
-    to: 'off'
-  action:
-    - delay: '00:20:00'
-    - service: homeassistant.turn_on
-      entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
-
-- alias: 'Turn off toilet lights when the automation is reset and room is empty'
-  trigger:
-    entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
-    platform: state
-    to: 'on'
-  condition:
-    condition: state
-    entity_id: binary_sensor.toilet_presence
-    state: 'off'
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.toilet_ceiling
-
-- alias: 'Reset the toilet timer if the lights are turned of manually'
-  trigger:
-    entity_id: light.toilet_ceiling
-    platform: state
-    to: 'off'
-  action:
-    service: timer.cancel
-    entity_id: timer.toilet_presence
-
 - alias: 'Turn on evening lights at dusk'
   trigger:
-    platform: numeric_state
-    entity_id: sensor.outdoor_illuminance
-    below: 500
-    for:
-      minutes: 5
+    - platform: numeric_state
+      entity_id: sensor.outdoor_illuminance
+      below: 500
+      for:
+        minutes: 5
   condition:
-    condition: time
-    after: '12:00:00'
-    before: '22:00:00'
+    - condition: time
+      after: '12:00:00'
+      before: '22:00:00'
   action:
-    service: homeassistant.turn_on
-    entity_id: script.activate_evening_lights
+    - service: homeassistant.turn_on
+      entity_id: script.activate_evening_lights
 
 - alias: 'Send notifications on low battery for sensors'
   trigger:
-    platform: event
-    event_type: state_changed
-    event_data:
-      domain: sensor
+    - platform: event
+      event_type: state_changed
+      event_data:
+        domain: sensor
   condition:
-    condition: template
-    value_template: "{{ trigger.event.data.entity_id.endswith('battery_level') and trigger.event.data.old_state }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.entity_id.endswith('_battery_level') }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.new_state.state | int < 20 }}"
   action:
-    service: notify.mobile_app_sm_g970f
-    data_template:
-      title: 'Batteries are running low'
-      message: 'Sensor {{ trigger.event.data.old_state.name }} only has {{ trigger.event.data.new_state.state }}% of juice left.'
+    - service: notify.mobile_app_person_1_s10e
+      data:
+        title: 'Batteries are running low'
+        message: 'Sensor {{ state_attr(trigger.event.data.entity_id, "name") }} only has {{ trigger.event.data.new_state.state }}{{ state_attr(trigger.event.data.entity_id, "unit_of_measurement") }} of juice left.'
 
 - alias: 'Activate morning scene for workday mornings'
   trigger:
-    platform: state
-    entity_id: alarm_control_panel.hemma_alarm
-    to: 'disarmed'
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: disarmed
   condition:
     - condition: template
-      value_template: "{{ state_attr('alarm_control_panel.hemma_alarm', 'changed_by') == state_attr('person.person1', 'friendly_name') }}"
+      value_template: "{{ trigger.to_state.context.user_id == state_attr('person.person1', 'user_id') }}"
     - condition: state
       entity_id: binary_sensor.workday
       state: 'on'
@@ -108,43 +48,21 @@
     - service: homeassistant.turn_on
       entity_id: scene.workday_morning
 
-- alias: 'Increment shower counter'
+- alias: 'Turn off the kids nightlights when the day starts'
   trigger:
-    platform: numeric_state
-    entity_id: sensor.bathroom_humidity
-    above: 70
-    for:
-      minutes: 10
+    - platform: numeric_state
+      entity_id: sensor.outdoor_illuminance
+      above: 500
+      for:
+        minutes: 10
   action:
-    service: counter.increment
-    data:
-      entity_id: counter.showers_this_week
+    - service: homeassistant.turn_off
+      entity_id: light.light_strip_1
 
-- alias: 'Increment bath counter'
+- alias: 'Turn off bedtime started entity at midnight'
   trigger:
-    platform: numeric_state
-    entity_id: sensor.bathroom_humidity
-    above: 60
-    below: 70
-    for:
-      minutes: 5
+    - platform: time
+      at: '00:00:00'
   action:
-    service: counter.increment
-    data:
-      entity_id: counter.baths_this_week
-
-- alias: 'Reset showers/baths counters weekly'
-  trigger:
-    platform: time
-    at: '00:00:00'
-  condition:
-    condition: time
-    weekday:
-      - mon
-  action:
-    - service: counter.reset
-      data:
-        entity_id: counter.showers_this_week
-    - service: counter.reset
-      data:
-        entity_id: counter.baths_this_week
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.kids_bedtime_started

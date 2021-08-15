@@ -10,53 +10,10 @@
       event_data:
         id: bedroom_switch_2
         event: 1002 # Single click
-  action:
-    service: homeassistant.toggle
-    entity_id: light.bedroom_window
-
-- alias: 'Arm home if button is long-pressed'
-  trigger:
-    - platform: event
-      event_type: deconz_event
-      event_data:
-        id: bedroom_switch
-        event: 1003 # Long press release
-    - platform: event
-      event_type: deconz_event
-      event_data:
-        id: bedroom_switch_2
-        event: 1003 # Long press release
   condition:
     - condition: time
-      after: '21:00:00'
+      after: '20:00:00'
       before: '02:00:00'
-    - condition: state
-      entity_id: alarm_control_panel.hemma_alarm
-      state: 'disarmed'
   action:
-    service: alarm_control_panel.alarm_arm_home
-    entity_id: alarm_control_panel.hemma_alarm
-    data:
-      code: !secret verisure_alarm_code_person2
-
-- alias: 'Disarm if button 2 is long-pressed'
-  trigger:
-    platform: event
-    event_type: deconz_event
-    event_data:
-      id: bedroom_switch_2
-      event: 1003 # Long press release
-  condition:
-    - condition: time
-      after: '04:30:00'
-      before: '09:00:00'
-    - condition: not
-      conditions:
-        - condition: state
-          entity_id: alarm_control_panel.hemma_alarm
-          state: 'disarmed'
-  action:
-    service: alarm_control_panel.alarm_disarm
-    entity_id: alarm_control_panel.hemma_alarm
-    data:
-      code: !secret verisure_alarm_code_person1
+    - service: homeassistant.toggle
+      entity_id: light.bedroom_window

@@ -1,0 +1,21 @@
+- alias: Notify on Internet connection down
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.internet_connection
+      from: 'on'
+      to: 'off'
+  action:
+    - service: notify.mobile_app_person_1_s10e
+      data:
+        message: "The Internet connection seems to be down"
+
+- alias: Check for new version of Home Assistant
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.updater
+      from: 'off'
+      to: 'on'
+  action:
+    - service: notify.mobile_app_person_1_s10e
+      data:
+        message: "Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version') }} is available."

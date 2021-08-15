@@ -1,22 +1,22 @@
 - alias: 'Block bedroom cover when the alarm is armed home'
   trigger:
-    platform: state
-    entity_id: alarm_control_panel.hemma_alarm
-    to: 'armed_home'
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: armed_home
   action:
-    service: homeassistant.turn_on
-    entity_id: switch.bedroom_cover_block
+    - service: homeassistant.turn_on
+      entity_id: switch.bedroom_cover_block
 
 - alias: "Unblock bedroom cover and move it to the same position as another cover on the same side"
   trigger:
-    platform: time
-    at: '08:00:00'
+    - platform: time
+      at: '08:00:00'
   action:
     - service: homeassistant.turn_off
       entity_id: switch.bedroom_cover_block
     - service: cover.close_cover # Needed due to weird KNX actuator behaviour
       entity_id: cover.bedroom_cover
     - service: cover.set_cover_position
-      data_template:
+      data:
         entity_id: cover.bedroom_cover
         position: "{{ state_attr('cover.playroom_cover', 'current_position') }}"

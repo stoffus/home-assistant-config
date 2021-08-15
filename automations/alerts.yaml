@@ -1,0 +1,55 @@
+- alias: 'Send notification on water leak'
+  trigger:
+    - entity_id: binary_sensor.kitchen_sink_water_leak
+      platform: state
+      to: 'on'
+  action:
+    - service: notify.all_apps
+      data:
+        title: 'Water leak detected'
+        message: "A water leak was detected by the '{{ state_attr(trigger.entity_id, 'friendly_name') }}' sensor"
+
+- alias: 'Send notification on fire'
+  trigger:
+    - platform: event
+      event_type: state_changed
+      event_data:
+        domain: sensor
+  variables:
+    notification_title: "{{ state_attr('alarm_control_panel.home_alarm', 'friendly_name') }}"
+    notification_message: "Fire! The '{{ state_attr(trigger.event.data.entity_id, 'friendly_name') }}' has reported an ongoing fire!"
+  condition:
+    - condition: template
+      value_template: "{{ trigger.event.data.new_state.state == 'on' }}"
+    - condition: template # To prevent events where only attributes are changed
+      value_template: "{{ trigger.event.data.old_state.state != trigger.event.data.new_state.state }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.entity_id in (expand('group.all_fire_sensors') | map(attribute='entity_id') | list) }}"
+  action:
+    - service: notify.mobile_app_person_1_s10e
+      data:
+        title: "{{ notification_title }}"
+        message: "{{ notification_message }}"
+    - service: notify.mobile_app_person_2_iphone
+      data:
+        title: '{{ notification_title }}'
+        message: '{{ notification_message }}'
+        data:
+          entity_id: camera.livingroom_2
+
+- alias: 'Send notification on high temperatures'
+  trigger:
+    - platform: event
+      event_type: state_changed
+      event_data:
+        domain: sensor
+  condition:
+    - condition: template
+      value_template: "{{ trigger.event.data.entity_id.endswith('_temperature') }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.new_state.state | int > 23 }}"
+  action:
+    - service: notify.mobile_app_person_1_s10e
+      data:
+        title: "High temperature detected"
+        message: "A temperature of {{ trigger.event.data.new_state.state }}{{ state_attr(trigger.event.data.entity_id, 'unit_of_measurement') }} was detected by the '{{ state_attr(trigger.event.data.entity_id, 'name') }}' sensor"

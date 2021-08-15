@@ -1,11 +1,8 @@
 - alias: "Turn on the office heater to make sure it's warm when the workday starts"
   trigger:
     platform: time
-    at: '07:00:00'
+    at: '06:00:00'
   condition:
-    #- entity_id: binary_sensor.office_presence
-    #  platform: state
-    #  to: 'on'
     - condition: state
       entity_id: binary_sensor.workday
       state: 'on'
@@ -13,12 +10,20 @@
       entity_id: sensor.office_temperature
       below: 21
   action:
-    - service: homeassistant.turn_on
-      entity_id: switch.office_heater
-    - service: notify.mobile_app_sm_g970f
-      data:
-        title: 'Office heater started'
-        message: "Making the office warm and comfy until your arrival."
+    service: homeassistant.turn_on
+    entity_id: switch.office_heater
+
+- alias: 'Turn off the office when the workday has ended'
+  trigger:
+    platform: time
+    at: '16:00:00'
+  condition:
+    condition: state
+    entity_id: binary_sensor.workday
+    state: 'on'
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.office_heater
 
 - alias: 'Turn off the office heater when the temperature is good enough'
   trigger:
@@ -47,7 +52,7 @@
     entity_id: binary_sensor.office_window
     state: 'on'
   action:
-    - service: notify.mobile_app_sm_g970f
+    - service: notify.mobile_app_person_1_s10e
       data:
         title: 'Office window currently open'
         message: "Did you forget to close the office window?"

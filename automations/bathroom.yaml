@@ -1,0 +1,132 @@
+- alias: 'Set a reasonable nighttime brightness and temperature in the bathroom'
+  trigger:
+    - platform: time
+      at: '22:00:00'
+  action:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_1_brightness
+      data:
+        value: 10
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_2_brightness
+      data:
+        value: "{{ state_attr('input_number.bathroom_mirror_1_brightness', 'min') | int }}"
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_kelvin
+      data:
+        value: "{{ state_attr('input_number.bathroom_mirror_kelvin', 'min') | int }}"
+
+- alias: 'Set a reasonable daytime brightness and temperature in the bathroom'
+  trigger:
+    - platform: time
+      at: '07:00:00'
+  action:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_1_brightness
+      data:
+        value: "{{ state_attr('input_number.bathroom_mirror_1_brightness', 'max') | int }}"
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_2_brightness
+      data:
+        value: "{{ state_attr('input_number.bathroom_mirror_2_brightness', 'max') | int }}"
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.bathroom_mirror_kelvin
+      data:
+        value: "{{ state_attr('input_number.bathroom_mirror_kelvin', 'max') | int }}"
+
+- alias: "Start bathroom timer when kids room and hallway presence is detected"
+  trigger:
+    - entity_id: binary_sensor.kids_room_motion
+      platform: state
+      to: 'on'
+  condition:
+    - condition: time
+      after: '22:00:00'
+      before: '07:00:00'
+    #- condition: state
+    #  entity_id: input_boolean.bathroom_mirrors_manually_turned_on
+    #  state: 'off'
+    - condition: state
+      entity_id: binary_sensor.hallway_first_floor_motion
+      state: 'off'
+  action:
+    - wait_template: "{{ is_state('binary_sensor.hallway_first_floor_motion', 'on') }}"
+      timeout: 60
+      continue_on_timeout: false
+    - service: timer.start
+      entity_id: timer.bathroom_nightlights
+
+#- alias: 'Start bathroom timer when hallway presence is detected'
+#  trigger:
+#    - entity_id: binary_sensor.hallway_first_floor_motion
+#      platform: state
+#      to: 'on'
+#  condition:
+#    - condition: time
+#      after: '22:00:00'
+#      before: '07:00:00'
+#    - condition: state
+#      entity_id: input_boolean.bathroom_mirrors_manually_turned_on
+#      state: 'off'
+#  action:
+#    - service: timer.start
+#      entity_id: timer.bathroom_nightlights
+
+- alias: 'Turn on bathroom mirror lights on timer start'
+  trigger:
+    - platform: event
+      event_type: timer.started
+      event_data:
+        entity_id: timer.bathroom_nightlights
+    - platform: event
+      event_type: timer.restarted
+      event_data:
+        entity_id: timer.bathroom_nightlights
+  action:
+    #- service: input_number.set_value
+    #  target:
+    #    entity_id: input_number.bathroom_mirror_1_brightness
+    #  data:
+    #    value: 10
+    #- service: input_number.set_value
+    #  target:
+    #    entity_id: input_number.bathroom_mirror_2_brightness
+    #  data:
+    #    value: 0
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.bathroom_mirrors_manually_turned_on
+          state: 'off'
+    - service: light.turn_on
+      entity_id: light.bathroom_mirror_1
+      data:
+        brightness: "{{ states('input_number.bathroom_mirror_1_brightness') | int }}"
+        kelvin: "{{ states('input_number.bathroom_mirror_kelvin') | int }}"
+    - service: light.turn_on
+      entity_id: light.bathroom_mirror_2
+      data:
+        brightness: "{{ states('input_number.bathroom_mirror_2_brightness') | int }}"
+        kelvin: "{{ states('input_number.bathroom_mirror_kelvin') | int }}"
+
+- alias: 'Turn off bathroom mirror when timer expires'
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.bathroom_nightlights
+  condition:
+    - condition: state
+      entity_id: input_boolean.bathroom_mirrors_manually_turned_on
+      state: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.bathroom_mirror_1
+        - light.bathroom_mirror_2

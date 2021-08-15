@@ -1,27 +1,3 @@
-- alias: 'Toggle TV bench plug when KNX panel button is pressed'
-  trigger:
-    - entity_id: switch.knx_dummy_livingroom_tv_bench_plug
-      platform: state
-  action:
-    service: homeassistant.toggle
-    entity_id: switch.tv_bench
-
-- alias: 'Toggle hallway chimney plug when KNX panel button is pressed'
-  trigger:
-    - entity_id: switch.knx_dummy_hallway_chimney_plug
-      platform: state
-  action:
-    service: homeassistant.toggle
-    entity_id: switch.hallway_chimney
-
-- alias: 'Toggle office desk plug when KNX panel button is pressed'
-  trigger:
-    - entity_id: switch.knx_dummy_playroom_reading_light_plug
-      platform: state
-  action:
-    service: homeassistant.toggle
-    entity_id: switch.office_reading_light
-
 - alias: 'Toggle kids room plugs when KNX panel button is pressed'
   trigger:
     - entity_id: switch.knx_dummy_kids_room_plugs
@@ -29,5 +5,45 @@
   action:
     service: homeassistant.toggle
     entity_id:
-      - switch.kids_room_plug1
-      - switch.kids_room_plug2
+      - switch.smart_plug_1
+      - switch.smart_plug_2
+
+- alias: 'Turn on bathroom mirror bulbs when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_bathroom_mirror_bulbs
+      platform: state
+      to: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bathroom_mirrors_manually_turned_off
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bathroom_mirrors_manually_turned_on
+    - service: light.turn_on
+      entity_id: light.bathroom_mirror_1
+      data:
+        brightness: "{{ states('input_number.bathroom_mirror_1_brightness') | int }}"
+        kelvin: "{{ states('input_number.bathroom_mirror_kelvin') | int }}"
+    - service: light.turn_on
+      entity_id: light.bathroom_mirror_2
+      data:
+        brightness: "{{ states('input_number.bathroom_mirror_2_brightness') | int }}"
+        kelvin: "{{ states('input_number.bathroom_mirror_kelvin') | int }}"
+
+- alias: 'Turn off bathroom mirror bulbs when KNX panel button is pressed'
+  trigger:
+    - entity_id: switch.knx_dummy_bathroom_mirror_bulbs
+      platform: state
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: timer.bathroom_nightlights
+      state: idle
+  action:
+    - service: light.turn_off
+      entity_id:
+        - light.bathroom_mirror_1
+        - light.bathroom_mirror_2
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bathroom_mirrors_manually_turned_off
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bathroom_mirrors_manually_turned_on

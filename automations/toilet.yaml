@@ -1,0 +1,68 @@
+- alias: 'Turn on toilet ceiling lights on motion detected'
+  trigger:
+    - entity_id: binary_sensor.toilet_presence
+      platform: state
+      to: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.toilet_ceiling_dimmer
+      data:
+        brightness_pct: >
+         {% if now().hour >= 20 and now().hour < 8 %}
+           40
+         {% else %}
+           90
+         {% endif %}
+    - service: timer.cancel
+      entity_id: timer.toilet_presence
+
+- alias: 'Turn off toilet ceiling lights when presence expires'
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.toilet_presence
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.toilet_ceiling_dimmer
+
+- alias: 'Start toilet timer when presence expires'
+  trigger:
+    - entity_id: binary_sensor.toilet_presence
+      platform: state
+      to: 'off'
+  action:
+    - service: timer.start
+      entity_id: timer.toilet_presence
+
+- alias: 'Reset toilet lights automation 20 min after it has been turned off'
+  trigger:
+    - entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
+      platform: state
+      to: 'off'
+  action:
+    - delay: '00:20:00'
+    - service: homeassistant.turn_on
+      entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
+
+- alias: 'Turn off toilet lights when the automation is reset and room is empty'
+  trigger:
+    - entity_id: automation.turn_off_toilet_ceiling_lights_when_presence_expires
+      platform: state
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.toilet_presence
+      state: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.toilet_ceiling_dimmer
+
+- alias: 'Reset the toilet timer if the lights are turned off manually'
+  trigger:
+    - entity_id: light.toilet_ceiling_dimmer
+      platform: state
+      to: 'off'
+  action:
+    - service: timer.cancel
+      entity_id: timer.toilet_presence

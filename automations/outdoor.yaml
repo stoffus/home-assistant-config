@@ -1,34 +1,39 @@
 - alias: 'Turn on outdoor lights at dawn'
   trigger:
-    platform: numeric_state
-    entity_id: sensor.outdoor_illuminance
-    below: 200
-    for:
-      minutes: 5
+    - platform: numeric_state
+      entity_id: sensor.outdoor_illuminance
+      below: 200
+      for:
+        minutes: 5
   condition:
-    condition: time
-    after: '12:00:00'
+    - condition: time
+      after: '12:00:00'
   action:
-    service: homeassistant.turn_on
-    entity_id:
-      - group.main_outdoor_lights
-      - group.complementary_outdoor_lights
+    - service: homeassistant.turn_on
+      entity_id:
+        - group.main_outdoor_lights
+        - group.complementary_outdoor_lights
 
 - alias: 'Turn off main outdoor lights at dusk'
   trigger:
-    platform: numeric_state
-    entity_id: sensor.outdoor_illuminance
-    above: 200
-    for:
-      minutes: 5
+    - platform: numeric_state
+      entity_id: sensor.outdoor_illuminance
+      above: 230
+      for:
+        minutes: 5
   action:
-    service: homeassistant.turn_off
-    entity_id: group.main_outdoor_lights
+    - service: homeassistant.turn_off
+      entity_id: group.main_outdoor_lights
 
 - alias: 'Turn off complementary outdoor lights at a specific time'
   trigger:
-    platform: time
-    at: '23:13:00'
+    - platform: time
+      at: '23:00:00'
+  condition:
+    - condition: state
+      entity_id: group.complementary_outdoor_lights
+      state: 'on'
   action:
-    service: homeassistant.turn_off
-    entity_id: group.complementary_outdoor_lights
+    - delay: '00:{{ (range(1, 59) | random | int) }}:00'
+    - service: homeassistant.turn_off
+      entity_id: group.complementary_outdoor_lights

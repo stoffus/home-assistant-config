@@ -1,185 +1,79 @@
-- alias: Send a camera snapshot if a person is detected in the driveway while armed away
+- alias: 'Notify/Trigger alarm on camera motion events when armed away'
   mode: single # to stop this automation from spamming
   trigger:
-    platform: state
-    entity_id: binary_sensor.driveway_parking_area_person
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: alarm_control_panel.hemma_alarm
-        state: 'disarmed'
-  action:
-    - service: notify.mobile_app_sm_g970f
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected in the driveway'
-        data:
-          image: !secret driveway_camera_snapshot_person_url
-    - service: notify.mobile_app_sofhias_iphone
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected in the driveway'
-        data:
-          attachment:
-            url: !secret driveway_camera_snapshot_person_url
-            content-type: jpeg
-    - delay:
-        seconds: 30
-
-- alias: Send a camera snapshot if a person is detected on the porch while armed away
-  mode: single # to stop this automation from spamming
-  trigger:
-    platform: state
-    entity_id:
-      - binary_sensor.porch_room_person
-      - binary_sensor.porch_deck_person
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: alarm_control_panel.hemma_alarm
-        state: 'disarmed'
-  action:
-    - service: notify.mobile_app_sm_g970f
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected on the porch'
-        data:
-          image: !secret porch_camera_snapshot_person_url
-    - service: notify.mobile_app_sofhias_iphone
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected on the porch'
-        data:
-          attachment:
-            url: !secret porch_camera_snapshot_person_url
-            content-type: jpeg
-    - delay:
-        seconds: 30
-
-- alias: Send a camera snapshot if a person is detected on the front door while armed away
-  mode: single # to stop this automation from spamming
-  trigger:
-    platform: state
-    entity_id:
-      - binary_sensor.front_door_steps_person
-      - binary_sensor.front_walkway_person
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: alarm_control_panel.hemma_alarm
-        state: 'disarmed'
-  action:
-    - service: notify.mobile_app_sm_g970f
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected on the front door'
-        data:
-          image: !secret front_door_camera_snapshot_person_url
-    - service: notify.mobile_app_sofhias_iphone
-      data:
-        title: 'Intruder alert'
-        message: 'A person was detected on the front door'
-        data:
-          attachment:
-            url: !secret front_door_camera_snapshot_person_url
-            content-type: jpeg
-    - delay:
-        seconds: 30
-
-- alias: Notify if a car is detected in the driveway while home
-  trigger:
-    platform: state
-    entity_id: binary_sensor.driveway_parking_area_car
-    from: 'off'
-    to: 'on'
+    - platform: mqtt
+      topic: frigate/events
+  variables:
+    trigger_alarm_for_cameras:
+      - livingroom
+    camera_snapshot_url: '/api/frigate/notifications/{{ trigger.payload_json["after"]["id"] }}/thumbnail.jpg'
+    notification_title: "{{ state_attr('alarm_control_panel.home_alarm', 'friendly_name') }}"
+    notification_message: 'A {{ trigger.payload_json["after"]["label"] }} was detected on camera {{ trigger.payload_json["after"]["camera"] }}'
   condition:
     - condition: state
-      entity_id: alarm_control_panel.hemma_alarm
-      state: 'disarmed'
-    - condition: time
-      after: '08:00:00'
-      before: '19:00:00'
-    - condition: state
-      entity_id: binary_sensor.people_home
-      state: 'on'
+      entity_id: alarm_control_panel.home_alarm
+      state: armed_away
+    - condition: template
+      value_template: '{{ trigger.payload_json["after"]["camera"] != "driveway"
+        or (trigger.payload_json["after"]["label"] == "car"
+          and "driveway" not in trigger.payload_json["after"]["current_zones"]
+          and "driveway" in trigger.payload_json["after"]["entered_zones"]) }}'
   action:
-    - service: notify.alexa_media_kitchen
+    - service: script.alarm_notification_with_image
       data:
-        message: 'A car was detected in the driveway'
-        data:
-          type: tts
-    - service: notify.livingroom_tv
-      data:
-        message: 'A car was detected in the driveway'
+        title: '{{ notification_title }}'
+        message: '{{ notification_message }}'
+        image: '{{ camera_snapshot_url }}'
+    - condition: template
+      value_template: '{{ trigger.payload_json["after"]["camera"] in trigger_alarm_for_cameras }}'
+    - service: alarm_control_panel.alarm_trigger
+      target:
+        entity_id: alarm_control_panel.home_alarm
+    - delay: 30
 
-- alias: Notify if a person is detected on the porch while home
+- alias: 'Notify on camera motion events when armed home'
+  mode: single # to stop this automation from spamming
   trigger:
-    platform: state
-    entity_id: binary_sensor.porch_camera_person
-    from: 'off'
-    to: 'on'
+    - platform: mqtt
+      topic: frigate/events
+  variables:
+    active_cameras:
+      - driveway
+      - front_door
+      - porch
+    camera_snapshot_url: '/api/frigate/notifications/{{ trigger.payload_json["after"]["id"] }}/thumbnail.jpg'
+    notification_title: "{{ state_attr('alarm_control_panel.home_alarm', 'friendly_name') }}"
+    notification_message: 'A {{ trigger.payload_json["after"]["label"] }} was detected on camera {{ trigger.payload_json["after"]["camera"] }}'
   condition:
-    condition: state
-    entity_id: alarm_control_panel.hemma_alarm
-    state: 'disarmed'
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: armed_home
+    - condition: template
+      value_template: '{{ trigger.payload_json["after"]["camera"] in active_cameras }}'
+    - condition: template
+      value_template: '{{ trigger.payload_json["after"]["camera"] != "driveway"
+        or (trigger.payload_json["after"]["label"] == "car"
+          and "driveway" not in trigger.payload_json["after"]["current_zones"]
+          and "driveway" in trigger.payload_json["after"]["entered_zones"]) }}'
   action:
-    #  data:
-    #    message: 'You have a visitor on the porch'
-    #    data:
-    #      type: tts
-    - service: notify.livingroom_tv
+    - service: script.alarm_notification_with_image
       data:
-        message: 'You have a visitor on the porch'
+        title: '{{ notification_title }}'
+        message: '{{ notification_message }}'
+        image: '{{ camera_snapshot_url }}'
+    - delay: 30
 
-- alias: Check for low FPS on cameras
+- alias: 'Flash outside lights on porch camera motion events when armed home'
+  mode: single # to stop this automation from spamming
   trigger:
-    platform: numeric_state
-    entity_id:
-      - sensor.porch_fps
-      - sensor.driveway_fps
-      - sensor.front_door_fps
-    below: 5
-    for:
-      minutes: 5
+    - platform: mqtt
+      topic: frigate/events
+  condition:
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: armed_home
+    - condition: template
+      value_template: '{{ trigger.payload_json["after"]["camera"] == "porch" }}'
   action:
-    service: notify.mobile_app_sm_g970f
-    data_template:
-      title: 'FPS is low on {{ trigger.to_state.object_id }} camera'
-      message: 'If the problem persists, restart the frigate container. Current FPS is {{ trigger.to_state.state }}.'
-
-- alias: Check for high inference on Coral
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.frigate_coral_inference
-    above: 10
-    for:
-      minutes: 10
-  action:
-    service: notify.mobile_app_sm_g970f
-    data_template:
-      title: 'Inference is high on Coral'
-      message: 'If the problem persists, restart the frigate container. Current inference is {{ trigger.to_state.state }}.'
-
-- alias: 'Check for tamper detection'
-  trigger:
-    platform: state
-    entity_id:
-      - binary_sensor.driveway_camera_mytamperdetectorrule_tamper_detection
-      - binary_sensor.front_door_camera_mytamperdetectorrule_tamper_detection
-      - binary_sensor.porch_camera_mytamperdetectorrule_tamper_detection
-    from: 'off'
-    to: 'on'
-  action:
-    service: notify.mobile_app_sm_g970f
-    data_template:
-      title: 'Tamper detection triggered'
-      message: "{{ state_attr(trigger.event.data.entity_id, 'friendly_name') }} triggered an alarm."
+    - service: script.alarm_toggle_outside_porch_lights
+    - delay: 30
