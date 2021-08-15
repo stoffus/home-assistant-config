@@ -30,6 +30,13 @@ lovelace:
       icon: mdi:tools
       show_in_sidebar: true
       require_admin: false
+    lovelace-alarm:
+      mode: yaml
+      filename: dashboard-alarm.yaml
+      title: Larm
+      icon: mdi:home-lock
+      show_in_sidebar: true
+      require_admin: true
 
 config:
 
