@@ -310,7 +310,6 @@ views:
             state: 'on'
         card:
           type: picture-entity
-          title: Person vid entré
           entity: camera.front_door_camera_last_person
       - type: conditional
         conditions:
@@ -318,7 +317,6 @@ views:
             state: 'on'
         card:
           type: picture-entity
-          title: Person på altanen
           entity: camera.porch_camera_last_person
       - type: conditional
         conditions:
@@ -326,7 +324,6 @@ views:
             state: 'on'
         card:
           type: picture-entity
-          title: Person på uppfart
           entity: camera.driveway_camera_last_person
       - type: conditional
         conditions:
@@ -334,12 +331,11 @@ views:
             state: 'on'
         card:
           type: picture-entity
-          title: Bil på uppfart
           entity: camera.driveway_camera_last_car
       - type: horizontal-stack
         cards:
           - entity: group.indoor_lights
-            type: entity-button
+            type: button
             icon: 'mdi:lightbulb-off-outline'
             name: Släck allt
             tap_action:
@@ -348,7 +344,7 @@ views:
               service_data:
                 entity_id: group.daytime_indoor_lights
           - entity: scene.evening_lights
-            type: entity-button
+            type: button
             name: Kvällsbelysning
             icon: 'mdi:lightbulb-on-outline'
             tap_action:
@@ -380,7 +376,6 @@ views:
           - entity: sensor.laundry_room_temperature
             name: Tvättstuga
           - type: section
-            label:
           - entity: sensor.outdoor_temperature
             name: Utomhus
           - entity: sensor.attic_temperature
@@ -480,6 +475,7 @@ views:
             name: Blockera
             icon: 'mdi:block-helper'
           - type: call-service
+            entity: cover.livingroom_driveway_cover
             name: 'Position 30%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -488,6 +484,7 @@ views:
               entity_id: cover.livingroom_driveway_cover
               position: 55
           - type: call-service
+            entity: cover.livingroom_driveway_cover
             name: 'Position 50%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -503,6 +500,7 @@ views:
             name: Blockera
             icon: 'mdi:block-helper'
           - type: call-service
+            entity: cover.livingroom_porch_cover
             name: 'Position 30%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -511,6 +509,7 @@ views:
               entity_id: cover.livingroom_porch_cover
               position: 55
           - type: call-service
+            entity: cover.livingroom_porch_cover
             name: 'Position 50%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -528,6 +527,7 @@ views:
             name: Blockera
             icon: 'mdi:block-helper'
           - type: call-service
+            entity: cover.playroom_cover
             name: 'Position 30%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -536,6 +536,7 @@ views:
               entity_id: cover.playroom_cover
               position: 55
           - type: call-service
+            entity: cover.playroom_cover
             name: 'Position 50%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -553,6 +554,7 @@ views:
             name: Blockera
             icon: 'mdi:block-helper'
           - type: call-service
+            entity: cover.bedroom_cover
             name: 'Position 30%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -561,6 +563,7 @@ views:
               entity_id: cover.bedroom_cover
               position: 55
           - type: call-service
+            entity: cover.bedroom_cover
             name: 'Position 50%'
             icon: 'mdi:window-open'
             action_name: Aktivera
@@ -611,25 +614,25 @@ views:
     icon: 'mdi:cctv'
     cards:
       - type: picture-entity
-        title: Senaste personen uppfart
+        name: Senaste personen uppfart
         entity: camera.driveway_camera_last_person
       - type: picture-entity
-        title: Senaste personen altan
+        name: Senaste personen altan
         entity: camera.porch_camera_last_person
       - type: picture-entity
-        title: Senaste bilen uppfart
+        name: Senaste bilen uppfart
         entity: camera.driveway_camera_last_car
       - type: picture-entity
-        title: Senaste personen entré
+        name: Senaste personen entré
         entity: camera.front_door_camera_last_person
       - type: picture-entity
-        title: Senaste katten altan
+        name: Senaste katten altan
         entity: camera.porch_camera_last_cat
       - type: picture-entity
-        title: Senaste katten entré
+        name: Senaste katten entré
         entity: camera.front_door_camera_last_cat
       - type: picture-entity
-        title: Senaste katten uppfart
+        name: Senaste katten uppfart
         entity: camera.driveway_camera_last_cat
       - type: picture-glance
         entities:
@@ -690,5 +693,4 @@ views:
     cards:
       - type: alarm-panel
         entity: alarm_control_panel.home_alarm
-        panel: true
         name: Larm
