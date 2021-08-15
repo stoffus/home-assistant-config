@@ -4,3 +4,5 @@ alarm_automatic_arm:
   duration: '00:02:00'
 bathroom_nightlights:
   duration: '00:05:00'
+alarm_arming_time:
+  duration: '00:00:30'

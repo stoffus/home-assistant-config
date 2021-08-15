@@ -81,6 +81,7 @@ dining_area:
   name: Dining Area
   entities:
     - group.dining_area_lights
+    - sensor.porch_entrance
     - sensor.porch_entrance_vibration
 
 ground_floor_lights:

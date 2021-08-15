@@ -1,0 +1,7 @@
+alarm_triggered_place_phone_call:
+  url: https://api.46elks.com/a1/calls
+  username: !secret 46_elks_username
+  password: !secret 46_elks_password
+  method: POST
+  content_type: application/x-www-form-urlencoded
+  payload: !secret 46_elks_alarm_phone_call_payload

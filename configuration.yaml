@@ -72,9 +72,8 @@ spotify:
 
 group: !include_dir_merge_named groups
 automation: !include_dir_merge_list automations
-script: !include scripts.yaml
+script: !include_dir_merge_named scripts
 scene: !include scenes.yaml
-switch: !include switches.yaml
 sensor: !include_dir_merge_list sensors
 binary_sensor: !include binary_sensors.yaml
 zone: !secret zones
@@ -84,7 +83,7 @@ input_text: !include input_text.yaml
 input_boolean: !include input_boolean.yaml
 input_number: !include input_number.yaml
 timer: !include timers.yaml
-counter: !include counters.yaml
+rest_command: !include rest_commands.yaml
 
 notify:
   - name: Pushover

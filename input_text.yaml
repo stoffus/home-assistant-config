@@ -6,3 +6,9 @@ home_alarm_disarm_source:
 home_alarm_arm_source:
   name: Home Alarm Arm Source
   initial: ''
+home_alarm_armed_home:
+  name: Armed Home
+home_alarm_armed_away:
+  name: Armed Away
+home_alarm_disarmed:
+  name: Disarmed

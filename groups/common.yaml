@@ -8,6 +8,14 @@ outdoor:
     - light.outdoor_porch_entrance
     - switch.smart_plug_3
 
+outdoor_porch_lights:
+  name: Outdoor Porch Lights
+  entities:
+    - light.outdoor_eave
+    - light.outdoor_garden
+    - light.outdoor_porch_entrance
+    - switch.smart_plug_3
+
 attic:
   name: Attic
   entities:
@@ -80,6 +88,7 @@ main_outdoor_lights:
     - light.outdoor_main_entrance
 
 complementary_outdoor_lights:
+  all: true
   name: Complementary Outdoor Lights
   entities:
     - switch.smart_plug_3
@@ -118,5 +127,6 @@ all_battery_levels:
     - sensor.livingroom_battery_level
     - sensor.main_entrance_battery_level
     - sensor.porch_entrance_vibration_battery_level
+    - sensor.porch_entrance_battery_level
     - sensor.basement_entrance_battery_level
     - sensor.hallway_first_floor_motion_battery_level
