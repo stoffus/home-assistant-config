@@ -109,16 +109,6 @@ webostv:
 
 wake_on_lan:
 
-asuswrt:
-  host: wireless-ap.home
-  username: admin
-  ssh_key: /config/id_rsa
-  sensors:
-    - upload
-    - download
-    - upload_speed
-    - download_speed
-
 device_tracker:
   - platform: asuswrt
     host: wireless-ap.home
