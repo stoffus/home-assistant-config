@@ -99,11 +99,6 @@ notify:
 
 map:
 
-tellstick:
-  host: localhost
-  port: [50800, 50801]
-  signal_repetitions: 2
-
 webostv:
   host: livingroom-tv.home
   name: Livingroom TV
