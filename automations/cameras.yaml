@@ -24,11 +24,14 @@
         title: '{{ notification_title }}'
         message: '{{ notification_message }}'
         image: '{{ camera_snapshot_url }}'
-    - condition: template
-      value_template: '{{ trigger.payload_json["after"]["camera"] in trigger_alarm_for_cameras }}'
-    - service: alarm_control_panel.alarm_trigger
-      target:
-        entity_id: alarm_control_panel.home_alarm
+    - choose:
+        conditions:
+          - condition: template
+            value_template: '{{ trigger.payload_json["after"]["camera"] in trigger_alarm_for_cameras }}'
+        sequence:
+          - service: alarm_control_panel.alarm_trigger
+            target:
+              entity_id: alarm_control_panel.home_alarm
     - delay: 30
 
 - alias: 'Notify on camera motion events when armed home'

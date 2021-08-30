@@ -36,7 +36,7 @@ bedtime_for_the_kids:
       target:
         entity_id: light.light_strip_1
       data:
-        brightness: 1
+        brightness: 3
         rgb_color: [255, 40, 40]
     - service: spotcast.start
       data:
